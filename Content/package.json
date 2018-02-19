@@ -1,0 +1,29 @@
+{
+  "name": "client-viewer",
+  "version": "1.0.0",
+  "description": "Json Client Viewer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Igor Lavrentjev",
+  "license": "ISC",
+  "dependencies": {
+    "material-ui": "^0.20.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-router-dom": "^4.2.2",
+    "semantic-ui-react": "^0.77.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-preset-stage-1": "^6.24.1",
+    "copy-webpack-plugin": "^4.3.1",
+    "uglifyjs-webpack-plugin": "^1.1.8",
+    "webpack": "^3.10.0"
+  }
+}

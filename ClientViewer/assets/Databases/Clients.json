@@ -1,0 +1,12 @@
+{
+    "Clients": [
+        {
+            "Name": "Kaneko",
+            "URLS": ["http://localhost:8081//JREastDatabase.json", "http://localhost:8081//TokyuDatabase.json"]              
+        },
+        {
+            "Name": "Bombardier",
+            "URLS": ["http://localhost:8081//AventraDatabase.json"]
+        }
+    ]
+}
