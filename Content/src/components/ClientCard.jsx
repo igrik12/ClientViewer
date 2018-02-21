@@ -31,7 +31,7 @@ export default class ClientCard extends Component {
         return (
             <div style={divStyle}>
 
-                <Card fluid color="blue" >
+                <Card style={{width:400}} color="blue" >
                     <Card.Content>
                         <Image rounded bordered size='small' src={'https://vignette.wikia.nocookie.net/ttte/images/1/13/RosieCGIpromo2.jpg/revision/latest/scale-to-width-down/323?cb=20111113221812'} />
                         {/* <Label attached="top right" size="big" color={this.props.clientStatus[0].color} horizontal>{this.props.clientStatus[0].status}</Label> */}

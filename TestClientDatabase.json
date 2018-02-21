@@ -1,0 +1,818 @@
+[
+  {
+    "FleetConstants": {
+      "Name": "JR-East"
+    },
+    "Vehicles": [
+      {
+        "$type": "Bbr.Euclid.SystemDescriptor.Classes.Vehicle, Bbr.Euclid.SystemDescriptor",
+        "VehicleConstants": {
+          "VehicleName": "KiHa112-201",
+          "EncoderPulsesPerRevolution": 90,
+          "WheelDiameterInMillimetres": 800.0,
+          "MasterSyncIntervalInSeconds": 10.0
+        },
+        "Products": [
+          {
+            "$type": "Bbr.Euclid.SystemDescriptor.Classes.Product, Bbr.Euclid.SystemDescriptor",
+            "Frameworks": [
+              {
+                "$type": "Bbr.Euclid.SystemDescriptor.Classes.Framework, Bbr.Euclid.SystemDescriptor",
+                "PluginConfigurations": [
+                  {
+                    "$type": "Bbr.Euclid.SystemDescriptor.Classes.PluginConfiguration, Bbr.Euclid.SystemDescriptor",
+                    "Identity": {
+                      "Id": "0ed803bf-2a44-47c0-b734-69d751df09d3",
+                      "Name": "EquipmentFpgaAcquisition"
+                    },
+                    "FrameworkId": {
+                      "Id": "741ed831-a68e-48b1-9c05-c04dd4ca3df7",
+                      "Name": "DaqAcquisitionFramework"
+                    },
+                    "Outputs": [],
+                    "Inputs": [],
+                    "LibraryConfiguration": {
+                      "$type": "Bbr.Euclid.FpgaAcquisitionLibrary.Configuration.FpgaAcquisitionLibraryConfiguration, Bbr.Euclid.FpgaAcquisitionLibrary",
+                      "AcquisitionTimestampConfiguration": {
+                        "NominalFrequency": 960.0,
+                        "MasterSyncEdge": 1,
+                        "SampleTimeout": 3.0,
+                        "TimestampAdjustmentFactor": 0.001
+                      },
+                      "EndPoint": {
+                        "Address": "192.168.10.117",
+                        "Port": 10001
+                      },
+                      "ConnectionRetryTime": 1,
+                      "BufferSize": 1000000,
+                      "SyncCode": "AFWq/w==",
+                      "Channels": [
+                        {
+                          "Name": "Tachometer1"
+                        },
+                        {
+                          "Name": "MasterSyncIncrement"
+                        },
+                        {
+                          "Name": "TEMPERATURE",
+                          "Type": 1
+                        },
+                        {
+                          "Name": "Tachometer1 State",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "Reserved2",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "Reserved3",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "Reserved4",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "MasterSyncState",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "Reserved6",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "Reserved7",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "Reserved8",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "Reserved9",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "Reserved10",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "Reserved11",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "Reserved12",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "Reserved13",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "Reserved14",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "Reserved15",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "Reserved16",
+                          "Type": 6
+                        }
+                      ],
+                      "NumberOfSamplesPerPacket": 32,
+                      "ReceiveTimeout": 1.0,
+                      "InitialFramesToSkip": 20,
+                      "Identity": {
+                        "Id": "0ed803bf-2a44-47c0-b734-69d751df09d3",
+                        "Name": "EquipmentFpgaAcquisition"
+                      }
+                    },
+                    "FacadeType": "Bbr.Euclid.FpgaAcquisitionLibrary.FpgaAcquisitionFacade, Bbr.Euclid.FpgaAcquisitionLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "InputNameCache": {}
+                  },
+                  {
+                    "$type": "Bbr.Euclid.SystemDescriptor.Classes.PluginConfiguration, Bbr.Euclid.SystemDescriptor",
+                    "Identity": {
+                      "Id": "a97353b1-e1ce-4f07-b7b8-c538c30e9f9e",
+                      "Name": "UgmsFpgaAcquisition"
+                    },
+                    "FrameworkId": {
+                      "Id": "741ed831-a68e-48b1-9c05-c04dd4ca3df7",
+                      "Name": "DaqAcquisitionFramework"
+                    },
+                    "Outputs": [],
+                    "Inputs": [],
+                    "LibraryConfiguration": {
+                      "$type": "Bbr.Euclid.FpgaAcquisitionLibrary.Configuration.FpgaAcquisitionLibraryConfiguration, Bbr.Euclid.FpgaAcquisitionLibrary",
+                      "AcquisitionTimestampConfiguration": {
+                        "NominalFrequency": 960.0,
+                        "MasterSyncEdge": 1,
+                        "SampleTimeout": 1.0,
+                        "TimestampAdjustmentFactor": 0.001
+                      },
+                      "EndPoint": {
+                        "Address": "192.168.10.116",
+                        "Port": 10001
+                      },
+                      "ConnectionRetryTime": 1,
+                      "BufferSize": 1000000,
+                      "SyncCode": "AFWq/w==",
+                      "Channels": [
+                        {
+                          "Name": "Tachometer1"
+                        },
+                        {
+                          "Name": "MasterSyncIncrement"
+                        },
+                        {
+                          "Name": "GYRO_TEMP",
+                          "Type": 1
+                        },
+                        {
+                          "Name": "UGMS_TEMP",
+                          "Type": 2
+                        },
+                        {
+                          "Name": "IMU_ACC_LAT",
+                          "Type": 2
+                        },
+                        {
+                          "Name": "IMU_ACC_LONG",
+                          "Type": 2
+                        },
+                        {
+                          "Name": "IMU_ACC_VERT",
+                          "Type": 2
+                        },
+                        {
+                          "Name": "IMU_INC_LONG",
+                          "Type": 2
+                        },
+                        {
+                          "Name": "IMU_INC_LAT",
+                          "Type": 2
+                        },
+                        {
+                          "Name": "IMU_ROT_LONG",
+                          "Type": 4
+                        },
+                        {
+                          "Name": "IMU_ROT_LAT",
+                          "Type": 4
+                        },
+                        {
+                          "Name": "IMU_ROT_VERT",
+                          "Type": 4
+                        },
+                        {
+                          "Name": "Tachometer A State",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "Reserved2",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "Tachometer Direction",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "Reserved4",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "MasterSyncState",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "Reserved6",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "Reserved7",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "Reserved8",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "Reserved9",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "LASER_HEALTH_1",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "Reserved11",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "LASER_HEALTH_2",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "Reserved13",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "Reserved14",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "Reserved15",
+                          "Type": 6
+                        },
+                        {
+                          "Name": "Reserved16",
+                          "Type": 6
+                        }
+                      ],
+                      "NumberOfSamplesPerPacket": 32,
+                      "ReceiveTimeout": 1.0,
+                      "InitialFramesToSkip": 20,
+                      "Identity": {
+                        "Id": "a97353b1-e1ce-4f07-b7b8-c538c30e9f9e",
+                        "Name": "UgmsFpgaAcquisition"
+                      }
+                    },
+                    "FacadeType": "Bbr.Euclid.FpgaAcquisitionLibrary.FpgaAcquisitionFacade, Bbr.Euclid.FpgaAcquisitionLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "InputNameCache": {}
+                  },
+                  {
+                    "$type": "Bbr.Euclid.SystemDescriptor.Classes.PluginConfiguration, Bbr.Euclid.SystemDescriptor",
+                    "Identity": {
+                      "Id": "e0232bd8-622a-40b7-a7a8-0deabfee3701",
+                      "Name": "EquipmentFpgaConversion"
+                    },
+                    "FrameworkId": {
+                      "Id": "741ed831-a68e-48b1-9c05-c04dd4ca3df7",
+                      "Name": "DaqAcquisitionFramework"
+                    },
+                    "Outputs": [],
+                    "Inputs": [],
+                    "LibraryConfiguration": {
+                      "$type": "Bbr.Euclid.FpgaConversionLibrary.FpgaConversionLibraryConfiguration, Bbr.Euclid.FpgaConversionLibrary",
+                      "Identity": {
+                        "Id": "e0232bd8-622a-40b7-a7a8-0deabfee3701",
+                        "Name": "EquipmentFpgaConversion"
+                      }
+                    },
+                    "FacadeType": "Bbr.Euclid.FpgaConversionLibrary.FpgaConversionFacade, Bbr.Euclid.FpgaConversionLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "InputNameCache": {}
+                  },
+                  {
+                    "$type": "Bbr.Euclid.SystemDescriptor.Classes.PluginConfiguration, Bbr.Euclid.SystemDescriptor",
+                    "Identity": {
+                      "Id": "1b3e3e8b-3057-477e-9b7f-8a0b1221aaf2",
+                      "Name": "UgmsFpgaConversion"
+                    },
+                    "FrameworkId": {
+                      "Id": "741ed831-a68e-48b1-9c05-c04dd4ca3df7",
+                      "Name": "DaqAcquisitionFramework"
+                    },
+                    "Outputs": [],
+                    "Inputs": [],
+                    "LibraryConfiguration": {
+                      "$type": "Bbr.Euclid.FpgaConversionLibrary.FpgaConversionLibraryConfiguration, Bbr.Euclid.FpgaConversionLibrary",
+                      "Identity": {
+                        "Id": "1b3e3e8b-3057-477e-9b7f-8a0b1221aaf2",
+                        "Name": "UgmsFpgaConversion"
+                      }
+                    },
+                    "FacadeType": "Bbr.Euclid.FpgaConversionLibrary.FpgaConversionFacade, Bbr.Euclid.FpgaConversionLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "InputNameCache": {}
+                  },
+                  {
+                    "$type": "Bbr.Euclid.SystemDescriptor.Classes.PluginConfiguration, Bbr.Euclid.SystemDescriptor",
+                    "Identity": {
+                      "Id": "d3718e96-71cf-45a2-b472-d0a198fc1b9c",
+                      "Name": "DaqUds"
+                    },
+                    "FrameworkId": {
+                      "Id": "741ed831-a68e-48b1-9c05-c04dd4ca3df7",
+                      "Name": "DaqAcquisitionFramework"
+                    },
+                    "Outputs": [],
+                    "Inputs": [],
+                    "LibraryConfiguration": {
+                      "$type": "Bbr.Euclid.UdsLibrary.Configuration.UdsConfiguration, Bbr.Euclid.UdsLibrary",
+                      "Streams": [
+                        {
+                          "MergeOnSample": true,
+                          "DataStreamName": "Name:UgmsFpgaConversion_Id:1b3e3e8b-3057-477e-9b7f-8a0b1221aaf2_FpgaConversionFloatOutput",
+                          "DataType": "Bbr.Euclid.ObjectsLibrary.ChannelDataObject`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], Bbr.Euclid.ObjectsLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                          "Type": 1,
+                          "Mode": 1,
+                          "SyncMode": 1,
+                          "MergeTolerance": "00:00:03",
+                          "SyncEndurance": "00:00:20"
+                        },
+                        {
+                          "DataStreamName": "Name:EquipmentFpgaConversion_Id:e0232bd8-622a-40b7-a7a8-0deabfee3701_FpgaConversionFloatOutput",
+                          "DataType": "Bbr.Euclid.ObjectsLibrary.ChannelDataObject`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], Bbr.Euclid.ObjectsLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                          "Type": 2,
+                          "Mode": 1,
+                          "SyncMode": 1,
+                          "MergeMode": 6,
+                          "MergeTolerance": "00:00:03",
+                          "SyncEndurance": "00:00:20"
+                        }
+                      ],
+                      "OutputMappings": [
+                        {
+                          "Property": "Analogs",
+                          "Parent": "",
+                          "Extractions": [
+                            {
+                              "Stream": "Name:UgmsFpgaConversion_Id:1b3e3e8b-3057-477e-9b7f-8a0b1221aaf2_FpgaConversionFloatOutput",
+                              "Property": "Analogs",
+                              "Parent": ""
+                            },
+                            {
+                              "Stream": "Name:EquipmentFpgaConversion_Id:e0232bd8-622a-40b7-a7a8-0deabfee3701_FpgaConversionFloatOutput",
+                              "Property": "Analogs",
+                              "Parent": ""
+                            }
+                          ]
+                        },
+                        {
+                          "Property": "Digitals",
+                          "Parent": "",
+                          "Extractions": [
+                            {
+                              "Stream": "Name:UgmsFpgaConversion_Id:1b3e3e8b-3057-477e-9b7f-8a0b1221aaf2_FpgaConversionFloatOutput",
+                              "Property": "Digitals",
+                              "Parent": ""
+                            }
+                          ]
+                        }
+                      ],
+                      "SyncInterval": "00:00:10",
+                      "SyncTolerance": "00:00:03",
+                      "SoftTimeout": "00:00:30",
+                      "HardResetTimeout": "00:01:00",
+                      "MaxMergeOutputDelay": "00:00:40",
+                      "OutputType": "Bbr.Euclid.ObjectsLibrary.ChannelDataObject`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], Bbr.Euclid.ObjectsLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                      "MaxCommonSyncSearchTime": "00:00:30",
+                      "Identity": {
+                        "Id": "d3718e96-71cf-45a2-b472-d0a198fc1b9c",
+                        "Name": "DaqUds"
+                      }
+                    },
+                    "FacadeType": "Bbr.Euclid.UdsLibrary.UdsFacade, Bbr.Euclid.UdsLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "InputNameCache": {},
+                    "UsePinnedDispatcher": true
+                  },
+                  {
+                    "$type": "Bbr.Euclid.SystemDescriptor.Classes.PluginConfiguration, Bbr.Euclid.SystemDescriptor",
+                    "Identity": {
+                      "Id": "ff71430b-7e4c-437a-893e-b85b3f3052cc",
+                      "Name": "DaqChannelDataAdjuster"
+                    },
+                    "FrameworkId": {
+                      "Id": "741ed831-a68e-48b1-9c05-c04dd4ca3df7",
+                      "Name": "DaqAcquisitionFramework"
+                    },
+                    "Outputs": [],
+                    "Inputs": [],
+                    "LibraryConfiguration": {
+                      "$type": "Bbr.Euclid.ChannelDataAdjuster.Configuration.ChannelDataAdjusterLibraryConfiguration, Bbr.Euclid.ChannelDataAdjuster",
+                      "AnalogChannels": [
+                        {
+                          "ChannelName": "GYRO_TEMP",
+                          "Units": 46,
+                          "ScalingMode": 1,
+                          "InMaximum": 32767.0,
+                          "InMinimum": -32768.0,
+                          "OutMaximum": 100.0,
+                          "OutMinimum": -100.0,
+                          "FlatliningRange": 1.0,
+                          "FullScaleBoundaryRange": 0.02
+                        },
+                        {
+                          "ChannelName": "UGMS_TEMP",
+                          "Units": 46,
+                          "ScalingMode": 2,
+                          "InMaximum": -3355444.0,
+                          "InMinimum": -8321499.0,
+                          "OutMaximum": 150.0,
+                          "OutMinimum": 2.0,
+                          "FlatliningRange": 1.0,
+                          "FullScaleBoundaryRange": 0.02
+                        },
+                        {
+                          "ChannelName": "TEMPERATURE",
+                          "Units": 46,
+                          "ScalingMode": 2,
+                          "InMaximum": -13369.6,
+                          "InMinimum": -32768.0,
+                          "OutMaximum": 150.0,
+                          "OutMinimum": 2.0,
+                          "FlatliningRange": 1.0,
+                          "FullScaleBoundaryRange": 0.02
+                        },
+                        {
+                          "ChannelName": "IMU_ROT_LONG",
+                          "Units": 65,
+                          "ScalingMode": 2,
+                          "InMaximum": 1.0,
+                          "InMinimum": -1.0,
+                          "OutMaximum": 960.0,
+                          "OutMinimum": -960.0,
+                          "FlatliningRange": 5E-05,
+                          "FullScaleBoundaryRange": 0.02
+                        },
+                        {
+                          "ChannelName": "IMU_ROT_LAT",
+                          "Units": 65,
+                          "ScalingMode": 2,
+                          "InMaximum": 1.0,
+                          "InMinimum": -1.0,
+                          "OutMaximum": 960.0,
+                          "OutMinimum": -960.0,
+                          "FlatliningRange": 5E-05,
+                          "FullScaleBoundaryRange": 0.02
+                        },
+                        {
+                          "ChannelName": "IMU_ROT_VERT",
+                          "Units": 65,
+                          "ScalingMode": 2,
+                          "InMaximum": 1.0,
+                          "InMinimum": -1.0,
+                          "OutMaximum": -960.0,
+                          "OutMinimum": 960.0,
+                          "FlatliningRange": 5E-05,
+                          "FullScaleBoundaryRange": 0.02
+                        },
+                        {
+                          "ChannelName": "IMU_ACC_LONG",
+                          "Units": 64,
+                          "ScalingMode": 3,
+                          "TemporalOffset": 33,
+                          "InMaximum": 8388607.0,
+                          "InMinimum": -8388608.0,
+                          "FullScaleAmplitude": -4.5375,
+                          "Offset": -0.0046,
+                          "FlatliningRange": 0.001,
+                          "FullScaleBoundaryRange": 0.02
+                        },
+                        {
+                          "ChannelName": "IMU_ACC_LAT",
+                          "Units": 64,
+                          "ScalingMode": 3,
+                          "TemporalOffset": 33,
+                          "InMaximum": 8388607.0,
+                          "InMinimum": -8388608.0,
+                          "FullScaleAmplitude": 4.3185,
+                          "Offset": 0.0251,
+                          "FlatliningRange": 0.001,
+                          "FullScaleBoundaryRange": 0.02
+                        },
+                        {
+                          "ChannelName": "IMU_ACC_VERT",
+                          "Units": 64,
+                          "ScalingMode": 3,
+                          "TemporalOffset": 33,
+                          "InMaximum": 8388607.0,
+                          "InMinimum": -8388608.0,
+                          "FullScaleAmplitude": 3.8308,
+                          "Offset": 9.6749,
+                          "FlatliningRange": 0.001,
+                          "FullScaleBoundaryRange": 0.02
+                        },
+                        {
+                          "ChannelName": "IMU_INC_LONG",
+                          "Units": 72,
+                          "ScalingMode": 3,
+                          "TemporalOffset": 33,
+                          "InMaximum": 8388607.0,
+                          "InMinimum": -8388608.0,
+                          "FullScaleAmplitude": -9.943568,
+                          "Offset": 0.0595449135,
+                          "FlatliningRange": 0.001,
+                          "FullScaleBoundaryRange": 0.02
+                        },
+                        {
+                          "ChannelName": "IMU_INC_LAT",
+                          "Units": 72,
+                          "ScalingMode": 3,
+                          "TemporalOffset": 33,
+                          "InMaximum": 8388607.0,
+                          "InMinimum": -8388608.0,
+                          "FullScaleAmplitude": -9.93921852,
+                          "Offset": -0.09901889,
+                          "FlatliningRange": 0.001,
+                          "FullScaleBoundaryRange": 0.02
+                        }
+                      ],
+                      "DigitalChannels": [
+                        {
+                          "ChannelName": "Tachometer Direction"
+                        }
+                      ],
+                      "FlatLiningBufferSize": 1,
+                      "Identity": {
+                        "Id": "ff71430b-7e4c-437a-893e-b85b3f3052cc",
+                        "Name": "DaqChannelDataAdjuster"
+                      }
+                    },
+                    "FacadeType": "Bbr.Euclid.ChannelDataAdjuster.ChannelDataAdjusterLibraryFacade, Bbr.Euclid.ChannelDataAdjuster, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "InputNameCache": {}
+                  },
+                  {
+                    "$type": "Bbr.Euclid.SystemDescriptor.Classes.PluginConfiguration, Bbr.Euclid.SystemDescriptor",
+                    "Identity": {
+                      "Id": "73ce7298-2bb2-41d8-93cf-ef411477bad2",
+                      "Name": "EquipmentFpgaConversionWriter"
+                    },
+                    "FrameworkId": {
+                      "Id": "741ed831-a68e-48b1-9c05-c04dd4ca3df7",
+                      "Name": "DaqAcquisitionFramework"
+                    },
+                    "Outputs": [],
+                    "Inputs": [],
+                    "LibraryConfiguration": {
+                      "$type": "Bbr.Euclid.DataSetSuperWriterLibrary.Configuration.DataSetSuperWriterConfiguration, Bbr.Euclid.DataSetSuperWriterLibrary",
+                      "SerializerType": "ChannelDataObjectSuperSerializer<float>",
+                      "Folder": "D:\\Data\\Daq\\EquipmentFpgaConversion\\",
+                      "Prefix": "EquipmentFpgaConversion",
+                      "Extension": ".csv.gz",
+                      "Compression": "Optimal",
+                      "MaxAgeMinutes": 1.0,
+                      "MaxSizeKBytes": 1000000.0,
+                      "MaxTachoDiff": 10000000,
+                      "DateTimePattern": "yyyy.MM.dd.HHmmss",
+                      "BufferSize": 10000,
+                      "Identity": {
+                        "Id": "73ce7298-2bb2-41d8-93cf-ef411477bad2",
+                        "Name": "EquipmentFpgaConversionWriter"
+                      }
+                    },
+                    "FacadeType": "Bbr.Euclid.DataSetSuperWriterLibrary.DataSetSuperWriterFacade, Bbr.Euclid.DataSetSuperWriterLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "InputNameCache": {}
+                  },
+                  {
+                    "$type": "Bbr.Euclid.SystemDescriptor.Classes.PluginConfiguration, Bbr.Euclid.SystemDescriptor",
+                    "Identity": {
+                      "Id": "7bca82f3-1e2e-4708-ae78-38dab7eaa11f",
+                      "Name": "UgmsFpgaConversionWriter"
+                    },
+                    "FrameworkId": {
+                      "Id": "741ed831-a68e-48b1-9c05-c04dd4ca3df7",
+                      "Name": "DaqAcquisitionFramework"
+                    },
+                    "Outputs": [],
+                    "Inputs": [],
+                    "LibraryConfiguration": {
+                      "$type": "Bbr.Euclid.DataSetSuperWriterLibrary.Configuration.DataSetSuperWriterConfiguration, Bbr.Euclid.DataSetSuperWriterLibrary",
+                      "SerializerType": "ChannelDataObjectSuperSerializer<float>",
+                      "Folder": "D:\\Data\\Daq\\UgmsFpgaConversion\\",
+                      "Prefix": "UgmsFpgaConversion",
+                      "Extension": ".csv.gz",
+                      "Compression": "Optimal",
+                      "MaxAgeMinutes": 1.0,
+                      "MaxSizeKBytes": 1000000.0,
+                      "MaxTachoDiff": 10000000,
+                      "DateTimePattern": "yyyy.MM.dd.HHmmss",
+                      "BufferSize": 10000,
+                      "Identity": {
+                        "Id": "7bca82f3-1e2e-4708-ae78-38dab7eaa11f",
+                        "Name": "UgmsFpgaConversionWriter"
+                      }
+                    },
+                    "FacadeType": "Bbr.Euclid.DataSetSuperWriterLibrary.DataSetSuperWriterFacade, Bbr.Euclid.DataSetSuperWriterLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "InputNameCache": {}
+                  }
+                ],
+                "Links": [
+                  {
+                    "$type": "Bbr.Euclid.SystemDescriptor.Links.Link, Bbr.Euclid.SystemDescriptor",
+                    "Receiver": {
+                      "$type": "Bbr.Euclid.SystemDescriptor.Links.LinkDescription, Bbr.Euclid.SystemDescriptor",
+                      "Type": "Bbr.Euclid.FpgaAcquisitionLibrary.FpgaSample, Bbr.Euclid.FpgaAcquisitionLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                      "Name": "FpgaAcquisitionOutput",
+                      "Identity": {
+                        "Id": "e0232bd8-622a-40b7-a7a8-0deabfee3701",
+                        "Name": "EquipmentFpgaConversion"
+                      }
+                    },
+                    "DataSource": {
+                      "$type": "Bbr.Euclid.SystemDescriptor.Links.LinkDescription, Bbr.Euclid.SystemDescriptor",
+                      "Type": "Bbr.Euclid.FpgaAcquisitionLibrary.FpgaSample, Bbr.Euclid.FpgaAcquisitionLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                      "Name": "FpgaAcquisitionOutput",
+                      "Identity": {
+                        "Id": "0ed803bf-2a44-47c0-b734-69d751df09d3",
+                        "Name": "EquipmentFpgaAcquisition"
+                      }
+                    }
+                  },
+                  {
+                    "$type": "Bbr.Euclid.SystemDescriptor.Links.Link, Bbr.Euclid.SystemDescriptor",
+                    "Receiver": {
+                      "$type": "Bbr.Euclid.SystemDescriptor.Links.LinkDescription, Bbr.Euclid.SystemDescriptor",
+                      "Type": "Bbr.Euclid.FpgaAcquisitionLibrary.FpgaSample, Bbr.Euclid.FpgaAcquisitionLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                      "Name": "FpgaAcquisitionOutput",
+                      "Identity": {
+                        "Id": "1b3e3e8b-3057-477e-9b7f-8a0b1221aaf2",
+                        "Name": "UgmsFpgaConversion"
+                      }
+                    },
+                    "DataSource": {
+                      "$type": "Bbr.Euclid.SystemDescriptor.Links.LinkDescription, Bbr.Euclid.SystemDescriptor",
+                      "Type": "Bbr.Euclid.FpgaAcquisitionLibrary.FpgaSample, Bbr.Euclid.FpgaAcquisitionLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                      "Name": "FpgaAcquisitionOutput",
+                      "Identity": {
+                        "Id": "a97353b1-e1ce-4f07-b7b8-c538c30e9f9e",
+                        "Name": "UgmsFpgaAcquisition"
+                      }
+                    }
+                  },
+                  {
+                    "$type": "Bbr.Euclid.SystemDescriptor.Links.Link, Bbr.Euclid.SystemDescriptor",
+                    "Receiver": {
+                      "$type": "Bbr.Euclid.SystemDescriptor.Links.LinkDescription, Bbr.Euclid.SystemDescriptor",
+                      "Type": "Bbr.Euclid.ObjectsLibrary.ChannelDataObject`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], Bbr.Euclid.ObjectsLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                      "Name": "Name:EquipmentFpgaConversion_Id:e0232bd8-622a-40b7-a7a8-0deabfee3701_FpgaConversionFloatOutput",
+                      "Identity": {
+                        "Id": "d3718e96-71cf-45a2-b472-d0a198fc1b9c",
+                        "Name": "DaqUds"
+                      }
+                    },
+                    "DataSource": {
+                      "$type": "Bbr.Euclid.SystemDescriptor.Links.LinkDescription, Bbr.Euclid.SystemDescriptor",
+                      "Type": "Bbr.Euclid.ObjectsLibrary.ChannelDataObject`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], Bbr.Euclid.ObjectsLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                      "Name": "FpgaConversionFloatOutput",
+                      "Identity": {
+                        "Id": "e0232bd8-622a-40b7-a7a8-0deabfee3701",
+                        "Name": "EquipmentFpgaConversion"
+                      }
+                    }
+                  },
+                  {
+                    "$type": "Bbr.Euclid.SystemDescriptor.Links.Link, Bbr.Euclid.SystemDescriptor",
+                    "Receiver": {
+                      "$type": "Bbr.Euclid.SystemDescriptor.Links.LinkDescription, Bbr.Euclid.SystemDescriptor",
+                      "Type": "Bbr.Euclid.ObjectsLibrary.ChannelDataObject`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], Bbr.Euclid.ObjectsLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                      "Name": "Name:UgmsFpgaConversion_Id:1b3e3e8b-3057-477e-9b7f-8a0b1221aaf2_FpgaConversionFloatOutput",
+                      "Identity": {
+                        "Id": "d3718e96-71cf-45a2-b472-d0a198fc1b9c",
+                        "Name": "DaqUds"
+                      }
+                    },
+                    "DataSource": {
+                      "$type": "Bbr.Euclid.SystemDescriptor.Links.LinkDescription, Bbr.Euclid.SystemDescriptor",
+                      "Type": "Bbr.Euclid.ObjectsLibrary.ChannelDataObject`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], Bbr.Euclid.ObjectsLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                      "Name": "FpgaConversionFloatOutput",
+                      "Identity": {
+                        "Id": "1b3e3e8b-3057-477e-9b7f-8a0b1221aaf2",
+                        "Name": "UgmsFpgaConversion"
+                      }
+                    }
+                  },
+                  {
+                    "$type": "Bbr.Euclid.SystemDescriptor.Links.Link, Bbr.Euclid.SystemDescriptor",
+                    "Receiver": {
+                      "$type": "Bbr.Euclid.SystemDescriptor.Links.LinkDescription, Bbr.Euclid.SystemDescriptor",
+                      "Type": "Bbr.Euclid.ObjectsLibrary.ChannelDataObject`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], Bbr.Euclid.ObjectsLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                      "Name": "InputData",
+                      "Identity": {
+                        "Id": "ff71430b-7e4c-437a-893e-b85b3f3052cc",
+                        "Name": "DaqChannelDataAdjuster"
+                      }
+                    },
+                    "DataSource": {
+                      "$type": "Bbr.Euclid.SystemDescriptor.Links.LinkDescription, Bbr.Euclid.SystemDescriptor",
+                      "Type": "Bbr.Euclid.ObjectsLibrary.ChannelDataObject`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], Bbr.Euclid.ObjectsLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                      "Name": "Synchronised",
+                      "Identity": {
+                        "Id": "d3718e96-71cf-45a2-b472-d0a198fc1b9c",
+                        "Name": "DaqUds"
+                      }
+                    }
+                  },
+                  {
+                    "$type": "Bbr.Euclid.SystemDescriptor.Links.Link, Bbr.Euclid.SystemDescriptor",
+                    "Receiver": {
+                      "$type": "Bbr.Euclid.SystemDescriptor.Links.LinkDescription, Bbr.Euclid.SystemDescriptor",
+                      "Type": "Bbr.Euclid.ObjectsLibrary.ChannelDataObject`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], Bbr.Euclid.ObjectsLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                      "Name": "Input",
+                      "Identity": {
+                        "Id": "73ce7298-2bb2-41d8-93cf-ef411477bad2",
+                        "Name": "EquipmentFpgaConversionWriter"
+                      }
+                    },
+                    "DataSource": {
+                      "$type": "Bbr.Euclid.SystemDescriptor.Links.LinkDescription, Bbr.Euclid.SystemDescriptor",
+                      "Type": "Bbr.Euclid.ObjectsLibrary.ChannelDataObject`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], Bbr.Euclid.ObjectsLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                      "Name": "FpgaConversionFloatOutput",
+                      "Identity": {
+                        "Id": "e0232bd8-622a-40b7-a7a8-0deabfee3701",
+                        "Name": "EquipmentFpgaConversion"
+                      }
+                    }
+                  },
+                  {
+                    "$type": "Bbr.Euclid.SystemDescriptor.Links.Link, Bbr.Euclid.SystemDescriptor",
+                    "Receiver": {
+                      "$type": "Bbr.Euclid.SystemDescriptor.Links.LinkDescription, Bbr.Euclid.SystemDescriptor",
+                      "Type": "Bbr.Euclid.ObjectsLibrary.ChannelDataObject`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], Bbr.Euclid.ObjectsLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                      "Name": "Input",
+                      "Identity": {
+                        "Id": "7bca82f3-1e2e-4708-ae78-38dab7eaa11f",
+                        "Name": "UgmsFpgaConversionWriter"
+                      }
+                    },
+                    "DataSource": {
+                      "$type": "Bbr.Euclid.SystemDescriptor.Links.LinkDescription, Bbr.Euclid.SystemDescriptor",
+                      "Type": "Bbr.Euclid.ObjectsLibrary.ChannelDataObject`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], Bbr.Euclid.ObjectsLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                      "Name": "FpgaConversionFloatOutput",
+                      "Identity": {
+                        "Id": "1b3e3e8b-3057-477e-9b7f-8a0b1221aaf2",
+                        "Name": "UgmsFpgaConversion"
+                      }
+                    }
+                  }
+                ],
+                "PcIdentity": {
+                  "$type": "Bbr.Euclid.RootLibrary.UniqueIdentity, Bbr.Euclid.RootLibrary",
+                  "Id": "7c46f1ae-6b6d-4fa7-af25-61df0ed93d43",
+                  "Name": "AcquisitionPC"
+                },
+                "Identity": {
+                  "Id": "741ed831-a68e-48b1-9c05-c04dd4ca3df7",
+                  "Name": "DaqAcquisitionFramework"
+                }
+              }
+            ],
+            "Identity": {
+              "Id": "3dcc48b4-40da-45ce-ab51-22949f28315b",
+              "Name": "TrueDAQ"
+            }
+          }
+        ],
+        "Pcs": [
+          {
+            "$type": "Bbr.Euclid.SystemDescriptor.Classes.Pc, Bbr.Euclid.SystemDescriptor",
+            "Identity": {
+              "Id": "7c46f1ae-6b6d-4fa7-af25-61df0ed93d43",
+              "Name": "AcquisitionPC"
+            }
+          }
+        ],
+        "Identity": {
+          "Id": "8459b49f-afe5-4064-8426-f077e923ff79",
+          "Name": "KiHa112-201"
+        }
+      }
+    ],
+    "Identity": {
+      "Id": "6293a306-7bef-4113-a853-22d4ca53a5e4",
+      "Name": "JR-East"
+    }
+  }
+]

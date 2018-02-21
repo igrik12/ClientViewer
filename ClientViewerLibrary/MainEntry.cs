@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Nancy.Hosting.Self;
+using Newtonsoft.Json;
 
 namespace Bbr.Euclid.ClientViewerLibrary
 {
@@ -25,7 +27,15 @@ namespace Bbr.Euclid.ClientViewerLibrary
         public MainEntry(MainConfiguration config)
         {
             _config = config;
-            _query = new TeamCityQuery(_config.Host, _config.UserName, _config.Password);
+            if (config.LocalDatabases.Count > 0)
+            {
+                FetchAllClientsFromLocalDb();
+            }
+            else
+            {
+                _query = new TeamCityQuery(_config.Host, _config.UserName, _config.Password);
+                FetchAllClients();
+            }
         }
 
         #endregion
@@ -34,8 +44,6 @@ namespace Bbr.Euclid.ClientViewerLibrary
 
         public void StartHost()
         {
-            FetchAllClients();
-
             var hostConfigs = new HostConfiguration {UrlReservations = {CreateAutomatically = true}};
 
             var uriString = "http://localhost:3579";
@@ -64,6 +72,19 @@ namespace Bbr.Euclid.ClientViewerLibrary
                     continue;
                 }
                 ClientDatabase.Add(client.Key, fleets.ToList());
+            }
+        }
+
+        private void FetchAllClientsFromLocalDb()
+        {
+            foreach (var local in _config.LocalDatabases)
+            {
+                var fleets = local.Value.Select(File.ReadAllText).ToList();
+                if(!fleets.Any())
+                {
+                  continue;  
+                }
+                ClientDatabase.Add(local.Key, fleets);
             }
         }
 

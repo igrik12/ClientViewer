@@ -14,7 +14,7 @@ export default class Product extends Component {
         return <Panel hideIcon={true} title={<Label color={"green"} size="large" basic style={{ width: "100%" }}>Product: {product.Identity.Name}</Label>}>
             <Card.Group>{
                 product.Frameworks.map(function (item, i) {
-                    return <Framework key={item.Identity.Name} framework={item} />
+                    return <Framework key={i} framework={item} />
                 })
             }</Card.Group>
         </Panel>

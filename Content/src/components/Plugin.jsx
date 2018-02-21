@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import Panel from './Panel.jsx'
 import { Card } from 'semantic-ui-react'
-
+import { List, ListItem } from 'material-ui/List';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import ActionInfo from 'material-ui/svg-icons/action/info'
 
 export default class Plugin extends Component {
     constructor(props) {
@@ -9,7 +11,10 @@ export default class Plugin extends Component {
     }
     render() {
         const { plugin } = this.props;
-
-        return plugin.Identity.Name
+        return <ListItem
+            key={plugin.Identity.Name}
+            primaryText={plugin.Identity.Name}
+            rightIcon={<ActionInfo />}
+        />
     }
 }

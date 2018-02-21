@@ -15,6 +15,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
     {
         private readonly TeamCityClient _client;
 
+        // Initialised TeamCityQuery class which requires host, username and password
         public TeamCityQuery(string host, string username, string password)
         {
             _client = new TeamCityClient(host);

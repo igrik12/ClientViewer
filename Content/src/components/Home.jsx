@@ -23,11 +23,8 @@ export default class Home extends Component {
                 var parsed = data.map(c => {
                     var client = {
                         name: c.key,
-                        fleets: []
+                        fleets: JSON.parse(c.value)
                     }
-                    c.value.map(v => {
-                        client.fleets.push(JSON.parse(v))
-                    })
                     clients.push(client)
                 })
                 this.setState({
