@@ -26,7 +26,8 @@ namespace Bbr.Euclid.ClientViewerLibrary
         {
             var projects = _client.Projects.All();
             return projects;
-        }
+        } 
+        
 
         public List<Build> GetListOfRunningBuilds()
         {
