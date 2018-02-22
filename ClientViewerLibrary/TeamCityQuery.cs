@@ -28,9 +28,6 @@ namespace Bbr.Euclid.ClientViewerLibrary
             return projects;
         } 
         
-
-
-        //Some comment here
         public List<Build> GetListOfRunningBuilds()
         {
             return _client.Builds.ByBuildLocator(BuildLocator.RunningBuilds());
