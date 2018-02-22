@@ -75,6 +75,9 @@ namespace Bbr.Euclid.ClientViewerLibrary
             }
         }
 
+        /// <summary>
+        /// Fetches all clients from local database.
+        /// </summary>
         private void FetchAllClientsFromLocalDb()
         {
             foreach (var local in _config.LocalDatabases)
