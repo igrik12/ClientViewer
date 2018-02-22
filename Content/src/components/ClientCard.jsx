@@ -21,6 +21,8 @@ export default class ClientCard extends Component {
         deleteFunc
         open
     }
+	
+	// Another comment here for no reason
 
 
     render() {
