@@ -3,6 +3,7 @@ import Panel from './Panel.jsx'
 import { List, ListItem } from 'material-ui/List';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { Icon } from 'semantic-ui-react'
+import PluginModal from './PluginModal.jsx'
 
 export default class ClientCardDescriptor extends Component {
     constructor(props) {
@@ -33,7 +34,7 @@ export default class ClientCardDescriptor extends Component {
                                                 nestedItems={framework.StarterMotorConfigurations && framework.StarterMotorConfigurations.map(function (plugin, i) {
                                                     return <ListItem 
                                                         key={i}
-                                                        primaryText={plugin.Identity && plugin.Identity.Name}
+                                                        primaryText={<PluginModal plugin={plugin}/>}
                                                         leftIcon={<Icon name='plug' size='large' />} />
                                                 })}
                                                 />

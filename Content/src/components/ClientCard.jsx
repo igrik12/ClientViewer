@@ -29,7 +29,7 @@ export default class ClientCard extends Component {
         return (
             <div style={divStyle}>
 
-                <Card style={{width:450}} color="blue" >
+                <Card style={{width:500}} color="blue" >
                     <Card.Content>
                         <Card.Header style={{ marginTop: 5 }}>
                             <Header

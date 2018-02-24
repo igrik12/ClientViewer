@@ -9,10 +9,11 @@ export default class PluginModal extends Component {
         return (
             <div>
                 <Modal trigger={<div><ListItem><b>Plugin:</b> {this.props.plugin.Identity.Name}</ListItem></div>}>
-                    <Modal.Header>Plugin Description</Modal.Header>
+                     <Header icon='info' content='Plugin Description' />
                     <Modal.Content image scrolling>
                         <Modal.Description>
                             <Header><h3>{this.props.plugin.Identity.Name}</h3></Header>
+                            <hr/>
                             <ReactJson src={this.props.plugin} />
                         </Modal.Description>
                     </Modal.Content>
