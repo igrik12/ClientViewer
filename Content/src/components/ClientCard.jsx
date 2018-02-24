@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { Label, Card, Image, Header, Button, Modal } from 'semantic-ui-react';
+import { Label, Card, Image, Header } from 'semantic-ui-react';
 import ClientCardDescriptor from './ClientCardDescriptor.jsx'
-
-
+import Train from 'react-icons/lib/fa/train';
 
 export default class ClientCard extends Component {
     constructor(props) {
@@ -22,9 +21,6 @@ export default class ClientCard extends Component {
         open
     }
 	
-	// Another comment here for no reason
-
-
     render() {
         var divStyle = {
             marginLeft: '30px'
@@ -33,10 +29,8 @@ export default class ClientCard extends Component {
         return (
             <div style={divStyle}>
 
-                <Card style={{width:400}} color="blue" >
+                <Card style={{width:450}} color="blue" >
                     <Card.Content>
-                        <Image rounded bordered size='small' src={'https://vignette.wikia.nocookie.net/ttte/images/1/13/RosieCGIpromo2.jpg/revision/latest/scale-to-width-down/323?cb=20111113221812'} />
-                        {/* <Label attached="top right" size="big" color={this.props.clientStatus[0].color} horizontal>{this.props.clientStatus[0].status}</Label> */}
                         <Card.Header style={{ marginTop: 5 }}>
                             <Header
                                 as='h2'
@@ -45,11 +39,6 @@ export default class ClientCard extends Component {
                         </Card.Header>
                         <Card.Meta>
                             Number of Fleets: {this.props.fleets.length}
-                            <Card.Content style={{ marginTop: 5 }} extra>
-                                <div>
-                                    <Button basic color='blue'>Edit</Button>
-                                </div>
-                            </Card.Content>
                         </Card.Meta>
                         <hr />
                         <Card.Description>
