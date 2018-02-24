@@ -5,17 +5,27 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { Icon } from 'semantic-ui-react'
 import PluginModal from './PluginModal.jsx'
 
+
 export default class ClientCardDescriptor extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            open: false
+        };
     }
-    archive
+
+    handleToggle = () => {
+        this.setState({
+            open: !this.state.open,
+        });
+    };
+
     render() {
         var { fleets } = this.props
 
         return <MuiThemeProvider><List>
             <ListItem>
-            {fleets.map(function (fleet, i) {
+                {fleets.map(function (fleet, i) {
                     return <ListItem key={i}
                         primaryText={fleet.Identity.Name}
                         leftIcon={<Icon name='user circle' size='large' />}
@@ -30,14 +40,14 @@ export default class ClientCardDescriptor extends Component {
                                         nestedItems={product.Frameworks.map(function (framework, i) {
                                             return <ListItem key={i}
                                                 primaryText={framework.Identity && framework.Identity.Name}
-                                                leftIcon={<Icon name='setting' size='large' />} 
+                                                leftIcon={<Icon name='setting' size='large' />}
                                                 nestedItems={framework.StarterMotorConfigurations && framework.StarterMotorConfigurations.map(function (plugin, i) {
-                                                    return <ListItem 
+                                                    return <ListItem
                                                         key={i}
-                                                        primaryText={<PluginModal plugin={plugin}/>}
+                                                        primaryText={<PluginModal plugin={plugin} />}
                                                         leftIcon={<Icon name='plug' size='large' />} />
                                                 })}
-                                                />
+                                            />
                                         })}
                                     />
                                 })}

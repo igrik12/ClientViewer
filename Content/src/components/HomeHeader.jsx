@@ -14,10 +14,9 @@ export default class HomeHeader extends Component {
                     <span style={{color:"#FFFFFF"}}>Clients database</span>
                     </Header>
                 <Header textAlign='center'>
-                    {/* <Search size="small" fluid aligned="right" loading={false} /> */}
                 </Header>
                 <span style={{color:"#FFFFFF"}}> <h4>Clients</h4></span>
-                <Radio toggle onClick={this.props.toggle}>Clients</Radio>
+                {/* <Radio toggle onClick={this.props.toggle}>Clients</Radio> */}
             </div>)
     }
 }

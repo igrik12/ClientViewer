@@ -32,7 +32,7 @@ export default class HomeSideMenu extends Component {
 
 
     tempStatusTrigger() {
-        setInterval(() => {
+        setTimeout(() => {
             var rnd = Math.floor((Math.random() * 3) + 1);
             let clientStatusData = [
                 {
