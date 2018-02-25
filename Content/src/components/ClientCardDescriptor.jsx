@@ -24,7 +24,6 @@ export default class ClientCardDescriptor extends Component {
         var { fleets } = this.props
 
         return <MuiThemeProvider><List>
-            <ListItem>
                 {fleets.map(function (fleet, i) {
                     return <ListItem key={i}
                         primaryText={fleet.Identity.Name}
@@ -55,7 +54,6 @@ export default class ClientCardDescriptor extends Component {
                         })} >
                     </ListItem>
                 })}
-            </ListItem>
         </List></MuiThemeProvider>;
     }
 }

@@ -13,10 +13,7 @@ export default class HomeHeader extends Component {
                     <Icon inverted name='database' circular />
                     <span style={{color:"#FFFFFF"}}>Clients database</span>
                     </Header>
-                <Header textAlign='center'>
-                </Header>
-                <span style={{color:"#FFFFFF"}}> <h4>Clients</h4></span>
-                {/* <Radio toggle onClick={this.props.toggle}>Clients</Radio> */}
+                    <br/>
             </div>)
     }
 }
