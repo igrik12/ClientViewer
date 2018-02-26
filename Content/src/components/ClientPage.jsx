@@ -23,7 +23,6 @@ export default class ClientPage extends Component {
         return (
             <div>
                 <ClientPageHeader clientName ={this.props.location.state.ClientName} toggle={this.toggleSide} />
-                {console.log(this.props.location.state)}
                 <ClientPageSideMenu fleets={this.props.location.state.Fleets} toggle={this.state.toggle}/>
             </div>
         )
