@@ -6,14 +6,17 @@ import FloatingActionButton from 'material-ui/FloatingActionButton'
 import FileDownload from 'material-ui/svg-icons/file/file-download'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { Button, Modal } from 'semantic-ui-react'
+var fileDownload = require('js-file-download');
+
 
 export default class ClientCard extends Component {
     constructor(props) {
         super(props);
         this.state = { open: false, triggerDownload: false }
         this.open = this.open.bind(this)
-        this.handleDownload = this.handleDownload.bind(this)
+        this.openDownloadWindow = this.openDownloadWindow.bind(this)
         this.close = this.close.bind(this)
+        this.handleDownload = this.handleDownload.bind(this)
     }
 
     open() {
@@ -26,16 +29,23 @@ export default class ClientCard extends Component {
         this.setState({ triggerDownload: false })
     }
 
-
-    handleDownload(name) {
-        console.log(name)
+    openDownloadWindow() {
         this.setState({
             triggerDownload: true
         })
     }
 
+    handleDownload() {
+        console.log("working")
+        fileDownload(JSON.stringify(this.props.fleets), this.props.name + ".json");
+        this.setState({
+            triggerDownload:false
+        })
+    }
+
     render() {
         const { triggerDownload } = this.state
+
         var divStyle = {
             marginLeft: '30px'
         };
@@ -46,7 +56,7 @@ export default class ClientCard extends Component {
                     <Card.Content>
                         <Card.Header style={{ marginTop: 35 }}>
                             <MuiThemeProvider>
-                                <FloatingActionButton onClick={() => this.handleDownload(this.props.name)} style={{ float: "right" }} mini={true}>
+                                <FloatingActionButton onClick={this.openDownloadWindow} style={{ float: "right" }} mini={true}>
                                     <FileDownload />
                                 </FloatingActionButton>
                             </MuiThemeProvider>
@@ -73,10 +83,10 @@ export default class ClientCard extends Component {
                         <p>Are you sure you want to download {this.props.name} database?</p>
                     </Modal.Content>
                     <Modal.Actions>
-                        <Button negative>
+                        <Button negative onClick={this.close}>
                             No
                        </Button>
-                        <Button positive icon='checkmark' labelPosition='right' content='Yes' />
+                        <Button positive onClick={this.handleDownload} icon='checkmark' labelPosition='right' content='Yes' />
                     </Modal.Actions>
                 </Modal>
             </div>
