@@ -90,24 +90,9 @@ export default class HomeSideMenu extends Component {
         };
         return (
             <div>
-                <Sidebar.Pushable as={Segment} >
-                    <Sidebar as={Segment} animation='push' visible={this.props.toggled} icon='labeled' vertical >
-                        <Menu vertical fluid fixed="top">
-                            <Menu.Item name='client'>
-                                <Icon name='users' />
-                                <h2>Clients</h2>
-                            </Menu.Item>
-                            <Menu.Item position="left" name='clients'>
-                                <ClientLabels clients={this.props.clients} clientStatus={this.state.clientStatus} />
-                            </Menu.Item>
-                        </Menu>
-                    </Sidebar>
-                    <Sidebar.Pusher style={{ minHeight: 200 }}>
-                        <Segment style={{ background: "#FFFFFF" }} basic>
-                            <ClientCards clients={this.props.clients} clientStatus={this.state.clientStatus} />
-                        </Segment>
-                    </Sidebar.Pusher>
-                </Sidebar.Pushable>
+                <Segment style={{ background: "#FFFFFF" }} basic>
+                    <ClientCards clients={this.props.clients} clientStatus={this.state.clientStatus} />
+                </Segment>               
             </div>
         )
     }
