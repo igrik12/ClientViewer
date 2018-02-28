@@ -34,8 +34,16 @@ namespace Bbr.Euclid.ClientViewer.Test
         public void GetJrEastFleetJson()
         {
             var query = new TeamCityQuery(Host, UserName, Password);
-            var fleet = query.GetFleetJson(JrEastConfigId);
+            var fleet = query.GetDatabaseJsonById(JrEastConfigId);
             Assert.NotNull(fleet);
+        }
+
+        [Test]
+        public void GetBombardierDatabaseByConfigName()
+        {
+            var query = new TeamCityQuery(Host, UserName, Password);
+            var ret = query.GetDatabaseJsonByConfigName("Bombardier");
+            Assert.NotNull(ret);
         }
     }
 }
