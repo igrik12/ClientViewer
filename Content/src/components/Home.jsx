@@ -5,6 +5,7 @@ import HomeSideMenu from './HomeSideMenu.jsx'
 import RaisedButton from 'material-ui/RaisedButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import FileOpener from './FileOpener.jsx'
 
 export default class Home extends Component {
     constructor(props) {
@@ -68,6 +69,7 @@ export default class Home extends Component {
 
         return (
             <div>
+                <FileOpener/>
                 <HomeHeader toggle={this.toggleVisibility} />
                 <Divider style={{ marginTop: "20px" }} horizontal><h2>Clients Overview</h2></Divider>
                 <HomeSideMenu clients={this.state.clients}

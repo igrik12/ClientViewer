@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Bbr.Euclid.ClientViewerLibrary;
+using Topshelf;
 
 namespace Bbr.Euclid.ClientViewer
 {
@@ -26,6 +27,21 @@ namespace Bbr.Euclid.ClientViewer
                 }
             };
 
+            HostFactory.Run(x =>
+            {
+                x.Service<MainEntry>(s =>
+                {
+                    s.ConstructUsing(name => new MainEntry(config));
+                    s.WhenStarted(tc => tc.Start());
+                    s.WhenStopped(tc => tc.Stop());
+                });
+
+                x.RunAsLocalSystem();
+                x.SetDescription("Client-Viewer-SelfHost Service");
+                x.SetDisplayName("Client-Viewer-SelfHost Service");
+                x.SetServiceName("Client-Viewer Service");
+            });
+
             //var config = new MainConfiguration()
             //{
             //    LocalDatabases = new Dictionary<string, List<string>>()
@@ -35,7 +51,7 @@ namespace Bbr.Euclid.ClientViewer
             //    }
             //};
 
-            new MainEntry(config).StartHost();
+            //new MainEntry(config).StartHost();
         }
     }
 }

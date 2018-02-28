@@ -10,7 +10,7 @@ export default class PluginModal extends Component {
     render() {
         return (
             <div>
-                <Modal basic size="fullscreen" trigger={<div><b>Plugin:</b> {this.props.plugin.Identity.Name}</div>}>
+                <Modal basic size="fullscreen" trigger={<div> {this.props.plugin.Identity.Name}</div>}>
                     <Header icon='info' content='Plugin Description' />
                     <Modal.Content image scrolling>
                         <Modal.Description>

@@ -4,8 +4,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Timers;
 using Nancy.Hosting.Self;
 using Newtonsoft.Json;
+using Timer = System.Timers.Timer;
 
 namespace Bbr.Euclid.ClientViewerLibrary
 {
@@ -16,7 +18,9 @@ namespace Bbr.Euclid.ClientViewerLibrary
         private readonly MainConfiguration _config;
         private readonly TeamCityQuery _query;
         private readonly object _lock = new object();
+        private readonly Timer _timer;
         private bool _initialFetch = true;
+        private NancyHost _host;
 
         #endregion
 
@@ -41,30 +45,48 @@ namespace Bbr.Euclid.ClientViewerLibrary
             {
                 _query = new TeamCityQuery(_config.Host, _config.UserName, _config.Password);
                 FetchAllClients();
-            }
 
-            PollDatabase();
+                _timer = new Timer
+                {
+                    Interval = TimeSpan.FromMinutes(10).TotalMilliseconds
+                };
+                _timer.Elapsed += (sender, args) =>
+                {
+                    lock (_lock)
+                    {
+                        FetchAllClients(); 
+                    }
+                };
+                _timer.Start();
+            }
         }
 
         #endregion
 
         #region methods
 
-        public void StartHost()
+        public void Start()
         {
             var hostConfigs = new HostConfiguration {UrlReservations = {CreateAutomatically = true}};
 
             var uriString = "http://localhost:3579";
             var uri = new Uri(uriString);
 
-            using (var host = new NancyHost(uri, new BootStrapper(this), hostConfigs))
+            using (_host = new NancyHost(uri, new BootStrapper(this), hostConfigs))
             {
-                host.Start();
-
+                _host.Start();
+                Console.WriteLine("Starting up Client Viewer service.");
                 Console.WriteLine("Your application is running on " + uri);
                 Console.WriteLine("Press any [Enter] to close the host.");
                 Console.ReadLine();
             }
+        }
+
+        public void Stop()
+        {
+            _timer.Stop();
+            _host.Stop();
+            Console.WriteLine("Stopped Client Viewer service...");
         }
 
         /// <summary>
@@ -102,21 +124,6 @@ namespace Bbr.Euclid.ClientViewerLibrary
                 }
                 ClientDatabase.Add(local.Key, fleets);
             }
-        }
-
-        private void PollDatabase()
-        {        
-            new Thread(() =>
-            {
-                lock (_lock)
-                {
-                    while (true)
-                    {
-                        Thread.Sleep(100000);
-                        FetchAllClients();
-                    }
-                }
-            }).Start();
         }
 
 
