@@ -52,7 +52,7 @@ export default class ClientCard extends Component {
 
         return (
             <div style={divStyle}>
-                <Card style={{ width: 700, marginTop: 15 }} color="blue" >
+                <Card fluid style={{ minWidth:800,marginTop: 15 }} color="blue" >
                     <Card.Content>
                         <Card.Header style={{ marginTop: 35 }}>
                             <MuiThemeProvider>

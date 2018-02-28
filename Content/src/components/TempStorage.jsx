@@ -30,7 +30,7 @@ class VehicleTemp extends Component {
     render() {
 
         var { vehicle } = this.props;
-        return <NestedListItem name={vehicle.Identity.Name} iconName={"train"}>{vehicle.Products.map(function (item, i) {
+        return <NestedListItem name={vehicle.Identity.Name} iconName={"settings"}>{vehicle.Products.map(function (item, i) {
             return <ProductTemp key={i} product={item}/>
         })}</NestedListItem>
     }

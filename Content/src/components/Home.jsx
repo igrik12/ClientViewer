@@ -52,9 +52,9 @@ export default class Home extends Component {
 
         var { clients } = this.state;
         var style = {
-            marginRight: 70,
-            marginTop:25,
-            float:"right"
+            marginRight: 80,
+            marginTop: 25,
+            float: "right"
         }
 
         if (!this.state.clients) {
@@ -73,7 +73,7 @@ export default class Home extends Component {
                 <HomeSideMenu clients={this.state.clients}
                     toggled={this.state.toggleMenu} />
                 <MuiThemeProvider>
-                <RaisedButton label="Add Client" primary={true} style={style} />
+                    <RaisedButton label="Add Client" primary={true} style={style} />
                 </MuiThemeProvider>
             </div>
         )

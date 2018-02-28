@@ -64,25 +64,25 @@ export default class ClientCardDescriptor extends Component {
                 {fleets.map(function (fleet, i) {
                     return <ListItem key={i}
                         primaryText={fleet.Identity.Name}
-                        leftIcon={<Icon name='user circle' size='large' />}
+                        leftIcon={<Icon color="black" name='user circle' size='large' />}
                         nestedItems={fleet.Vehicles.map(function (vehicle, i) {
                             return <ListItem key={i}
                                 primaryText={vehicle.Identity.Name}
-                                leftIcon={<Icon name='train' size='large' />}
+                                leftIcon={<Icon color="blue" name='train' size='large' />}
                                 onClick={(event) => that.handlePcToggle(event, vehicle.Pcs)}
                                 nestedItems={vehicle.Products.map(function (product, i) {
                                     return <ListItem key={i}
                                         primaryText={product.Identity.Name}
-                                        leftIcon={<Icon name='archive' size='large' />}
+                                        leftIcon={<Icon color="blue"  name='archive' size='large' />}
                                         nestedItems={product.Frameworks.map(function (framework, i) {
                                             return <ListItem key={i}
                                                 primaryText={framework.Identity && framework.Identity.Name}
-                                                leftIcon={<Icon name='setting' size='large' />}
+                                                leftIcon={<Icon color="blue"  name='setting' size='large' />}
                                                 nestedItems={framework.StarterMotorConfigurations && framework.StarterMotorConfigurations.map(function (plugin, i) {
                                                     return <ListItem
                                                         key={i}
                                                         primaryText={<PluginModal plugin={plugin} />}
-                                                        leftIcon={<Icon name='plug' size='large' />} />
+                                                        leftIcon={<Icon color="teal"  name='plug' size='large' />} />
                                                 })}
                                             />
                                         })}
