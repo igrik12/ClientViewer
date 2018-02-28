@@ -21,13 +21,14 @@ namespace Bbr.Euclid.ClientViewerLibrary
         private readonly Timer _timer;
         private bool _initialFetch = true;
         private NancyHost _host;
+        private bool _backedUp = false;
 
         #endregion
 
         #region properties
 
         public Dictionary<string, List<string>> ClientDatabase { get; set; }
-
+        public Dictionary<string, List<string>> BackUpDatabase { get; set; }
 
         #endregion
 
@@ -37,6 +38,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
         {
             _config = config;
             ClientDatabase = new Dictionary<string, List<string>>();
+            BackUpDatabase = new Dictionary<string, List<string>>();
             if (config.LocalDatabases?.Count > 0)
             {
                 FetchAllClientsFromLocalDb();
@@ -55,6 +57,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
                     lock (_lock)
                     {
                         FetchAllClients(); 
+                        BackUpDatabase = new Dictionary<string, List<string>>(ClientDatabase);
                     }
                 };
                 _timer.Start();
@@ -106,6 +109,12 @@ namespace Bbr.Euclid.ClientViewerLibrary
                     continue;
                 }
                 ClientDatabase.Add(client.Key, fleets.ToList());
+
+                if (!_backedUp)
+                {
+                    BackUpDatabase = new Dictionary<string, List<string>>(ClientDatabase);
+                    _backedUp = true;
+                }
             }
             _initialFetch = false;
         }

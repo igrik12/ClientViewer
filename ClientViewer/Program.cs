@@ -8,22 +8,32 @@ namespace Bbr.Euclid.ClientViewer
     {
         static void Main(string[] args)
         {
+            //var config = new MainConfiguration()
+            //{
+            //    Clients = new Dictionary<string, List<string>>()
+            //    {
+            //        {
+            //            "Kaneko", new List<string>()
+            //            {
+            //                "Git_Clients_Kaneko"
+            //            }
+            //        },
+            //        {
+            //            "Bombardier", new List<string>()
+            //            {
+            //                "Git_Clients_Bombardier"
+            //            }
+            //        }
+            //    }
+            //};
+
+
             var config = new MainConfiguration()
             {
-                Clients = new Dictionary<string, List<string>>()
+                LocalDatabases = new Dictionary<string, List<string>>()
                 {
-                    {
-                        "Kaneko", new List<string>()
-                        {
-                            "Git_Clients_Kaneko"
-                        }
-                    },
-                    {
-                        "Bombardier", new List<string>()
-                        {
-                            "Git_Clients_Bombardier"
-                        }
-                    }
+                    {"Bombardier", new List<string>() {"C:\\SourceCode\\ClientViewer\\BombardierDatabase.json"}},
+                    {"Bombardier2", new List<string>() {"C:\\SourceCode\\ClientViewer\\BombardierDatabase.json"}}
                 }
             };
 
@@ -42,14 +52,6 @@ namespace Bbr.Euclid.ClientViewer
                 x.SetServiceName("Client-Viewer Service");
             });
 
-            //var config = new MainConfiguration()
-            //{
-            //    LocalDatabases = new Dictionary<string, List<string>>()
-            //    {
-            //        {"Bombardier", new List<string>() {"C:\\SourceCode\\ClientViewer\\BombardierDatabase.json"}},
-            //        {"TestClient", new List<string>() {"C:\\SourceCode\\ClientViewer\\TestClientDatabase.json"}}
-            //    }
-            //};
 
             //new MainEntry(config).StartHost();
         }

@@ -62,7 +62,7 @@
     <Compile Include="BootStrapper.cs" />
     <Compile Include="MainConfiguration.cs" />
     <Compile Include="MainEntry.cs" />
-    <Compile Include="Modules\DatabaseLoader.cs" />
+    <Compile Include="Modules\DatabaseQuery.cs" />
     <Compile Include="Modules\ViewsModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TeamCityQuery.cs" />
