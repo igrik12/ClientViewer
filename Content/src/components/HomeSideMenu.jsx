@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Sidebar, Segment, Menu, Icon, Divider } from 'semantic-ui-react'
-import ClientLabels from './ClientLabels.jsx'
 import ClientCards from './ClientCards.jsx'
 import { statusColor } from './StatusColors.jsx'
 import ContentAdd from 'material-ui/svg-icons/content/add';
