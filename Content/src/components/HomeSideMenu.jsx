@@ -90,7 +90,7 @@ export default class HomeSideMenu extends Component {
         return (
             <div>
                 <Segment style={{ background: "#FFFFFF" }} basic>
-                    <ClientCards clients={this.props.clients} clientStatus={this.state.clientStatus} />
+                    <ClientCards deleteClient={this.props.deleteClient} clients={this.props.clients} clientStatus={this.state.clientStatus} />
                 </Segment>               
             </div>
         )

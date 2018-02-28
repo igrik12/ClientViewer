@@ -13,6 +13,7 @@ export default class ClientCards extends Component {
                         name={client.name} 
                         fleets={client.fleets} 
                         key={client.name} 
+                        deleteClient = {this.props.deleteClient}
                         clientStatus ={this.props.clientStatus}/>
                     })}
                 </Card.Group>
