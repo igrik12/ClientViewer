@@ -57,7 +57,7 @@ export default class ClientCardDescriptor extends Component {
                 >
                     <Menu>
                         {this.state.pcs && this.state.pcs.map(pc => {
-                            return <MenuItem primaryText={pc.Identity.Name} />
+                            return <MenuItem key={pc.Identity.Name} primaryText={pc.Identity.Name} />
                         })}
                     </Menu>
                 </Popover>

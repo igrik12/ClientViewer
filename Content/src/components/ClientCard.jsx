@@ -36,60 +36,53 @@ export default class ClientCard extends Component {
     }
 
     handleDownload() {
-        console.log("working")
-        fileDownload(JSON.stringify(this.props.fleets), this.props.name + ".json");
+        fileDownload(JSON.stringify(this.props.fleets,null, 2), this.props.name + ".json");
         this.setState({
-            triggerDownload:false
+            triggerDownload: false
         })
     }
 
     render() {
         const { triggerDownload } = this.state
 
-        var divStyle = {
-            marginLeft: '30px'
-        };
-
         return (
-            <div style={divStyle}>
-                <Card fluid style={{ minWidth:800,marginTop: 15 }} color="blue" >
-                    <Card.Content>
-                        <Card.Header style={{ marginTop: 35 }}>
-                            <MuiThemeProvider>
-                                <FloatingActionButton onClick={this.openDownloadWindow} style={{ float: "right" }} mini={true}>
-                                    <FileDownload />
-                                </FloatingActionButton>
-                            </MuiThemeProvider>
-                            <Header as='h2' content={this.props.name} />
-                        </Card.Header>
-                        <Card.Meta style={{ paddingTop: 35 }}>
-                            Number of Fleets: {this.props.fleets.length}
-                        </Card.Meta>
-                        <hr />
-                        <Card.Description>
-                            <br />
-                            <div>
-                                <ClientCardDescriptor fleets={this.props.fleets} />
-                            </div>
-                        </Card.Description>
-                    </Card.Content>
-                </Card>
+            <Card fluid style={{ width: "48%", marginTop: 15 }} color="blue" >
+                <Card.Content>
+                    <Card.Header style={{ marginTop: 35 }}>
+                        <MuiThemeProvider>
+                            <FloatingActionButton onClick={this.openDownloadWindow} style={{ float: "right" }} mini={true}>
+                                <FileDownload />
+                            </FloatingActionButton>
+                        </MuiThemeProvider>
+                        <Header as='h2' content={this.props.name} />
+                    </Card.Header>
+                    <Card.Meta style={{ paddingTop: 35 }}>
+                        Number of Fleets: {this.props.fleets.length}
+                    </Card.Meta>
+                    <hr />
+                    <Card.Description>
+                        <br />
+                        <div>
+                            <ClientCardDescriptor fleets={this.props.fleets} />
+                        </div>
+                        <Modal size={"mini"} open={triggerDownload} onClose={this.close}>
+                            <Modal.Header>
+                                Download database
+                          </Modal.Header>
+                            <Modal.Content>
+                                <p>Are you sure you want to download {this.props.name} database?</p>
+                            </Modal.Content>
+                            <Modal.Actions>
+                                <Button negative onClick={this.close}>
+                                    No
+                             </Button>
+                                <Button positive onClick={this.handleDownload} icon='checkmark' labelPosition='right' content='Yes' />
+                            </Modal.Actions>
+                        </Modal>
+                    </Card.Description>
+                </Card.Content>
+            </Card>
 
-                <Modal size={"mini"} open={triggerDownload} onClose={this.close}>
-                    <Modal.Header>
-                        Download database
-                     </Modal.Header>
-                    <Modal.Content>
-                        <p>Are you sure you want to download {this.props.name} database?</p>
-                    </Modal.Content>
-                    <Modal.Actions>
-                        <Button negative onClick={this.close}>
-                            No
-                       </Button>
-                        <Button positive onClick={this.handleDownload} icon='checkmark' labelPosition='right' content='Yes' />
-                    </Modal.Actions>
-                </Modal>
-            </div>
         )
     }
 }
