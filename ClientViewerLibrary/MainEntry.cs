@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Timers;
 using Nancy.Hosting.Self;
+using Nancy.Json;
 using Newtonsoft.Json;
 using Timer = System.Timers.Timer;
 
@@ -27,6 +28,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
 
         #region properties
 
+        public JavaScriptSerializer JavaScriptSerializer { get; set; }
         public Dictionary<string, List<string>> ClientDatabase { get; set; }
         public Dictionary<string, List<string>> BackUpDatabase { get; set; }
 
@@ -39,6 +41,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
             _config = config;
             ClientDatabase = new Dictionary<string, List<string>>();
             BackUpDatabase = new Dictionary<string, List<string>>();
+            JavaScriptSerializer = new JavaScriptSerializer();
             if (config.LocalDatabases?.Count > 0)
             {
                 FetchAllClientsFromLocalDb();

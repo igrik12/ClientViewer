@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Nancy;
 using Nancy.Bootstrapper;
+using Nancy.Json;
 using Nancy.TinyIoc;
 
 namespace Bbr.Euclid.ClientViewerLibrary
@@ -23,6 +24,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
 
     public interface IContext
     {
+        JavaScriptSerializer JavaScriptSerializer { get; set; }
         Dictionary<string, List<string>> ClientDatabase { get; set; }
         Dictionary<string, List<string>> BackUpDatabase { get; set; }
     }

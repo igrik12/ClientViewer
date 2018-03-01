@@ -72,12 +72,20 @@ export default class Home extends Component {
     };
 
     deleteClient(clientName) {
-        var { clients } = this.state;
-        var updated = clients.filter(client => {
-            return client.name.toLowerCase() !== clientName.toLowerCase();
-        })
-        this.setState({
-            clients: updated
+        fetch("Clients/Remove/" + clientName).then(response => {
+            response.json().then(data => {
+                var clients = [];
+                var parsed = data.map(c => {
+                    var client = {
+                        name: c.key,
+                        fleets: JSON.parse(c.value)
+                    }
+                    clients.push(client)
+                })
+                this.setState({
+                    clients: clients
+                })
+            })
         })
     }
 
@@ -87,29 +95,39 @@ export default class Home extends Component {
         });
     };
 
+    postData(url, data) {
+        // Default options are marked with *
+        return fetch(url, {
+          body: JSON.stringify(data, null, 2), // must match 'Content-Type' header
+          cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: 'same-origin', // include, *omit
+          headers: {
+            'user-agent': 'Mozilla/4.0 MDN Example',
+            'content-type': 'application/json'
+          },
+          method: 'POST', // *GET, PUT, DELETE, etc.
+          mode: 'cors', // no-cors, *same-origin
+          redirect: 'follow', // *manual, error
+          referrer: 'no-referrer', // *client
+        }) // parses response to JSON
+      }
+
 
     handleChange(files) {
-        console.log(files[0].name);
         var reader = new FileReader();
-        var {clients} = this.state;
         var clientName = files[0].name.replace('.json', '');
-        var contains = clients.filter(x => x.name.toLowerCase() === clientName.toLowerCase()); 
-
-        if(contains.length != 0){
-            alert("Client " + clientName +" already exists.");
-            reader.abort();
-            return;
-        }
         reader.onload = (file) => {
-            var newClient = { name: clientName, fleets: JSON.parse(file.target.result) };
-            clients.push(newClient)
-            this.setState({
-                clients: clients
-            })
+            let newClient = { name: clientName, fleets: JSON.parse(file.target.result) };
+
+            var toSend = JSON.stringify(newClient);
+
+            var objToSend = {name:"Bomba",fleets: [{const:"123344"},{const:"123424"},{const:"123414"}]};
+
+            this.postData("Clients/AddClient/",toSend).then(response => {console.log("Simply here....")})
+
         };
         reader.readAsText(files[0]);
     }
-
 
     render() {
 
