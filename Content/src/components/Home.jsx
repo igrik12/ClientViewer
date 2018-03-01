@@ -32,17 +32,7 @@ export default class Home extends Component {
     init() {
         fetch("Clients/Get").then(response => {
             response.json().then(data => {
-                var clients = [];
-                var parsed = data.map(c => {
-                    var client = {
-                        name: c.key,
-                        fleets: JSON.parse(c.value)
-                    }
-                    clients.push(client)
-                })
-                this.setState({
-                    clients: clients
-                })
+               this.setClients(data);
             })
         })
     }
@@ -74,18 +64,23 @@ export default class Home extends Component {
     deleteClient(clientName) {
         fetch("Clients/Remove/" + clientName).then(response => {
             response.json().then(data => {
-                var clients = [];
-                var parsed = data.map(c => {
-                    var client = {
-                        name: c.key,
-                        fleets: JSON.parse(c.value)
-                    }
-                    clients.push(client)
-                })
-                this.setState({
-                    clients: clients
-                })
+                console.log(data)
+                this.setClients(data);
             })
+        })
+    }
+
+    setClients(data) {
+        var clients = [];
+        var parsed = data.map(c => {
+            var client = {
+                name: c.Name,
+                fleets: c.Fleets
+            }
+            clients.push(client)
+        })
+        this.setState({
+            clients: clients
         })
     }
 
@@ -98,32 +93,30 @@ export default class Home extends Component {
     postData(url, data) {
         // Default options are marked with *
         return fetch(url, {
-          body: JSON.stringify(data, null, 2), // must match 'Content-Type' header
-          cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-          credentials: 'same-origin', // include, *omit
-          headers: {
-            'user-agent': 'Mozilla/4.0 MDN Example',
-            'content-type': 'application/json'
-          },
-          method: 'POST', // *GET, PUT, DELETE, etc.
-          mode: 'cors', // no-cors, *same-origin
-          redirect: 'follow', // *manual, error
-          referrer: 'no-referrer', // *client
+            body: JSON.stringify(data, null, 2), // must match 'Content-Type' header
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *omit
+            headers: {
+                'user-agent': 'Mozilla/4.0 MDN Example',
+                'content-type': 'application/json'
+            },
+            method: 'POST', // *GET, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *same-origin
+            redirect: 'follow', // *manual, error
+            referrer: 'no-referrer', // *client
         }) // parses response to JSON
-      }
+    }
 
 
     handleChange(files) {
         var reader = new FileReader();
         var clientName = files[0].name.replace('.json', '');
         reader.onload = (file) => {
-            let newClient = { name: clientName, fleets: JSON.parse(file.target.result) };
+            let newClient = JSON.parse(file.target.result);
 
             var toSend = JSON.stringify(newClient);
 
-            var objToSend = {name:"Bomba",fleets: [{const:"123344"},{const:"123424"},{const:"123414"}]};
-
-            this.postData("Clients/AddClient/",toSend).then(response => {console.log("Simply here....")})
+            this.postData("Clients/AddClient/" + clientName, file.target.result).then(response => response.json().then(data => this.setClients(data)))
 
         };
         reader.readAsText(files[0]);

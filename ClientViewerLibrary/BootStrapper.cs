@@ -25,7 +25,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
     public interface IContext
     {
         JavaScriptSerializer JavaScriptSerializer { get; set; }
-        Dictionary<string, List<string>> ClientDatabase { get; set; }
-        Dictionary<string, List<string>> BackUpDatabase { get; set; }
+        Dictionary<string, object> ClientDatabase { get; set; }
+        Dictionary<string, object> BackUpDatabase { get; set; }
     }
 }

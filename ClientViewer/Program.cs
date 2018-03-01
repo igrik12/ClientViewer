@@ -10,30 +10,20 @@ namespace Bbr.Euclid.ClientViewer
         {
             //var config = new MainConfiguration()
             //{
-            //    Clients = new Dictionary<string, List<string>>()
+            //    Clients = new Dictionary<string, string>()
             //    {
-            //        {
-            //            "Kaneko", new List<string>()
-            //            {
-            //                "Git_Clients_Kaneko"
-            //            }
-            //        },
-            //        {
-            //            "Bombardier", new List<string>()
-            //            {
-            //                "Git_Clients_Bombardier"
-            //            }
-            //        }
+            //        {"Kaneko", "Git_Clients_Kaneko"},
+            //        {"Bombardier", "Git_Clients_Bombardier"}
             //    }
             //};
 
 
             var config = new MainConfiguration()
             {
-                LocalDatabases = new Dictionary<string, List<string>>()
+                LocalDatabases = new Dictionary<string, string>()
                 {
-                    {"Bombardier", new List<string>() {"C:\\SourceCode\\ClientViewer\\BombardierDatabase.json"}},
-                    {"Bombardier2", new List<string>() {"C:\\SourceCode\\ClientViewer\\BombardierDatabase.json"}}
+                    {"Bombardier", "C:\\SourceCode\\ClientViewer\\BombardierDatabase.json"},
+                    {"Bombardier2", "C:\\SourceCode\\ClientViewer\\BombardierDatabase.json"}
                 }
             };
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using Nancy;
@@ -15,31 +16,42 @@ namespace Bbr.Euclid.ClientViewerLibrary.Modules
     {
         public DatabaseQuery(IContext context) : base("Clients")
         {
-            Get("Get", _ => context.ClientDatabase);
-            Get("Contains/{name}", _ => context.ClientDatabase.ContainsKey((string)_.name));
+            Get("Get", _ => ConvertToArrayJson(context));
+            Get("Contains/{name}", _ => context.ClientDatabase.ContainsKey((string) _.name));
             Get("Remove/{name}", _ =>
             {
                 context.ClientDatabase.Remove((string) _.name);
-                return context.ClientDatabase;
+                return ConvertToArrayJson(context);
             });
 
-            Post("AddClient", _ =>
+            Post("AddClient/{clientName}", _ =>
             {
                 var jsonString = RequestStream.FromStream(Request.Body).AsString();
-                var obj = JsonConvert.DeserializeObject(jsonString);
-                var newClient = (IDictionary<string, object>)context.JavaScriptSerializer.DeserializeObject(obj.ToString());
-                if(!context.ClientDatabase.ContainsKey(newClient["name"].ToString()))
+                var fleet = JsonConvert.DeserializeObject(jsonString);
+                var onceMore = JsonConvert.DeserializeObject((string)fleet);
+                var name = (string) _.clientName;
+                if (!context.ClientDatabase.ContainsKey(name))
                 {
-
-                    List<object> myDeserializedObjList = ((Nancy.Json.Simple.JsonArray) newClient["fleets"]).ToList();
-
-                    var keys = ((Nancy.Json.Simple.JsonObject) myDeserializedObjList[0]).Keys;
-                    var values = ((Nancy.Json.Simple.JsonObject) myDeserializedObjList[0]).Values;
-                    //context.ClientDatabase.Add(newClient["name"].ToString(), myDeserializedObjList.ToList().Cast<List<>>());
-                }         
-                return true;
+                    context.ClientDatabase.Add(name, onceMore);
+                    return ConvertToArrayJson(context);
+                }
+                return JsonConvert.SerializeObject(context.ClientDatabase);
             });
         }
 
+        private static string ConvertToArrayJson(IContext context)
+        {
+            var listOfNew = new object[context.ClientDatabase.Count];
+            var count = 0;
+            foreach (var kvp in context.ClientDatabase)
+            {
+                dynamic expand = new ExpandoObject();
+                expand.Name = kvp.Key;
+                expand.Fleets = kvp.Value;
+                listOfNew[count] = expand;
+                count++;
+            }
+            return JsonConvert.SerializeObject(listOfNew);
+        }
     }
 }

@@ -66,7 +66,6 @@ export default class ClientCard extends Component {
 
     render() {
         const { triggerDownload, openDelete } = this.state
-
         return (
             <Card fluid style={{ width: "48%", marginTop: 15 }} color="blue" >
                 <Card.Content>

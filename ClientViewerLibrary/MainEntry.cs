@@ -29,8 +29,8 @@ namespace Bbr.Euclid.ClientViewerLibrary
         #region properties
 
         public JavaScriptSerializer JavaScriptSerializer { get; set; }
-        public Dictionary<string, List<string>> ClientDatabase { get; set; }
-        public Dictionary<string, List<string>> BackUpDatabase { get; set; }
+        public Dictionary<string, object> ClientDatabase { get; set; }
+        public Dictionary<string, object> BackUpDatabase { get; set; }
 
         #endregion
 
@@ -39,8 +39,8 @@ namespace Bbr.Euclid.ClientViewerLibrary
         public MainEntry(MainConfiguration config)
         {
             _config = config;
-            ClientDatabase = new Dictionary<string, List<string>>();
-            BackUpDatabase = new Dictionary<string, List<string>>();
+            ClientDatabase = new Dictionary<string, object>();
+            BackUpDatabase = new Dictionary<string, object>();
             JavaScriptSerializer = new JavaScriptSerializer();
             if (config.LocalDatabases?.Count > 0)
             {
@@ -60,7 +60,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
                     lock (_lock)
                     {
                         FetchAllClients(); 
-                        BackUpDatabase = new Dictionary<string, List<string>>(ClientDatabase);
+                        BackUpDatabase = new Dictionary<string, object>(ClientDatabase);
                     }
                 };
                 _timer.Start();
@@ -102,20 +102,20 @@ namespace Bbr.Euclid.ClientViewerLibrary
         {
             if (!_initialFetch)
             {
-                ClientDatabase = new Dictionary<string, List<string>>();
+                ClientDatabase = new Dictionary<string, object>();
             }
             foreach (var client in _config.Clients)
             {
-                var fleets = client.Value.Select(x => _query.GetDatabaseJsonById(x)).ToArray();
-                if (!fleets.Any())
+                var fleets = JsonConvert.DeserializeObject(_query.GetDatabaseJsonById(client.Value));
+                if (fleets == null)
                 {
                     continue;
                 }
-                ClientDatabase.Add(client.Key, fleets.ToList());
+                ClientDatabase.Add(client.Key, fleets);
 
                 if (!_backedUp)
                 {
-                    BackUpDatabase = new Dictionary<string, List<string>>(ClientDatabase);
+                    BackUpDatabase = new Dictionary<string, object>(ClientDatabase);
                     _backedUp = true;
                 }
             }
@@ -129,8 +129,9 @@ namespace Bbr.Euclid.ClientViewerLibrary
         {
             foreach (var local in _config.LocalDatabases)
             {
-                var fleets = local.Value.Select(File.ReadAllText).ToList();
-                if(!fleets.Any())
+                var fleets = JsonConvert.DeserializeObject(File.ReadAllText(local.Value));
+
+                if(fleets == null)
                 {
                   continue;  
                 }

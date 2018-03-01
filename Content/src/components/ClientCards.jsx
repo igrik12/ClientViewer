@@ -9,6 +9,7 @@ export default class ClientCards extends Component {
             <div>
                 <Card.Group>
                     {this.props.clients.map((client) => {
+
                         return <ClientCard 
                         name={client.name} 
                         fleets={client.fleets} 
