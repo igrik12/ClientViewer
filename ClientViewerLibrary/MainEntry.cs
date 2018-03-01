@@ -106,7 +106,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
             }
             foreach (var client in _config.Clients)
             {
-                var fleets = client.Value.Select(x => _query.GetFleetJson(x)).ToArray();
+                var fleets = client.Value.Select(x => _query.GetDatabaseJsonById(x)).ToArray();
                 if (!fleets.Any())
                 {
                     continue;

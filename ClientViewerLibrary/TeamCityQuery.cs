@@ -22,17 +22,30 @@ namespace Bbr.Euclid.ClientViewerLibrary
             _client.Connect(username, password);
         }
 
+        /// <summary>
+        /// Gets all projects.
+        /// </summary>
+        /// <returns></returns>
         public List<Project> GetAllProjects()
         {
             var projects = _client.Projects.All();
             return projects;
-        } 
-        
+        }
+
+        /// <summary>
+        /// Gets the list of running builds.
+        /// </summary>
+        /// <returns></returns>
         public List<Build> GetListOfRunningBuilds()
         {
             return _client.Builds.ByBuildLocator(BuildLocator.RunningBuilds());
         }
 
+        /// <summary>
+        /// Downloads the configuration.
+        /// </summary>
+        /// <param name="buildConfigId">The build configuration identifier.</param>
+        /// <returns></returns>
         public ArtifactWrapper DownloadConfiguration(string buildConfigId)
         {
             var foundArt =
@@ -40,8 +53,17 @@ namespace Bbr.Euclid.ClientViewerLibrary
             return foundArt;
         }
 
-        public string GetFleetJson(string buildConfigId)
+        /// <summary>
+        /// Gets the database json by identifier.
+        /// </summary>
+        /// <param name="buildConfigId">The build configuration identifier.</param>
+        /// <returns></returns>
+        public string GetDatabaseJsonById(string buildConfigId)
         {
+            if (string.IsNullOrWhiteSpace(buildConfigId))
+            {
+                throw new ArgumentNullException(nameof(buildConfigId));
+            }
             var foundArtifact = _client.Artifacts.ByBuildConfigId(buildConfigId);
             var lastSuccessful = foundArtifact.LastSuccessful();
             string fleet;
@@ -54,6 +76,21 @@ namespace Bbr.Euclid.ClientViewerLibrary
             }
 
             return fleet;
+        }
+
+        /// <summary>
+        /// Gets database json by configuration name.
+        /// </summary>
+        /// <param name="configName">Name of the configuration.</param>
+        /// <returns></returns>
+        public string GetDatabaseJsonByConfigName(string configName)
+        {
+            if (string.IsNullOrWhiteSpace(configName))
+            {
+                throw new ArgumentNullException(nameof(configName));
+            }
+
+            return GetDatabaseJsonById(_client.BuildConfigs.ByConfigurationName(configName).Id);
         }
     }
 }
