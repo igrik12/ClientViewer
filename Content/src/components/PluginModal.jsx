@@ -10,12 +10,12 @@ export default class PluginModal extends Component {
     render() {
         return (
             <div>
-                <Modal basic size="fullscreen" trigger={<div> {this.props.plugin.Identity.Name}</div>}>
+                <Modal basic size="fullscreen" trigger={<div> {this.props.plugin.name}</div>}>
                     <Header icon='info' content='Plugin Description' />
                     <Modal.Content image scrolling>
                         <Modal.Description>
                             <Header>
-                                <span style={{color:"white"}}><h3>{this.props.plugin.Identity.Name}</h3></span>
+                                <span style={{color:"white"}}><h3>{this.props.plugin.name}</h3></span>
                             </Header>
                             <ReactJson
                                 theme="google"

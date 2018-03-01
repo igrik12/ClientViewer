@@ -12,8 +12,8 @@ export default class Plugin extends Component {
     render() {
         const { plugin } = this.props;
         return <ListItem
-            key={plugin.Identity.Name}
-            primaryText={plugin.Identity.Name}
+            key={plugin.name}
+            primaryText={plugin.name}
             rightIcon={<ActionInfo />}
         />
     }

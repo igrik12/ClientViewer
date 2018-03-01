@@ -16,7 +16,6 @@ class FileOpener extends Component {
         var reader = new FileReader();
 
         reader.onload = (file) => {
-            console.log(file.target.result)
         }
         reader.readAsText(files[0]);
     }

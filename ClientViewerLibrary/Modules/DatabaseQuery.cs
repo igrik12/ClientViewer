@@ -16,7 +16,7 @@ namespace Bbr.Euclid.ClientViewerLibrary.Modules
         public DatabaseQuery(IContext context) : base("Clients")
         {
             Get("Get", _ => context.ClientDatabase);
-            Get("Contains/{name}", _ => context.ClientDatabase.ContainsKey((string)_.name));
+            Get("Contains/{name}", _ => context.ClientDatabase.ContainsKey((string) _.name));
             Get("Remove/{name}", _ =>
             {
                 context.ClientDatabase.Remove((string) _.name);
@@ -24,7 +24,7 @@ namespace Bbr.Euclid.ClientViewerLibrary.Modules
             });
             Get("AddClientByName/{name}", _ =>
             {
-                var clientName = (string)_.name;
+                var clientName = (string) _.name;
                 if (!context.ClientDatabase.ContainsKey(clientName))
                 {
                     return true;
@@ -37,14 +37,14 @@ namespace Bbr.Euclid.ClientViewerLibrary.Modules
             {
                 var jsonString = RequestStream.FromStream(Request.Body).AsString();
                 var obj = JsonConvert.DeserializeObject(jsonString);
-                var parsed = JsonConvert.DeserializeObject<ClientBlob>((string)obj);
-                if(!context.ClientDatabase.ContainsKey(parsed.Name))
+                var parsed = JsonConvert.DeserializeObject<ClientBlob>((string) obj);
+                if (!context.ClientDatabase.ContainsKey(parsed.Name))
                 {
-                    context.ClientDatabase.Add(parsed.Name, new List<string>(){});
-                }         
-                return true;
+                    context.ClientDatabase.Add(parsed.Name, parsed.Fleets);
+                    return context.ClientDatabase;
+                }
+                return context.ClientDatabase;
             });
         }
-
     }
 }

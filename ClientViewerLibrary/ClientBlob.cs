@@ -20,6 +20,13 @@ namespace Bbr.Euclid.ClientViewerLibrary
         public string Name => VehicleConstants?.VehicleName ?? string.Empty;
         public ObjectWithVehicleName VehicleConstants { get; set; }
         public List<Product> Products { get; set; } = new List<Product>();
+        public List<Pc> Pcs { get; set; } = new List<Pc>();
+    }
+
+    public class Pc
+    {
+        public string Name => Identity?.Name ?? string.Empty;
+        public ObjectWithName Identity { get; set; }
     }
 
     public class Product
