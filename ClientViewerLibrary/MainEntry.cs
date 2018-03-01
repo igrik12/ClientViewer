@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Timers;
 using Nancy.Hosting.Self;
 using Nancy.Json;
 using Newtonsoft.Json;
@@ -111,7 +107,11 @@ namespace Bbr.Euclid.ClientViewerLibrary
                 {
                     continue;
                 }
-                ClientDatabase.Add(client.Key, fleets);
+
+                if (!ClientDatabase.ContainsKey(client.Key))
+                {
+                    ClientDatabase.Add(client.Key, fleets);
+                }
 
                 if (!_backedUp)
                 {
@@ -137,6 +137,26 @@ namespace Bbr.Euclid.ClientViewerLibrary
                 }
                 ClientDatabase.Add(local.Key, fleets);
             }
+        }
+
+        /// <summary>
+        /// Adds a new client to the database by running a query from CI with a given client name.
+        /// </summary>
+        /// <param name="name">The name of the client.</param>
+        /// <returns></returns>
+        public bool AddClientByName(string name)
+        {
+            var fleets = JsonConvert.DeserializeObject(_query.GetDatabaseJsonByConfigName(name));
+            if (fleets == null)
+            {
+                return false;
+            }
+
+            if (!ClientDatabase.ContainsKey(name))
+            {
+                ClientDatabase.Add(name, fleets);
+            }
+            return true;
         }
 
 

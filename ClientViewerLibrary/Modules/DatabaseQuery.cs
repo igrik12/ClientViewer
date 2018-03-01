@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.IO;
-using System.Linq;
+﻿using System.Dynamic;
 using Nancy;
 using Nancy.Extensions;
 using Nancy.IO;
-using Nancy.Json;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Bbr.Euclid.ClientViewerLibrary.Modules
 {
@@ -22,6 +16,16 @@ namespace Bbr.Euclid.ClientViewerLibrary.Modules
             {
                 context.ClientDatabase.Remove((string) _.name);
                 return ConvertToArrayJson(context);
+            });
+
+            Get("AddClientByName/{clientName}", _ =>
+            {
+                if (context.AddClientByName((string) _.clientName))
+                {
+                    return ConvertToArrayJson(context);
+                }
+                return JsonConvert.SerializeObject(context.ClientDatabase);
+
             });
 
             Post("AddClient/{clientName}", _ =>

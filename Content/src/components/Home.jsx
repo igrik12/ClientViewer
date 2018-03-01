@@ -9,6 +9,7 @@ import FileOpener from './FileOpener.jsx'
 import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
+import AddClientModal from './AddClientModal.jsx';
 
 export default class Home extends Component {
     constructor(props) {
@@ -17,7 +18,8 @@ export default class Home extends Component {
             clients: null,
             toggleMenu: false,
             openClientAddWindow: false,
-            open: false
+            open: false,
+            triggerAddClientModal: false
         }
         this.init = this.init.bind(this);
         this.toggleVisibility = this.toggleVisibility.bind(this);
@@ -26,13 +28,15 @@ export default class Home extends Component {
         this.handleClick = this.handleClick.bind(this);
         this.handleLoadFromFileClick = this.handleLoadFromFileClick.bind(this);
         this.deleteClient = this.deleteClient.bind(this);
+        this.triggerAddClient = this.triggerAddClient.bind(this);
+        this.addClientByName = this.addClientByName.bind(this);
     }
 
 
     init() {
         fetch("Clients/Get").then(response => {
             response.json().then(data => {
-               this.setClients(data);
+                this.setClients(data);
             })
         })
     }
@@ -122,9 +126,38 @@ export default class Home extends Component {
         reader.readAsText(files[0]);
     }
 
+    triggerAddClient() {
+        this.setState({
+            triggerAddClientModal: !this.state.triggerAddClientModal
+        })
+    }
+
+    addClientByName(name) {
+        console.log(name)
+        fetch("Clients/AddClientByName/" + name).catch(error => console.log(error)).then(response => response.json().then(data => {
+            try {
+                var clients = [];
+                var parsed = data.map(c => {
+                    var client = {
+                        name: c.Name,
+                        fleets: c.Fleets
+                    }
+                    clients.push(client)
+                })
+                this.setState({
+                    clients: clients,
+                    triggerAddClientModal: false
+                })
+            } catch (error) {
+                console.log(error)
+            }
+
+        }))
+    }
+
     render() {
 
-        var { clients } = this.state;
+        var { clients, triggerAddClientModal } = this.state;
         var style = {
             marginRight: 40,
             marginTop: 15,
@@ -162,11 +195,12 @@ export default class Home extends Component {
                         >
                             <Menu>
                                 <MenuItem onClick={this.handleLoadFromFileClick} primaryText="Load from file" />
-                                <MenuItem primaryText="Load by name" />
+                                <MenuItem onClick={this.triggerAddClient} primaryText="Load by name" />
                             </Menu>
                         </Popover>
                     </div>
                 </MuiThemeProvider>
+                <AddClientModal open={triggerAddClientModal} close={this.triggerAddClient} addClientByName={this.addClientByName} />
             </div>
         )
     }

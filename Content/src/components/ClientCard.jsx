@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Label, Card, Image, Header } from 'semantic-ui-react'
+import { Label, Card, Image, Header, Icon } from 'semantic-ui-react'
 import ClientCardDescriptor from './ClientCardDescriptor.jsx'
 import Train from 'react-icons/lib/fa/train'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
@@ -91,7 +91,7 @@ export default class ClientCard extends Component {
                         <div>
                             <ClientCardDescriptor fleets={this.props.fleets} />
                         </div>
-                        <Modal size={"mini"} open={triggerDownload} onClose={this.close}>
+                        <Modal size={"mini"} open={triggerDownload} onClose={this.close} closeIcon>
                             <Modal.Header>
                                 Download database
                           </Modal.Header>
@@ -107,7 +107,7 @@ export default class ClientCard extends Component {
                         </Modal>
 
 
-                        <Modal size={"mini"} open={openDelete} onClose={this.closeDelete}>
+                        <Modal size={"mini"} open={openDelete} onClose={this.closeDelete} closeIcon>
                             <Modal.Header>
                                 Delete {this.props.name}
                             </Modal.Header>
