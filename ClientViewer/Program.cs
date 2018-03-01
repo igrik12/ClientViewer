@@ -8,34 +8,34 @@ namespace Bbr.Euclid.ClientViewer
     {
         static void Main(string[] args)
         {
-            //var config = new MainConfiguration()
-            //{
-            //    Clients = new Dictionary<string, List<string>>()
-            //    {
-            //        {
-            //            "Kaneko", new List<string>()
-            //            {
-            //                "Git_Clients_Kaneko"
-            //            }
-            //        },
-            //        {
-            //            "Bombardier", new List<string>()
-            //            {
-            //                "Git_Clients_Bombardier"
-            //            }
-            //        }
-            //    }
-            //};
-
-
             var config = new MainConfiguration()
             {
-                LocalDatabases = new Dictionary<string, List<string>>()
+                Clients = new Dictionary<string, List<string>>()
                 {
-                    {"Bombardier", new List<string>() {"C:\\SourceCode\\ClientViewer\\BombardierDatabase.json"}},
-                    {"Bombardier2", new List<string>() {"C:\\SourceCode\\ClientViewer\\BombardierDatabase.json"}}
+                    {
+                        "Kaneko", new List<string>()
+                        {
+                            "Git_Clients_Kaneko"
+                        }
+                    },
+                    {
+                        "Bombardier", new List<string>()
+                        {
+                            "Git_Clients_Bombardier"
+                        }
+                    }
                 }
             };
+
+
+            //var config = new MainConfiguration()
+            //{
+            //    LocalDatabases = new Dictionary<string, List<string>>()
+            //    {
+            //        {"Bombardier", new List<string>() {"C:\\SourceCode\\ClientViewer\\BombardierDatabase.json"}},
+            //        {"Bombardier2", new List<string>() {"C:\\SourceCode\\ClientViewer\\BombardierDatabase.json"}}
+            //    }
+            //};
 
             HostFactory.Run(x =>
             {
@@ -53,7 +53,6 @@ namespace Bbr.Euclid.ClientViewer
             });
 
 
-            //new MainEntry(config).StartHost();
         }
     }
 }

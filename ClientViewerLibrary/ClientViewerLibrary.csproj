@@ -59,6 +59,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientBlob.cs" />
     <Compile Include="BootStrapper.cs" />
     <Compile Include="MainConfiguration.cs" />
     <Compile Include="MainEntry.cs" />

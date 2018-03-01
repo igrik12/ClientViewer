@@ -122,6 +122,11 @@ namespace Bbr.Euclid.ClientViewerLibrary
             _initialFetch = false;
         }
 
+        //public Dictionary<string,List<string>> AddClientByName(string name)
+        //{
+        //    return _query.GetDatabaseJsonByConfigName(name);
+        //}
+
         /// <summary>
         /// Fetches all clients from local database.Test
         /// </summary>

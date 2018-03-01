@@ -22,20 +22,25 @@ namespace Bbr.Euclid.ClientViewerLibrary.Modules
                 context.ClientDatabase.Remove((string) _.name);
                 return context.ClientDatabase;
             });
+            Get("AddClientByName/{name}", _ =>
+            {
+                var clientName = (string)_.name;
+                if (!context.ClientDatabase.ContainsKey(clientName))
+                {
+                    return true;
+                }
+
+                return false;
+            });
 
             Post("AddClient", _ =>
             {
                 var jsonString = RequestStream.FromStream(Request.Body).AsString();
                 var obj = JsonConvert.DeserializeObject(jsonString);
-                var newClient = (IDictionary<string, object>)context.JavaScriptSerializer.DeserializeObject(obj.ToString());
-                if(!context.ClientDatabase.ContainsKey(newClient["name"].ToString()))
+                var parsed = JsonConvert.DeserializeObject<ClientBlob>((string)obj);
+                if(!context.ClientDatabase.ContainsKey(parsed.Name))
                 {
-
-                    List<object> myDeserializedObjList = ((Nancy.Json.Simple.JsonArray) newClient["fleets"]).ToList();
-
-                    var keys = ((Nancy.Json.Simple.JsonObject) myDeserializedObjList[0]).Keys;
-                    var values = ((Nancy.Json.Simple.JsonObject) myDeserializedObjList[0]).Values;
-                    //context.ClientDatabase.Add(newClient["name"].ToString(), myDeserializedObjList.ToList().Cast<List<>>());
+                    context.ClientDatabase.Add(parsed.Name, new List<string>(){});
                 }         
                 return true;
             });
