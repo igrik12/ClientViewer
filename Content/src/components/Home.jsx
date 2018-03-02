@@ -53,6 +53,9 @@ export default class Home extends Component {
 
     handleLoadFromFileClick(e) {
         this.refs.fileOpener.click();
+        this.setState({
+            open: false
+        })
     }
 
     handleClick = (event) => {
@@ -128,34 +131,32 @@ export default class Home extends Component {
 
     triggerAddClient() {
         this.setState({
-            triggerAddClientModal: !this.state.triggerAddClientModal
+            triggerAddClientModal: !this.state.triggerAddClientModal,
+            open: false
         })
     }
 
     addClientByName(name) {
-        console.log(name)
-        fetch("Clients/AddClientByName/" + name).catch(error => console.log(error)).then(response => response.json().then(data => {
-            try {
-                if (data.indexOf('error') >= 0) {
-                    alert(data);
-                } else {
-                    var clients = [];
-                    var parsed = data.map(c => {
-                        var client = {
-                            name: c.Name,
-                            fleets: c.Fleets
-                        }
-                        clients.push(client)
-                    })
-                    this.setState({
-                        clients: clients,
-                        triggerAddClientModal: false
-                    })
-                }
-            } catch (error) {
-                console.log(error)
+        if (!name) {
+            return;
+        }
+        fetch("Clients/AddClientByName/" + name).then(response => response.json().then(data => {
+            if (data.message) {
+                alert(data.message);
+            } else {
+                var clients = [];
+                var parsed = data.map(c => {
+                    var client = {
+                        name: c.Name,
+                        fleets: c.Fleets
+                    }
+                    clients.push(client)
+                })
+                this.setState({
+                    clients: clients,
+                    triggerAddClientModal: false
+                })
             }
-
         }))
     }
 
@@ -193,6 +194,8 @@ export default class Home extends Component {
                         <Popover
                             open={this.state.open}
                             anchorEl={this.state.anchorEl}
+                            animated={true}
+                            autoCloseWhenOffScree={true}
                             anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
                             targetOrigin={{ horizontal: 'left', vertical: 'top' }}
                             onRequestClose={this.handleRequestClose}

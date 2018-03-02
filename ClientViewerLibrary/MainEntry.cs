@@ -74,19 +74,13 @@ namespace Bbr.Euclid.ClientViewerLibrary
             var uriString = "http://localhost:3579";
             var uri = new Uri(uriString);
 
-            using (_host = new NancyHost(uri, new BootStrapper(this), hostConfigs))
-            {
-                _host.Start();
-                Console.WriteLine("Starting up Client Viewer service.");
-                Console.WriteLine("Your application is running on " + uri);
-                Console.WriteLine("Press any [Enter] to close the host.");
-                Console.ReadLine();
-            }
+            this._host = new NancyHost(uri, new BootStrapper(this), hostConfigs);
+            this._host.Start();
         }
 
         public void Stop()
         {
-            _timer.Stop();
+            _timer.Dispose();
             _host.Stop();
             Console.WriteLine("Stopped Client Viewer service...");
         }

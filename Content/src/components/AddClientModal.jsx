@@ -4,14 +4,10 @@ import { List, ListItem } from 'material-ui/List';
 
 
 export default class AddClientModal extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <div>
-                <Modal size="tiny" open={this.props.open} closeIcon>
+                <Modal size="tiny" open={this.props.open}>
                     <Modal.Header>
                         Add Client
                 </Modal.Header>
