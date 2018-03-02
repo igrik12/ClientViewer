@@ -27,6 +27,6 @@ namespace Bbr.Euclid.ClientViewerLibrary
         JavaScriptSerializer JavaScriptSerializer { get; set; }
         Dictionary<string, object> ClientDatabase { get; set; }
         Dictionary<string, object> BackUpDatabase { get; set; }
-        bool AddClientByName(string name);
+        string AddClientByName(string name);
     }
 }

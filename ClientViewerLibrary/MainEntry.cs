@@ -144,19 +144,25 @@ namespace Bbr.Euclid.ClientViewerLibrary
         /// </summary>
         /// <param name="name">The name of the client.</param>
         /// <returns></returns>
-        public bool AddClientByName(string name)
+        public string AddClientByName(string name)
         {
-            var fleets = JsonConvert.DeserializeObject(_query.GetDatabaseJsonByConfigName(name));
-            if (fleets == null)
+            var fleets = _query.GetDatabaseJsonByConfigName(name);
+
+            if (string.IsNullOrWhiteSpace(fleets) ||fleets.ToLower().Contains("error"))
             {
-                return false;
+                return fleets;
+            }
+            var fleetsDeserialized = JsonConvert.DeserializeObject(fleets);
+            if (fleetsDeserialized == null)
+            {
+                return string.Empty;
             }
 
             if (!ClientDatabase.ContainsKey(name))
             {
-                ClientDatabase.Add(name, fleets);
+                ClientDatabase.Add(name, fleetsDeserialized);
             }
-            return true;
+            return "";
         }
 
 

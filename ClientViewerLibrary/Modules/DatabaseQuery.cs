@@ -20,11 +20,12 @@ namespace Bbr.Euclid.ClientViewerLibrary.Modules
 
             Get("AddClientByName/{clientName}", _ =>
             {
-                if (context.AddClientByName((string) _.clientName))
+                var updated = context.AddClientByName((string) _.clientName);
+                if (!updated.ToLower().Contains("error"))
                 {
                     return ConvertToArrayJson(context);
                 }
-                return JsonConvert.SerializeObject(context.ClientDatabase);
+                return JsonConvert.SerializeObject(updated);
 
             });
 

@@ -136,18 +136,22 @@ export default class Home extends Component {
         console.log(name)
         fetch("Clients/AddClientByName/" + name).catch(error => console.log(error)).then(response => response.json().then(data => {
             try {
-                var clients = [];
-                var parsed = data.map(c => {
-                    var client = {
-                        name: c.Name,
-                        fleets: c.Fleets
-                    }
-                    clients.push(client)
-                })
-                this.setState({
-                    clients: clients,
-                    triggerAddClientModal: false
-                })
+                if (data.indexOf('error') >= 0) {
+                    alert(data);
+                } else {
+                    var clients = [];
+                    var parsed = data.map(c => {
+                        var client = {
+                            name: c.Name,
+                            fleets: c.Fleets
+                        }
+                        clients.push(client)
+                    })
+                    this.setState({
+                        clients: clients,
+                        triggerAddClientModal: false
+                    })
+                }
             } catch (error) {
                 console.log(error)
             }

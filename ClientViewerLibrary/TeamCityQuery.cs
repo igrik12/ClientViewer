@@ -88,7 +88,15 @@ namespace Bbr.Euclid.ClientViewerLibrary
                 throw new ArgumentNullException(nameof(configName));
             }
 
-            return GetDatabaseJsonById(_client.BuildConfigs.ByConfigurationName(configName).Id);
+            try
+            {
+               return GetDatabaseJsonById(_client.BuildConfigs.ByConfigurationName(configName).Id);
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
+
         }
     }
 }
