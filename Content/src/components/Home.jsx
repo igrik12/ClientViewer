@@ -10,6 +10,7 @@ import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import AddClientModal from './AddClientModal.jsx';
+import Dialog from 'material-ui/Dialog';
 var linq = require('mini-linq-js')
 
 export default class Home extends Component {
@@ -139,10 +140,13 @@ export default class Home extends Component {
         })
     }
 
-
     addClientByName(name) {
         if (!name) {
             return;
+        }
+        if(this.state.clients.any(x => x.name.toLowerCase() === name.toLowerCase())){
+           alert("Client with the same name already exists.")
+           return;
         }
         fetch("Clients/AddClientByName/" + name)
             .then(response => response.json()
