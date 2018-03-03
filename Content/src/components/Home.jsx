@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Dimmer, Loader, Image, Segment, Divider, Button} from 'semantic-ui-react'
+import { Dimmer, Loader, Segment, Divider, Button} from 'semantic-ui-react'
 import HomeHeader from './HomeHeader.jsx'
 import HomeSideMenu from './HomeSideMenu.jsx'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -176,7 +176,6 @@ export default class Home extends Component {
                 <Dimmer active>
                     <Loader size='massive'>Loading clients...</Loader>
                 </Dimmer>
-                <Image src='/assets/images/image.png' />
             </Segment></div>
         }
 
