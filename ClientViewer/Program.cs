@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using Bbr.Euclid.ClientViewerLibrary;
 using Topshelf;
 
@@ -21,8 +22,8 @@ namespace Bbr.Euclid.ClientViewer
             {
                 LocalDatabases = new Dictionary<string, string>()
                 {
-                    {"Bombardier", "C:\\SourceCode\\ClientViewer\\BombardierDatabase.json"},
-                    {"Bombardier2", "C:\\SourceCode\\ClientViewer\\BombardierDatabase.json"}
+                    {"Bombardier", Path.Combine(Directory.GetCurrentDirectory(),"BombardierDatabase.json")},
+                    {"BombaClone", Path.Combine(Directory.GetCurrentDirectory(),"BombardierDatabase.json")}
                 }
             };
 

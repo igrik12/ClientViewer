@@ -62,6 +62,9 @@
     <None Include="assets\Databases\JREastDatabase.json" />
     <None Include="assets\Databases\Tokyu.json" />
     <None Include="assets\Databases\TokyuDatabase.json" />
+    <None Include="BombardierDatabase.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

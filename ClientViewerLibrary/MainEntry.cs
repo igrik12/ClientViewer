@@ -140,6 +140,11 @@ namespace Bbr.Euclid.ClientViewerLibrary
         /// <returns></returns>
         public string AddClientByName(string name)
         {
+            //TODO This is temporary for testing with local DB
+            if (_query == null)
+            {
+                return "Error : TeamCityQuery has not been initialised. Probably running local DB";
+            }
             var fleets = _query.GetDatabaseJsonByConfigName(name);
 
             if (string.IsNullOrWhiteSpace(fleets) ||fleets.ToLower().Contains("error"))
