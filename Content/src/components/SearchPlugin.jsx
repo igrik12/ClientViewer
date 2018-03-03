@@ -31,7 +31,7 @@ export default class SearchPlugin extends Component {
 
     resetComponent = () => this.setState({ isLoading: false, results: [], value: '' })
 
-    handleResultSelect = (e, { result }) => this.setState({ value: result.price })
+    handleResultSelect = (e, { result }) => this.setState({ value: result.title.props.plugin.Identity.Name })
 
     handleSearchChange = (e, { value }) => {
         this.setState({ isLoading: true, value })
@@ -58,11 +58,10 @@ export default class SearchPlugin extends Component {
                 placeholder='Search plugin...'
                 aligned="left"
                 loading={isLoading}
-                // onResultSelect={this.handleResultSelect}
+                onResultSelect={this.handleResultSelect}
                 onSearchChange={this.handleSearchChange}
                 results={results}
                 value={value}
-
             />
         )
     }
