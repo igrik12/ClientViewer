@@ -7,10 +7,10 @@ export default class AddClientModal extends Component {
     render() {
         return (
             <div>
-                <Modal size="tiny" open={this.props.open}>
+                <Modal size="mini" open={this.props.open}>
                     <Modal.Content>
                         <b><h3>Add Client</h3></b>
-                        <Input style={{ marginTop: 15 }} ref="newClient" fluid placeholder='Enter client name...' />
+                        <Input icon='users' iconPosition='left' style={{ marginTop: 15 }} ref="newClient" fluid placeholder='Enter client name...' />
                     </Modal.Content>
                     <Modal.Actions>
                         <Button negative onClick={this.props.close}>Cancel</Button>

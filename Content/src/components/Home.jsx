@@ -10,6 +10,7 @@ import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import AddClientModal from './AddClientModal.jsx';
+var linq = require('mini-linq-js')
 
 export default class Home extends Component {
     constructor(props) {
@@ -79,13 +80,15 @@ export default class Home extends Component {
 
     setClients(data) {
         var clients = [];
-        var parsed = data.map(c => {
-            var client = {
-                name: c.Name,
-                fleets: c.Fleets
+        for (var key in data) {
+            if (data.hasOwnProperty(key)) {
+                var client = {
+                    name: key,
+                    fleets: data[key]
+                }
+                clients.push(client)
             }
-            clients.push(client)
-        })
+        }
         this.setState({
             clients: clients
         })
@@ -141,27 +144,31 @@ export default class Home extends Component {
         if (!name) {
             return;
         }
-        fetch("Clients/AddClientByName/" + name).then(response => response.json().then(data => {
-            if (typeof (data) === "string") {
-                alert(data);
-                this.setState({
-                    triggerAddClientModal: false
-                })
-            } else {
-                var clients = [];
-                var parsed = data.map(c => {
-                    var client = {
-                        name: c.Name,
-                        fleets: c.Fleets
+        fetch("Clients/AddClientByName/" + name)
+            .then(response => response.json()
+                .then(data => {
+                    if (typeof (data) === "string") {
+                        alert(data);
+                        this.setState({
+                            triggerAddClientModal: false
+                        })
+                    } else {
+                        var clients = [];
+                        for (var key in data) {
+                            if (data.hasOwnProperty(key)) {
+                                var client = {
+                                    name: key,
+                                    fleets: data[key]
+                                }
+                                clients.push(client)
+                            }
+                        }
+                        this.setState({
+                            clients: clients,
+                            triggerAddClientModal: false
+                        })
                     }
-                    clients.push(client)
-                })
-                this.setState({
-                    clients: clients,
-                    triggerAddClientModal: false
-                })
-            }
-        }))
+                }))
     }
 
     render() {

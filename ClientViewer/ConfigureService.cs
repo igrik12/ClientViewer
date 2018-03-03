@@ -17,9 +17,9 @@ namespace Bbr.Euclid.ClientViewer
                 });
                 //Setup Account that window service use to run.  
                 configure.RunAsLocalSystem();
-                configure.SetDescription("Client-Viewer-SelfHost Service");
-                configure.SetDisplayName("Client-Viewer-SelfHost Service");
-                configure.SetServiceName("Client-Viewer Service");
+                configure.SetDescription("Client-Viewer-SelfHost");
+                configure.SetDisplayName("Client-Viewer-SelfHost");
+                configure.SetServiceName("Client-Viewer");
             });
         }
     }

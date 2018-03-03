@@ -117,6 +117,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
 
             this._host = new NancyHost(uri, new BootStrapper(this), hostConfigs);
             this._host.Start();
+            Console.WriteLine($"Running Client-Viewer on {uriString}");
         }
 
         public void Stop()
