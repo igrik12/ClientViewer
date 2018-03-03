@@ -15,10 +15,10 @@ namespace Bbr.Euclid.ClientViewerLibrary
         private readonly MainConfiguration _config;
         private readonly TeamCityQuery _query;
         private readonly object _lock = new object();
-        private readonly Timer _timer;
+        private Timer _timer;
         private bool _initialFetch = true;
         private NancyHost _host;
-        private bool _backedUp = false;
+        private bool _backedUp;
 
         #endregion
 
@@ -27,6 +27,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
         public JavaScriptSerializer JavaScriptSerializer { get; set; }
         public Dictionary<string, object> ClientDatabase { get; set; }
         public Dictionary<string, object> BackUpDatabase { get; set; }
+        private readonly bool _testMode;
 
         #endregion
 
@@ -41,26 +42,66 @@ namespace Bbr.Euclid.ClientViewerLibrary
             if (config.LocalDatabases?.Count > 0)
             {
                 FetchAllClientsFromLocalDb();
+                _testMode = true;
             }
             else
             {
                 _query = new TeamCityQuery(_config.Host, _config.UserName, _config.Password);
                 FetchAllClients();
+                SetUpdateInterval(10);
+            }
+        }
 
+        public void SetUpdateInterval(int intervalInSeconds)
+        {
+            if (_testMode) return;
+
+            if (intervalInSeconds < 10) intervalInSeconds = 10;
+            if (_timer == null)
+            {
                 _timer = new Timer
                 {
-                    Interval = TimeSpan.FromMinutes(10).TotalMilliseconds
+                    Interval = TimeSpan.FromMinutes(intervalInSeconds).TotalMilliseconds
                 };
                 _timer.Elapsed += (sender, args) =>
                 {
                     lock (_lock)
                     {
-                        FetchAllClients(); 
+                        FetchAllClients();
                         BackUpDatabase = new Dictionary<string, object>(ClientDatabase);
                     }
                 };
                 _timer.Start();
             }
+            else
+            {
+                _timer.Stop();
+                _timer.Interval = intervalInSeconds;
+                _timer.Start();
+            }
+        }
+
+        public Dictionary<string, object> RefreshClientDatabase(string clientName)
+        {
+            // TODO remove after testing
+            if (_testMode)
+            {
+                return ClientDatabase;
+            }
+            if (!ClientDatabase.ContainsKey(clientName)) return ClientDatabase;
+            ClientDatabase[clientName] = JsonConvert.DeserializeObject(_query.GetDatabaseJsonByConfigName(clientName));
+            return ClientDatabase;
+        }
+
+        public Dictionary<string, object> RefreshDatabase()
+        {
+            // TODO remove after testing
+            if (_testMode)
+            {
+                return ClientDatabase;
+            }
+            FetchAllClients();
+            return ClientDatabase;
         }
 
         #endregion
@@ -116,6 +157,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
             _initialFetch = false;
         }
 
+
         /// <summary>
         /// Fetches all clients from local database.Test
         /// </summary>
@@ -125,9 +167,9 @@ namespace Bbr.Euclid.ClientViewerLibrary
             {
                 var fleets = JsonConvert.DeserializeObject(File.ReadAllText(local.Value));
 
-                if(fleets == null)
+                if (fleets == null)
                 {
-                  continue;  
+                    continue;
                 }
                 ClientDatabase.Add(local.Key, fleets);
             }
@@ -147,7 +189,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
             }
             var fleets = _query.GetDatabaseJsonByConfigName(name);
 
-            if (string.IsNullOrWhiteSpace(fleets) ||fleets.ToLower().Contains("error"))
+            if (string.IsNullOrWhiteSpace(fleets) || fleets.ToLower().Contains("error"))
             {
                 return fleets;
             }
@@ -163,7 +205,6 @@ namespace Bbr.Euclid.ClientViewerLibrary
             }
             return "";
         }
-
 
         #endregion
 

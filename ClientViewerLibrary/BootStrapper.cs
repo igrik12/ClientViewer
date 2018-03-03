@@ -28,5 +28,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
         Dictionary<string, object> ClientDatabase { get; set; }
         Dictionary<string, object> BackUpDatabase { get; set; }
         string AddClientByName(string name);
+        void SetUpdateInterval(int intervalInSeconds);
+        Dictionary<string, object> RefreshClientDatabase(string clientName);
     }
 }
