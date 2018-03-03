@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Dimmer, Loader, Image, Segment, Divider, Button } from 'semantic-ui-react'
+import { Dimmer, Loader, Image, Segment, Divider, Button} from 'semantic-ui-react'
 import HomeHeader from './HomeHeader.jsx'
 import HomeSideMenu from './HomeSideMenu.jsx'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -136,6 +136,7 @@ export default class Home extends Component {
         })
     }
 
+
     addClientByName(name) {
         if (!name) {
             return;
@@ -163,6 +164,7 @@ export default class Home extends Component {
     render() {
 
         var { clients, triggerAddClientModal } = this.state;
+
         var style = {
             marginRight: 40,
             marginTop: 15,
@@ -212,7 +214,6 @@ export default class Home extends Component {
         )
     }
 }
-
 
 
 

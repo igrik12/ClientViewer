@@ -7,7 +7,8 @@ import FileDownload from 'material-ui/svg-icons/file/file-download'
 import Delete from 'material-ui/svg-icons/action/delete'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { Button, Modal } from 'semantic-ui-react'
-var fileDownload = require('js-file-download');
+var fileDownload = require('js-file-download')
+import SearchPlugin from './SearchPlugin.jsx'
 
 
 export default class ClientCard extends Component {
@@ -83,7 +84,7 @@ export default class ClientCard extends Component {
                         <Header as='h2' content={this.props.name} />
                     </Card.Header>
                     <Card.Meta style={{ paddingTop: 35 }}>
-                        Number of Fleets: {this.props.fleets.length}
+                        <SearchPlugin fleets={this.props.fleets} />
                     </Card.Meta>
                     <hr />
                     <Card.Description>
