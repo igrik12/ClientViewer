@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Dimmer, Loader, Segment, Divider, Button} from 'semantic-ui-react'
+import { Dimmer, Loader, Segment, Divider, Button } from 'semantic-ui-react'
 import HomeHeader from './HomeHeader.jsx'
 import HomeSideMenu from './HomeSideMenu.jsx'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -142,8 +142,11 @@ export default class Home extends Component {
             return;
         }
         fetch("Clients/AddClientByName/" + name).then(response => response.json().then(data => {
-            if (data.message) {
-                alert(data.message);
+            if (typeof (data) === "string") {
+                alert(data);
+                this.setState({
+                    triggerAddClientModal: false
+                })
             } else {
                 var clients = [];
                 var parsed = data.map(c => {

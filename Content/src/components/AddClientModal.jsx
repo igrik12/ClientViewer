@@ -8,12 +8,9 @@ export default class AddClientModal extends Component {
         return (
             <div>
                 <Modal size="tiny" open={this.props.open}>
-                    <Modal.Header>
-                        Add Client
-                </Modal.Header>
                     <Modal.Content>
-                        <b><p>Add Client Name</p></b>
-                        <Input style={{ marginTop: 5 }} ref="newClient" fluid placeholder='Client Name...' />
+                        <b><h3>Add Client</h3></b>
+                        <Input style={{ marginTop: 15 }} ref="newClient" fluid placeholder='Enter client name...' />
                     </Modal.Content>
                     <Modal.Actions>
                         <Button negative onClick={this.props.close}>Cancel</Button>
