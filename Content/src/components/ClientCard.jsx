@@ -7,9 +7,8 @@ import FileDownload from 'material-ui/svg-icons/file/file-download'
 import Delete from 'material-ui/svg-icons/action/delete'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { Button, Modal } from 'semantic-ui-react'
-var fileDownload = require('js-file-download')
 import SearchPlugin from './SearchPlugin.jsx'
-
+var fileDownload = require('js-file-download')
 
 export default class ClientCard extends Component {
     constructor(props) {
