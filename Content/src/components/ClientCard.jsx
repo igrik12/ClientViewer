@@ -80,11 +80,14 @@ export default class ClientCard extends Component {
                                 <Delete />
                             </FloatingActionButton>
                         </MuiThemeProvider>
-                        <Header as='h2' content={this.props.name} />
+                        <div>
+                            <Header as='h2' content={this.props.name} />
+                        </div>
                     </Card.Header>
-                    <Card.Meta style={{ paddingTop: 35 }}>
+                    <Card.Meta style={{ marginTop: 10}}>
                         <SearchPlugin fleets={this.props.fleets} />
                     </Card.Meta>
+                    <br/>
                     <hr />
                     <Card.Description>
                         <br />

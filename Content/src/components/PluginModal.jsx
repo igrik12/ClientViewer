@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Header, Image, Modal, Grid, Search } from 'semantic-ui-react'
 import { List, ListItem } from 'material-ui/List'
 import ReactJson from 'react-json-view'
-import _ from 'lodash'
 
 
 export default class PluginModal extends Component {
