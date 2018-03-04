@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Dimmer, Loader, Segment, Divider, Button, Icon } from 'semantic-ui-react'
+import { Dimmer, Loader, Segment, Divider, Button, Icon, Popup, List } from 'semantic-ui-react'
 import HomeHeader from './HomeHeader.jsx'
 import HomeSideMenu from './HomeSideMenu.jsx'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -11,6 +11,7 @@ import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import AddClientModal from './AddClientModal.jsx';
 import Dialog from 'material-ui/Dialog';
+import ListItem from 'material-ui/List/ListItem';
 var linq = require('mini-linq-js')
 
 export default class Home extends Component {
@@ -18,7 +19,7 @@ export default class Home extends Component {
         super(props);
         this.state = {
             clients: null,
-            status: null,
+            status: [],
             toggleMenu: false,
             openClientAddWindow: false,
             open: false,
@@ -44,7 +45,6 @@ export default class Home extends Component {
         })
         setInterval(() => {
             fetch("Database/Status").then(response => response.json()).then(status => {
-                console.log(status)
                 this.setState({
                     status: status
                 })
@@ -183,7 +183,7 @@ export default class Home extends Component {
 
     render() {
 
-        var { clients, triggerAddClientModal } = this.state;
+        var { clients, triggerAddClientModal, status } = this.state;
 
         var style = {
             marginRight: 40,
@@ -202,7 +202,15 @@ export default class Home extends Component {
         return (
             <div>
                 <HomeHeader toggle={this.toggleVisibility} />
-                <Divider style={{ marginTop: "20px" }} horizontal><h2>Clients Overview <Icon style={{ marginBottom: 5 }} size="large" name='info circle' /></h2></Divider>
+                <Divider style={{ marginTop: "20px" }} horizontal><h2>Clients Overview <Popup
+                    trigger={<Icon style={{ marginBottom: 5 }} size="large" name='info circle' />}
+                    content={
+                        <List>
+                            <List.Item>Last Refresh: {status[0]}</List.Item>
+                            <List.Item>Next Refresh: {status[1]}</List.Item>
+                            <List.Item>Time Till Refresh: {status[2]}</List.Item>
+                        </List>}
+                /></h2></Divider>
                 <HomeSideMenu
                     clients={this.state.clients}
                     toggled={this.state.toggleMenu}

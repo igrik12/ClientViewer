@@ -124,6 +124,8 @@ namespace Bbr.Euclid.ClientViewerLibrary
             _refreshTimer = new Timer {Interval = TimeSpan.FromSeconds(1).TotalMilliseconds};
             _refreshTimer.Elapsed += (sender, args) =>
             {
+                if(RefreshStatus.TimeTillNextRefresh.TotalMinutes <= 0) RefreshStatus.TimeTillNextRefresh = TimeSpan.Zero;
+
                 RefreshStatus.TimeTillNextRefresh = RefreshStatus.NextRefresh - args.SignalTime;
             };
             _refreshTimer.Start();
