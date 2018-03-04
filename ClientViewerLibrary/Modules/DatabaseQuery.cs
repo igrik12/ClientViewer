@@ -1,4 +1,6 @@
-﻿using System.Dynamic;
+﻿using System;
+using System.Dynamic;
+using System.Linq;
 using Nancy;
 using Nancy.Extensions;
 using Nancy.IO;
@@ -10,19 +12,18 @@ namespace Bbr.Euclid.ClientViewerLibrary.Modules
     {
         public DatabaseQuery(IContext context) : base("Clients")
         {
-            Get("Get", _ => JsonConvert.SerializeObject(context.ClientDatabase));
-            Get("Contains/{name}", _ => context.ClientDatabase.ContainsKey((string) _.name));
+            Get("Get", _ => JsonConvert.SerializeObject(context.ClientWrappers));
             Get("Remove/{name}", _ =>
             {
-                context.ClientDatabase.Remove((string) _.name);
-                return JsonConvert.SerializeObject(context.ClientDatabase);
+                context.ClientWrappers.RemoveAll(x => x.Name.ToLower().Equals(((string)_.name).ToLower()));
+                return JsonConvert.SerializeObject(context.ClientWrappers);
             });
 
             Get("AddClientByName/{clientName}", _ =>
             {
                 var updated = context.AddClientByName((string) _.clientName);
                 return !updated.ToLower().Contains("error")
-                    ? JsonConvert.SerializeObject(context.ClientDatabase)
+                    ? JsonConvert.SerializeObject(context.ClientWrappers)
                     : JsonConvert.SerializeObject(updated);
             });
 
@@ -32,12 +33,14 @@ namespace Bbr.Euclid.ClientViewerLibrary.Modules
                 var fleet = JsonConvert.DeserializeObject(jsonString);
                 var onceMore = JsonConvert.DeserializeObject((string) fleet);
                 var name = (string) _.clientName;
-                if (!context.ClientDatabase.ContainsKey(name))
+
+                if (!context.ClientWrappers.Any(x => x.Name.ToLower().Equals(name.ToLower())))
                 {
-                    context.ClientDatabase.Add(name, onceMore);
-                    return JsonConvert.SerializeObject(context.ClientDatabase);
+                    context.ClientWrappers.Add(new ClientWrapper(name, onceMore, new RefreshStatus(DateTime.Now, DateTime.Now + TimeSpan.FromSeconds(context.RefreshInterval))));
+                    return JsonConvert.SerializeObject(context.ClientWrappers);
                 }
-                return JsonConvert.SerializeObject(context.ClientDatabase);
+
+                return JsonConvert.SerializeObject(context.ClientWrappers);
             });
         }
     }

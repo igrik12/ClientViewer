@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Nancy.Hosting.Self;
 using Nancy.Json;
 using Newtonsoft.Json;
@@ -11,34 +12,32 @@ namespace Bbr.Euclid.ClientViewerLibrary
     public class MainEntry : IContext
     {
         #region variables
-
         private readonly MainConfiguration _config;
         private readonly TeamCityQuery _query;
         private readonly object _lock = new object();
         private Timer _timer;
         private bool _initialFetch = true;
         private NancyHost _host;
-        private bool _backedUp;
-
         #endregion
 
         #region properties
-
-        public JavaScriptSerializer JavaScriptSerializer { get; set; }
-        public Dictionary<string, object> ClientDatabase { get; set; }
-        public Dictionary<string, object> BackUpDatabase { get; set; }
+        public int RefreshInterval { get; set; } = 10;
+        public List<ClientWrapper> ClientWrappers { get; set; }
         private readonly bool _testMode;
-
+        private Timer _refreshTimer;
+        private readonly RefreshStatus _refreshStatus;
         #endregion
 
         #region construction
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainEntry"/> class.
+        /// </summary>
+        /// <param name="config">The configuration.</param>
         public MainEntry(MainConfiguration config)
         {
             _config = config;
-            ClientDatabase = new Dictionary<string, object>();
-            BackUpDatabase = new Dictionary<string, object>();
-            JavaScriptSerializer = new JavaScriptSerializer();
+            ClientWrappers = new List<ClientWrapper>();
+            _refreshStatus = new RefreshStatus(DateTime.Now, DateTime.Now + TimeSpan.FromMinutes(RefreshInterval));
             if (config.LocalDatabases?.Count > 0)
             {
                 FetchAllClientsFromLocalDb();
@@ -50,25 +49,54 @@ namespace Bbr.Euclid.ClientViewerLibrary
                 FetchAllClients();
                 SetUpdateInterval(10);
             }
+
+            StartRefreshTimer();
         }
 
+        /// <summary>
+        /// Starts this instance.
+        /// </summary>
+        public void Start()
+        {
+            var hostConfigs = new HostConfiguration { UrlReservations = { CreateAutomatically = true } };
+
+            var uriString = "http://localhost:8888";
+            var uri = new Uri(uriString);
+
+            _host = new NancyHost(uri, new BootStrapper(this), hostConfigs);
+            _host.Start();
+            Console.WriteLine($"Running Client-Viewer on {uriString}");
+            Console.ReadLine();
+        }
+
+        public void Stop()
+        {
+            _timer.Dispose();
+            _host.Stop();
+            Console.WriteLine("Stopped Client Viewer service...");
+        }
+
+
+        /// <summary>
+        /// Sets the update interval.
+        /// </summary>
+        /// <param name="intervalInSeconds">The interval in seconds.</param>
         public void SetUpdateInterval(int intervalInSeconds)
         {
             if (_testMode) return;
-
-            if (intervalInSeconds < 10) intervalInSeconds = 10;
+            RefreshInterval = intervalInSeconds;
+            if (RefreshInterval < 10) RefreshInterval = 10;
             if (_timer == null)
             {
                 _timer = new Timer
                 {
-                    Interval = TimeSpan.FromMinutes(intervalInSeconds).TotalMilliseconds
+                    Interval = TimeSpan.FromMinutes(RefreshInterval).TotalMilliseconds
                 };
                 _timer.Elapsed += (sender, args) =>
                 {
                     lock (_lock)
                     {
                         FetchAllClients();
-                        BackUpDatabase = new Dictionary<string, object>(ClientDatabase);
                     }
                 };
                 _timer.Start();
@@ -81,51 +109,60 @@ namespace Bbr.Euclid.ClientViewerLibrary
             }
         }
 
-        public Dictionary<string, object> RefreshClientDatabase(string clientName)
+        /// <summary>
+        /// Starts the refresh timer.
+        /// </summary>
+        private void StartRefreshTimer()
         {
-            // TODO remove after testing
-            if (_testMode)
+            _refreshTimer = new Timer {Interval = TimeSpan.FromSeconds(1).TotalMilliseconds};
+            _refreshTimer.Elapsed += (sender, args) =>
             {
-                return ClientDatabase;
-            }
-            if (!ClientDatabase.ContainsKey(clientName)) return ClientDatabase;
-            ClientDatabase[clientName] = JsonConvert.DeserializeObject(_query.GetDatabaseJsonByConfigName(clientName));
-            return ClientDatabase;
+                _refreshStatus.TimeTillNextRefresh =  _refreshStatus.NextRefresh - args.SignalTime;
+            };
+            _refreshTimer.Start();
         }
 
-        public Dictionary<string, object> RefreshDatabase()
+        /// <summary>
+        /// Refreshes the client database.
+        /// </summary>
+        /// <param name="clientName">Name of the client.</param>
+        /// <returns></returns>
+        public List<ClientWrapper> RefreshClientDatabase(string clientName)
         {
             // TODO remove after testing
             if (_testMode)
             {
-                return ClientDatabase;
+                return ClientWrappers;
+            }
+
+            var found = ClientWrappers.FirstOrDefault(x => x.Name.Equals(clientName));
+
+            if (found == null) return ClientWrappers;
+
+            found.Fleets = JsonConvert.DeserializeObject(_query.GetDatabaseJsonByConfigName(clientName));
+
+            return ClientWrappers;
+        }
+
+        /// <summary>
+        /// Refreshes the database.
+        /// </summary>
+        /// <returns></returns>
+        public List<ClientWrapper> RefreshDatabase()
+        {
+            // TODO remove after testing
+            if (_testMode)
+            {
+                return ClientWrappers;
             }
             FetchAllClients();
-            return ClientDatabase;
+            return ClientWrappers;
         }
 
         #endregion
 
         #region methods
 
-        public void Start()
-        {
-            var hostConfigs = new HostConfiguration {UrlReservations = {CreateAutomatically = true}};
-
-            var uriString = "http://localhost:3579";
-            var uri = new Uri(uriString);
-
-            this._host = new NancyHost(uri, new BootStrapper(this), hostConfigs);
-            this._host.Start();
-            Console.WriteLine($"Running Client-Viewer on {uriString}");
-        }
-
-        public void Stop()
-        {
-            _timer.Dispose();
-            _host.Stop();
-            Console.WriteLine("Stopped Client Viewer service...");
-        }
 
         /// <summary>
         /// Fetches all fleets.
@@ -134,7 +171,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
         {
             if (!_initialFetch)
             {
-                ClientDatabase = new Dictionary<string, object>();
+                ClientWrappers = new List<ClientWrapper>();
             }
             foreach (var client in _config.Clients)
             {
@@ -143,17 +180,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
                 {
                     continue;
                 }
-
-                if (!ClientDatabase.ContainsKey(client.Key))
-                {
-                    ClientDatabase.Add(client.Key, fleets);
-                }
-
-                if (!_backedUp)
-                {
-                    BackUpDatabase = new Dictionary<string, object>(ClientDatabase);
-                    _backedUp = true;
-                }
+                ClientWrappers.Add(new ClientWrapper(client.Key, fleets, _refreshStatus));
             }
             _initialFetch = false;
         }
@@ -172,7 +199,8 @@ namespace Bbr.Euclid.ClientViewerLibrary
                 {
                     continue;
                 }
-                ClientDatabase.Add(local.Key, fleets);
+
+                ClientWrappers.Add(new ClientWrapper(local.Key, fleets, _refreshStatus));
             }
         }
 
@@ -200,10 +228,11 @@ namespace Bbr.Euclid.ClientViewerLibrary
                 return string.Empty;
             }
 
-            if (!ClientDatabase.ContainsKey(name))
+            if (ClientWrappers.Any(x => !x.Name.ToLower().Equals(name)))
             {
-                ClientDatabase.Add(name, fleetsDeserialized);
+                ClientWrappers.Add(new ClientWrapper(name, fleets, new RefreshStatus(DateTime.Now, DateTime.Now + TimeSpan.FromSeconds(RefreshInterval))));
             }
+
             return "";
         }
 

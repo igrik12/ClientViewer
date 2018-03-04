@@ -73,7 +73,6 @@ export default class Home extends Component {
     deleteClient(clientName) {
         fetch("Clients/Remove/" + clientName).then(response => {
             response.json().then(data => {
-                console.log(data)
                 this.setClients(data);
             })
         })
@@ -81,18 +80,17 @@ export default class Home extends Component {
 
     setClients(data) {
         var clients = [];
-        for (var key in data) {
-            if (data.hasOwnProperty(key)) {
-                var client = {
-                    name: key,
-                    fleets: data[key]
-                }
-                clients.push(client)
+        data.map(x => {
+            var client = {
+                name: x.Name,
+                fleets: x.Fleets,
+                status: x.RefreshStatus
             }
-        }
+            clients.push(client)
+        });
         this.setState({
             clients: clients
-        })
+        });
     }
 
     handleRequestClose = () => {
@@ -144,9 +142,9 @@ export default class Home extends Component {
         if (!name) {
             return;
         }
-        if(this.state.clients.any(x => x.name.toLowerCase() === name.toLowerCase())){
-           alert("Client with the same name already exists.")
-           return;
+        if (this.state.clients.any(x => x.name.toLowerCase() === name.toLowerCase())) {
+            alert("Client with the same name already exists.")
+            return;
         }
         fetch("Clients/AddClientByName/" + name)
             .then(response => response.json()
@@ -157,16 +155,16 @@ export default class Home extends Component {
                             triggerAddClientModal: false
                         })
                     } else {
+                        console.log(data)
                         var clients = [];
-                        for (var key in data) {
-                            if (data.hasOwnProperty(key)) {
-                                var client = {
-                                    name: key,
-                                    fleets: data[key]
-                                }
-                                clients.push(client)
+                        data.map(x => {
+                            var client = {
+                                name: x.Name,
+                                fleets: x.Fleets,
+                                status: x.RefreshStatus
                             }
-                        }
+                            clients.push(client)
+                        })
                         this.setState({
                             clients: clients,
                             triggerAddClientModal: false

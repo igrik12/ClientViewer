@@ -22,12 +22,13 @@ namespace Bbr.Euclid.ClientViewer
             {
                 LocalDatabases = new Dictionary<string, string>()
                 {
-                    {"Bombardier", Path.Combine(Directory.GetCurrentDirectory(),"BombardierDatabase.json")},
-                    {"BombaClone", Path.Combine(Directory.GetCurrentDirectory(),"BombardierDatabase.json")}
+                    {"Bombardier","C:\\Databases\\BombardierDatabase.json"},
+                    {"BombaClone","C:\\Databases\\BombardierDatabase.json"}
                 }
             };
 
             ConfigureService.Configure(config);
+
         }
     }
 }

@@ -131,9 +131,13 @@ export default class ClientCard extends Component {
                             <FloatingActionButton onClick={this.openDownloadWindow} style={{ float: "right" }} mini={true}>
                                 <FileDownload />
                             </FloatingActionButton>
+                        </MuiThemeProvider>
+                        <MuiThemeProvider>
                             <FloatingActionButton onClick={this.refreshDatabase} style={{ float: "right", marginRight: 6 }} mini={true}>
                                 <Update />
                             </FloatingActionButton>
+                        </MuiThemeProvider>
+                        <MuiThemeProvider>
                             <FloatingActionButton secondary={true} onClick={this.deleteClient} style={{ float: "right", marginRight: 6 }} mini={true}>
                                 <Delete />
                             </FloatingActionButton>

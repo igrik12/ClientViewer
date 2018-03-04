@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.Json;
@@ -6,6 +6,10 @@ using Nancy.TinyIoc;
 
 namespace Bbr.Euclid.ClientViewerLibrary
 {
+    /// <summary>
+    /// The main bootstrapped for the Client Viewer service. 
+    /// </summary>
+    /// <seealso cref="Nancy.DefaultNancyBootstrapper" />
     public class BootStrapper : DefaultNancyBootstrapper
     {
         private readonly IContext _content;
@@ -20,15 +24,5 @@ namespace Bbr.Euclid.ClientViewerLibrary
             base.ApplicationStartup(container, pipelines);
             container.Register(_content);
         }
-    }
-
-    public interface IContext
-    {
-        JavaScriptSerializer JavaScriptSerializer { get; set; }
-        Dictionary<string, object> ClientDatabase { get; set; }
-        Dictionary<string, object> BackUpDatabase { get; set; }
-        string AddClientByName(string name);
-        void SetUpdateInterval(int intervalInSeconds);
-        Dictionary<string, object> RefreshClientDatabase(string clientName);
     }
 }
