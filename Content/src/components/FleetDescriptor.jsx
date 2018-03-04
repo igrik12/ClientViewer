@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Panel from './Panel.jsx'
 import { List, ListItem } from 'material-ui/List';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { Icon } from 'semantic-ui-react'

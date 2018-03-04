@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Label, Card, Header, Icon, Dimmer, Segment, Loader } from 'semantic-ui-react'
+import { Label, Card, Header, Icon, Dimmer, Segment, Loader,Popup, List } from 'semantic-ui-react'
 import FleetDescriptor from './FleetDescriptor.jsx'
 import Train from 'react-icons/lib/fa/train'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
@@ -111,7 +111,7 @@ export default class ClientCard extends Component {
 
     render() {
         const { triggerDownload, openDelete, openRefresh, refreshing } = this.state
-
+        console.log(this.props)
         if (refreshing) {
             return <div>
                 <Modal open={refreshing}>
@@ -143,7 +143,14 @@ export default class ClientCard extends Component {
                             </FloatingActionButton>
                         </MuiThemeProvider>
                         <div>
-                            <Header as='h2' content={this.props.name} />
+                            <Header as='h2' content={<div>{this.props.name} <Popup
+                                trigger={<Icon style={{ marginBottom: 5 }} size="large" name='info circle' />}
+                                content={
+                                    <List>
+                                        <List.Item>Last Refresh:{this.props.status[0]} </List.Item>
+                                        <List.Item>Next Refresh:{this.props.status[1]}</List.Item>
+                                    </List>}
+                            /></div>} />
                         </div>
                     </Card.Header>
                     <Card.Meta style={{ marginTop: 10 }}>

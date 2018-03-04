@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { Dimmer, Loader, Segment, Divider, Button, Icon, Popup, List } from 'semantic-ui-react'
+import { Dimmer, Loader, Segment, Divider, Button, Icon, Popup, List, Card } from 'semantic-ui-react'
 import HomeHeader from './HomeHeader.jsx'
-import HomeSideMenu from './HomeSideMenu.jsx'
 import RaisedButton from 'material-ui/RaisedButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
@@ -12,6 +11,7 @@ import MenuItem from 'material-ui/MenuItem';
 import AddClientModal from './AddClientModal.jsx';
 import Dialog from 'material-ui/Dialog';
 import ListItem from 'material-ui/List/ListItem';
+import ClientCard from './ClientCard.jsx'
 var linq = require('mini-linq-js')
 
 export default class Home extends Component {
@@ -29,7 +29,6 @@ export default class Home extends Component {
         this.toggleVisibility = this.toggleVisibility.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleRequestClose = this.handleRequestClose.bind(this);
-        this.handleClick = this.handleClick.bind(this);
         this.handleLoadFromFileClick = this.handleLoadFromFileClick.bind(this);
         this.deleteClient = this.deleteClient.bind(this);
         this.triggerAddClient = this.triggerAddClient.bind(this);
@@ -126,9 +125,14 @@ export default class Home extends Component {
     }
 
 
-    handleChange(files) {
+    addClientFromFile(files) {
         var reader = new FileReader();
         var clientName = files[0].name.replace('.json', '');
+        console.log(clientName);
+        if (this.state.clients.any(x => x.name.toLowerCase() === clientName.toLowerCase())) {
+            alert("Client with the same name already exists.")
+            return;
+        }
         reader.onload = (file) => {
             let newClient = JSON.parse(file.target.result);
 
@@ -211,14 +215,22 @@ export default class Home extends Component {
                             <List.Item>Time Till Refresh: {status[2]}</List.Item>
                         </List>}
                 /></h2></Divider>
-                <HomeSideMenu
-                    clients={this.state.clients}
-                    toggled={this.state.toggleMenu}
-                    deleteClient={this.deleteClient}
-                />
+                <Segment style={{ background: "#FFFFFF" }} basic>
+                    <Card.Group>
+                        {clients.map((client) => {
+                            return <ClientCard
+                                name={client.name}
+                                fleets={client.fleets}
+                                status = {client.status.RefreshBlob}
+                                key={client.name}
+                                deleteClient={this.deleteClient}/>
+                        })}
+                    </Card.Group>
+                </Segment>
+
                 <MuiThemeProvider>
                     <div>
-                        <input type="file" id="file" accept=".json" ref="fileOpener" onChange={(e) => this.handleChange(e.target.files)} style={{ display: "none" }} />
+                        <input type="file" id="file" accept=".json" ref="fileOpener" onChange={(e) => this.addClientFromFile(e.target.files)} style={{ display: "none" }} />
                         <RaisedButton onClick={this.handleClick} label="Add Client" primary={true} style={style} />
                         <Popover
                             open={this.state.open}

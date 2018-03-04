@@ -43,8 +43,10 @@ namespace Bbr.Euclid.ClientViewerLibrary
         {
             _config = config;
             ClientWrappers = new List<ClientWrapper>();
-            RefreshStatus = new RefreshStatus(DateTime.Now.Truncate(TimeSpan.FromSeconds(1)),
-                DateTime.Now.Truncate(TimeSpan.FromSeconds(1)) + TimeSpan.FromMinutes(RefreshInterval));
+            RefreshStatus = new RefreshStatus(DateTime.Now, DateTime.Now + TimeSpan.FromMinutes(RefreshInterval))
+            {
+                TimeTillNextRefresh = DateTime.Now + TimeSpan.FromMinutes(RefreshInterval) - DateTime.Now
+            };
             if (config.LocalDatabases?.Count > 0)
             {
                 FetchAllClientsFromLocalDb();
@@ -124,7 +126,12 @@ namespace Bbr.Euclid.ClientViewerLibrary
             _refreshTimer = new Timer {Interval = TimeSpan.FromSeconds(1).TotalMilliseconds};
             _refreshTimer.Elapsed += (sender, args) =>
             {
-                if(RefreshStatus.TimeTillNextRefresh.TotalMinutes <= 0) RefreshStatus.TimeTillNextRefresh = TimeSpan.Zero;
+                if (RefreshStatus.TimeTillNextRefresh.TotalMinutes <= 0)
+                {
+                    RefreshStatus.LastRefresh = RefreshStatus.NextRefresh;
+                    RefreshStatus.NextRefresh += TimeSpan.FromMinutes(RefreshInterval);
+                    RefreshStatus.TimeTillNextRefresh = TimeSpan.Zero;
+                }
 
                 RefreshStatus.TimeTillNextRefresh = RefreshStatus.NextRefresh - args.SignalTime;
             };
@@ -239,7 +246,8 @@ namespace Bbr.Euclid.ClientViewerLibrary
             if (ClientWrappers.Any(x => !x.Name.ToLower().Equals(name)))
             {
                 ClientWrappers.Add(new ClientWrapper(name, fleets,
-                    new RefreshStatus(DateTime.Now.Truncate(TimeSpan.FromSeconds(1)), DateTime.Now.Truncate(TimeSpan.FromSeconds(1)) + TimeSpan.FromSeconds(RefreshInterval))));
+                    new RefreshStatus(DateTime.Now.Truncate(TimeSpan.FromSeconds(1)),
+                        DateTime.Now.Truncate(TimeSpan.FromSeconds(1)) + TimeSpan.FromSeconds(RefreshInterval))));
             }
 
             return "";
