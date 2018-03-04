@@ -14,7 +14,7 @@ namespace Bbr.Euclid.ClientViewer.Test
         [Test]
         public void FetchClientsReturnsThree()
         {
-            //var dbLoader = new DatabaseQuery();
+            //var dbLoader = new DatabaseManager();
             //var result = dbLoader.FetchClients();
             //Assert.AreEqual(3, result.Count());
         }

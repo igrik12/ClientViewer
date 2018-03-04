@@ -7,7 +7,6 @@ namespace Bbr.Euclid.ClientViewerLibrary.Modules
         public ViewsModule()
         {
             Get("/", parameters => View["index"]);
-            Get("/clientpage", parameters => View["clientpage"]);
         }
     }
 }

@@ -67,7 +67,6 @@
     <Compile Include="IContext.cs" />
     <Compile Include="MainConfiguration.cs" />
     <Compile Include="MainEntry.cs" />
-    <Compile Include="Modules\DatabaseQuery.cs" />
     <Compile Include="Modules\DatabaseManager.cs" />
     <Compile Include="Modules\ViewsModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

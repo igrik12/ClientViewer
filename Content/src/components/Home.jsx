@@ -36,7 +36,7 @@ export default class Home extends Component {
 
 
     init() {
-        fetch("Clients/Get").then(response => {
+        fetch("Database/Get").then(response => {
             response.json().then(data => {
                 this.setClients(data);
             })
@@ -71,7 +71,7 @@ export default class Home extends Component {
     };
 
     deleteClient(clientName) {
-        fetch("Clients/Remove/" + clientName).then(response => {
+        fetch("Database/Remove/" + clientName).then(response => {
             response.json().then(data => {
                 this.setClients(data);
             })
@@ -125,7 +125,7 @@ export default class Home extends Component {
 
             var toSend = JSON.stringify(newClient);
 
-            this.postData("Clients/AddClient/" + clientName, file.target.result).then(response => response.json().then(data => this.setClients(data)))
+            this.postData("Database/AddClient/" + clientName, file.target.result).then(response => response.json().then(data => this.setClients(data)))
 
         };
         reader.readAsText(files[0]);
@@ -146,7 +146,7 @@ export default class Home extends Component {
             alert("Client with the same name already exists.")
             return;
         }
-        fetch("Clients/AddClientByName/" + name)
+        fetch("Database/AddClientByName/" + name)
             .then(response => response.json()
                 .then(data => {
                     if (typeof (data) === "string") {
@@ -155,7 +155,6 @@ export default class Home extends Component {
                             triggerAddClientModal: false
                         })
                     } else {
-                        console.log(data)
                         var clients = [];
                         data.map(x => {
                             var client = {
