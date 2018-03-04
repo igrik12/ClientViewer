@@ -12,5 +12,6 @@ namespace Bbr.Euclid.ClientViewerLibrary
         void SetUpdateInterval(int intervalInSeconds);
         List<ClientWrapper> RefreshClientDatabase(string clientName);
         int RefreshInterval { get; set; }
+        RefreshStatus RefreshStatus { get; set; }
     }
 }

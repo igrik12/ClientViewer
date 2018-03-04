@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Sidebar, Segment, Menu, Icon, Divider } from 'semantic-ui-react'
+import { Sidebar, Segment, Menu, Icon, Divider,Sticky } from 'semantic-ui-react'
 import ClientCards from './ClientCards.jsx'
 import { statusColor } from './StatusColors.jsx'
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -87,11 +87,12 @@ export default class HomeSideMenu extends Component {
             marginLeft: 180,
             marginTop: 5
         };
+        const { contextRef } = this.state
         return (
             <div>
                 <Segment style={{ background: "#FFFFFF" }} basic>
                     <ClientCards deleteClient={this.props.deleteClient} clients={this.props.clients} clientStatus={this.state.clientStatus} />
-                </Segment>               
+                </Segment>
             </div>
         )
     }

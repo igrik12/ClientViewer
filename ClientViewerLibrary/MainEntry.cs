@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Bbr.Euclid.ClientViewerLibrary.Extensions;
 using Nancy.Hosting.Self;
 using Nancy.Json;
 using Newtonsoft.Json;
@@ -12,23 +13,28 @@ namespace Bbr.Euclid.ClientViewerLibrary
     public class MainEntry : IContext
     {
         #region variables
+
         private readonly MainConfiguration _config;
         private readonly TeamCityQuery _query;
         private readonly object _lock = new object();
         private Timer _timer;
         private bool _initialFetch = true;
         private NancyHost _host;
+
         #endregion
 
         #region properties
+
         public int RefreshInterval { get; set; } = 10;
         public List<ClientWrapper> ClientWrappers { get; set; }
         private readonly bool _testMode;
         private Timer _refreshTimer;
-        private readonly RefreshStatus _refreshStatus;
+        public RefreshStatus RefreshStatus { get; set; }
+
         #endregion
 
         #region construction
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MainEntry"/> class.
         /// </summary>
@@ -37,7 +43,8 @@ namespace Bbr.Euclid.ClientViewerLibrary
         {
             _config = config;
             ClientWrappers = new List<ClientWrapper>();
-            _refreshStatus = new RefreshStatus(DateTime.Now, DateTime.Now + TimeSpan.FromMinutes(RefreshInterval));
+            RefreshStatus = new RefreshStatus(DateTime.Now.Truncate(TimeSpan.FromSeconds(1)),
+                DateTime.Now.Truncate(TimeSpan.FromSeconds(1)) + TimeSpan.FromMinutes(RefreshInterval));
             if (config.LocalDatabases?.Count > 0)
             {
                 FetchAllClientsFromLocalDb();
@@ -58,7 +65,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
         /// </summary>
         public void Start()
         {
-            var hostConfigs = new HostConfiguration { UrlReservations = { CreateAutomatically = true } };
+            var hostConfigs = new HostConfiguration {UrlReservations = {CreateAutomatically = true}};
 
             var uriString = "http://localhost:8888";
             var uri = new Uri(uriString);
@@ -117,7 +124,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
             _refreshTimer = new Timer {Interval = TimeSpan.FromSeconds(1).TotalMilliseconds};
             _refreshTimer.Elapsed += (sender, args) =>
             {
-                _refreshStatus.TimeTillNextRefresh =  _refreshStatus.NextRefresh - args.SignalTime;
+                RefreshStatus.TimeTillNextRefresh = RefreshStatus.NextRefresh - args.SignalTime;
             };
             _refreshTimer.Start();
         }
@@ -163,7 +170,6 @@ namespace Bbr.Euclid.ClientViewerLibrary
 
         #region methods
 
-
         /// <summary>
         /// Fetches all fleets.
         /// </summary>
@@ -180,7 +186,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
                 {
                     continue;
                 }
-                ClientWrappers.Add(new ClientWrapper(client.Key, fleets, _refreshStatus));
+                ClientWrappers.Add(new ClientWrapper(client.Key, fleets, RefreshStatus));
             }
             _initialFetch = false;
         }
@@ -200,7 +206,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
                     continue;
                 }
 
-                ClientWrappers.Add(new ClientWrapper(local.Key, fleets, _refreshStatus));
+                ClientWrappers.Add(new ClientWrapper(local.Key, fleets, RefreshStatus));
             }
         }
 
@@ -230,7 +236,8 @@ namespace Bbr.Euclid.ClientViewerLibrary
 
             if (ClientWrappers.Any(x => !x.Name.ToLower().Equals(name)))
             {
-                ClientWrappers.Add(new ClientWrapper(name, fleets, new RefreshStatus(DateTime.Now, DateTime.Now + TimeSpan.FromSeconds(RefreshInterval))));
+                ClientWrappers.Add(new ClientWrapper(name, fleets,
+                    new RefreshStatus(DateTime.Now.Truncate(TimeSpan.FromSeconds(1)), DateTime.Now.Truncate(TimeSpan.FromSeconds(1)) + TimeSpan.FromSeconds(RefreshInterval))));
             }
 
             return "";

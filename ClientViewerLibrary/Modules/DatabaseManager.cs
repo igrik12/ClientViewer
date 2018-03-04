@@ -18,6 +18,7 @@ namespace Bbr.Euclid.ClientViewerLibrary.Modules
         public DatabaseManager(IContext context) : base("Database")
         {
             Get("Get", _ => JsonConvert.SerializeObject(context.ClientWrappers));
+            Get("Status", _ => JsonConvert.SerializeObject(context.RefreshStatus.RefreshBlob));
             Get("Remove/{name}", _ =>
             {
                 context.ClientWrappers.RemoveAll(x => x.Name.ToLower().Equals(((string) _.name).ToLower()));

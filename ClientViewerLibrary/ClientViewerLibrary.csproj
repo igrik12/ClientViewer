@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="BootStrapper.cs" />
     <Compile Include="ClientWrapper.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="IContext.cs" />
     <Compile Include="MainConfiguration.cs" />
     <Compile Include="MainEntry.cs" />

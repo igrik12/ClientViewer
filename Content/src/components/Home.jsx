@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Dimmer, Loader, Segment, Divider, Button } from 'semantic-ui-react'
+import { Dimmer, Loader, Segment, Divider, Button, Icon } from 'semantic-ui-react'
 import HomeHeader from './HomeHeader.jsx'
 import HomeSideMenu from './HomeSideMenu.jsx'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -18,6 +18,7 @@ export default class Home extends Component {
         super(props);
         this.state = {
             clients: null,
+            status: null,
             toggleMenu: false,
             openClientAddWindow: false,
             open: false,
@@ -41,6 +42,14 @@ export default class Home extends Component {
                 this.setClients(data);
             })
         })
+        setInterval(() => {
+            fetch("Database/Status").then(response => response.json()).then(status => {
+                console.log(status)
+                this.setState({
+                    status: status
+                })
+            })
+        }, 1000)
     }
 
     componentDidMount() {
@@ -193,7 +202,7 @@ export default class Home extends Component {
         return (
             <div>
                 <HomeHeader toggle={this.toggleVisibility} />
-                <Divider style={{ marginTop: "20px" }} horizontal><h2>Clients Overview</h2></Divider>
+                <Divider style={{ marginTop: "20px" }} horizontal><h2>Clients Overview <Icon style={{ marginBottom: 5 }} size="large" name='info circle' /></h2></Divider>
                 <HomeSideMenu
                     clients={this.state.clients}
                     toggled={this.state.toggleMenu}
