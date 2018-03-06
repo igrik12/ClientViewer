@@ -28,7 +28,7 @@ namespace Bbr.Euclid.ClientViewerLibrary.Modules
             Get("AddClientByName/{clientName}", _ =>
             {
                 var updated = context.AddClientByName((string) _.clientName);
-                return !updated.ToLower().Contains("error")
+                return !updated.ToLower().Contains("error") || !string.IsNullOrWhiteSpace(updated)
                     ? JsonConvert.SerializeObject(context.ClientWrappers)
                     : JsonConvert.SerializeObject(updated);
             });

@@ -62,6 +62,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
             {
                 throw new ArgumentNullException(nameof(buildConfigId));
             }
+
             var foundArtifact = _client.Artifacts.ByBuildConfigId(buildConfigId);
             var lastSuccessful = foundArtifact.LastSuccessful();
             string fleet;
@@ -90,13 +91,15 @@ namespace Bbr.Euclid.ClientViewerLibrary
 
             try
             {
-               return GetDatabaseJsonById(_client.BuildConfigs.ByConfigurationName(configName).Id);
+                var found = _client.BuildConfigs.ByConfigurationName(configName);
+                return found == null
+                    ? $"Error : Failed to find configuration for {configName}"
+                    : GetDatabaseJsonById(found.Id);
             }
             catch (Exception e)
             {
                 return e.Message;
             }
-
         }
     }
 }

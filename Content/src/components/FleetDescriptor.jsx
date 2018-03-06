@@ -35,7 +35,6 @@ export default class FleetDescriptor extends Component {
     }
 
     handleRequestClose = () => {
-        console.log("Hello")
         this.setState({
             openPcs: false,
         });

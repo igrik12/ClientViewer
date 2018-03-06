@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Dimmer, Loader, Segment, Divider, Button, Icon, Popup, List, Card } from 'semantic-ui-react'
+import { Dimmer, Loader, Segment, Divider, Button, Icon, Popup, List, Card, Modal } from 'semantic-ui-react'
 import HomeHeader from './HomeHeader.jsx'
 import RaisedButton from 'material-ui/RaisedButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
@@ -23,7 +23,8 @@ export default class Home extends Component {
             toggleMenu: false,
             openClientAddWindow: false,
             open: false,
-            triggerAddClientModal: false
+            triggerAddClientModal: false,
+            adding: false
         }
         this.init = this.init.bind(this);
         this.toggleVisibility = this.toggleVisibility.bind(this);
@@ -128,7 +129,6 @@ export default class Home extends Component {
     addClientFromFile(files) {
         var reader = new FileReader();
         var clientName = files[0].name.replace('.json', '');
-        console.log(clientName);
         if (this.state.clients.any(x => x.name.toLowerCase() === clientName.toLowerCase())) {
             alert("Client with the same name already exists.")
             return;
@@ -160,34 +160,39 @@ export default class Home extends Component {
             return;
         }
         fetch("Database/AddClientByName/" + name)
-            .then(response => response.json()
-                .then(data => {
-                    if (typeof (data) === "string") {
-                        alert(data);
-                        this.setState({
-                            triggerAddClientModal: false
-                        })
-                    } else {
-                        var clients = [];
-                        data.map(x => {
-                            var client = {
-                                name: x.Name,
-                                fleets: x.Fleets,
-                                status: x.RefreshStatus
-                            }
-                            clients.push(client)
-                        })
-                        this.setState({
-                            clients: clients,
-                            triggerAddClientModal: false
-                        })
-                    }
-                }))
+            .then(response => response.json())
+            .then(data => {            
+                if (typeof (data) === "string") {
+                    this.setState({
+                        triggerAddClientModal: false,
+                        adding: false
+                    })
+                } else {
+                    var clients = [];
+
+                    data.map(x => {
+                        var client = {
+                            name: x.Name,
+                            fleets: x.Fleets,
+                            status: x.RefreshStatus
+                        }
+                        clients.push(client)
+                    })
+                    this.setState({
+                        clients: clients,
+                        triggerAddClientModal: false,
+                        adding: false
+                    })
+                }
+            })
+        this.setState({
+            adding: true
+        })
     }
 
     render() {
 
-        var { clients, triggerAddClientModal, status } = this.state;
+        var { clients, triggerAddClientModal, status, adding } = this.state;
 
         var style = {
             marginRight: 40,
@@ -195,14 +200,25 @@ export default class Home extends Component {
             float: "right"
         }
 
-        if (!this.state.clients) {
-            return <div> <Segment>
-                <Dimmer active>
-                    <Loader size='massive'>Loading clients...</Loader>
-                </Dimmer>
-            </Segment></div>
+        if (!clients) {
+            return <div>
+                <Modal open={true}>
+                    <Dimmer active>
+                        <Loader size='massive'>Loading clients...</Loader>
+                    </Dimmer>
+                </Modal>
+            </div>
         }
 
+        if (adding) {
+            return <div>
+                <Modal size="large" open={true}>
+                    <Dimmer active>
+                        <Loader size='massive'>Adding new client...</Loader>
+                    </Dimmer>
+                </Modal>
+            </div>
+        }
         return (
             <div>
                 <HomeHeader toggle={this.toggleVisibility} />
@@ -221,9 +237,9 @@ export default class Home extends Component {
                             return <ClientCard
                                 name={client.name}
                                 fleets={client.fleets}
-                                status = {client.status.RefreshBlob}
+                                status={client.status.RefreshBlob}
                                 key={client.name}
-                                deleteClient={this.deleteClient}/>
+                                deleteClient={this.deleteClient} />
                         })}
                     </Card.Group>
                 </Segment>

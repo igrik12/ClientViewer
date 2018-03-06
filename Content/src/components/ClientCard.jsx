@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Label, Card, Header, Icon, Dimmer, Segment, Loader,Popup, List } from 'semantic-ui-react'
+import { Label, Card, Header, Icon, Dimmer, Segment, Loader, Popup, List } from 'semantic-ui-react'
 import FleetDescriptor from './FleetDescriptor.jsx'
 import Train from 'react-icons/lib/fa/train'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
@@ -16,7 +16,14 @@ var linq = require('mini-linq-js')
 export default class ClientCard extends Component {
     constructor(props) {
         super(props);
-        this.state = { open: false, triggerDownload: false, openDelete: false, openRefresh: false, refreshing: false, fleets: [] }
+        this.state = {
+            open: false,
+            triggerDownload: false,
+            openDelete: false,
+            openRefresh: false,
+            refreshing: false,
+            fleets: []
+        }
         this.open = this.open.bind(this);
         this.openDownloadWindow = this.openDownloadWindow.bind(this);
         this.close = this.close.bind(this);
@@ -110,9 +117,9 @@ export default class ClientCard extends Component {
 
 
     render() {
-        const { triggerDownload, openDelete, openRefresh, refreshing } = this.state
-        console.log(this.props)
-        if (refreshing) {
+        const { triggerDownload, openDelete, openRefresh, refreshing} = this.state;
+
+        if (refreshing || this.props.adding) {
             return <div>
                 <Modal open={refreshing}>
                     <Dimmer active>

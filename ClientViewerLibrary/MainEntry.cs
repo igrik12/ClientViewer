@@ -25,7 +25,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
 
         #region properties
 
-        public int RefreshInterval { get; set; } = 10;
+        public int RefreshInterval { get; set; }
         public List<ClientWrapper> ClientWrappers { get; set; }
         private readonly bool _testMode;
         private Timer _refreshTimer;
@@ -56,7 +56,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
             {
                 _query = new TeamCityQuery(_config.Host, _config.UserName, _config.Password);
                 FetchAllClients();
-                SetUpdateInterval(10);
+                SetUpdateInterval(60);
             }
 
             StartRefreshTimer();
@@ -171,6 +171,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
             {
                 return ClientWrappers;
             }
+
             FetchAllClients();
             return ClientWrappers;
         }
@@ -186,8 +187,9 @@ namespace Bbr.Euclid.ClientViewerLibrary
         {
             if (!_initialFetch)
             {
-                ClientWrappers = new List<ClientWrapper>();
+                ClientWrappers.RemoveAll(x => _config.Clients.ContainsKey(x.Name));
             }
+
             foreach (var client in _config.Clients)
             {
                 var fleets = JsonConvert.DeserializeObject(_query.GetDatabaseJsonById(client.Value));
@@ -195,8 +197,10 @@ namespace Bbr.Euclid.ClientViewerLibrary
                 {
                     continue;
                 }
+
                 ClientWrappers.Add(new ClientWrapper(client.Key, fleets, RefreshStatus));
             }
+
             _initialFetch = false;
         }
 
@@ -231,23 +235,24 @@ namespace Bbr.Euclid.ClientViewerLibrary
             {
                 return "Error : TeamCityQuery has not been initialised. Probably running local DB";
             }
-            var fleets = _query.GetDatabaseJsonByConfigName(name);
 
-            if (string.IsNullOrWhiteSpace(fleets) || fleets.ToLower().Contains("error"))
+            var retrieved = _query.GetDatabaseJsonByConfigName(name);
+            if (retrieved.ToLower().Contains("error"))
             {
-                return fleets;
-            }
-            var fleetsDeserialized = JsonConvert.DeserializeObject(fleets);
-            if (fleetsDeserialized == null)
-            {
-                return string.Empty;
+                return $"Error : Failed to find {name} client .";
             }
 
-            if (ClientWrappers.Any(x => !x.Name.ToLower().Equals(name)))
+            var fleets = JsonConvert.DeserializeObject(retrieved);
+            if (fleets == null)
+            {
+                return $"Error : Failed to retrieve {name} database from TeamCity";
+            }
+
+            if (!ClientWrappers.Any(x => x.Name.ToLower().Equals(name)))
             {
                 ClientWrappers.Add(new ClientWrapper(name, fleets,
-                    new RefreshStatus(DateTime.Now.Truncate(TimeSpan.FromSeconds(1)),
-                        DateTime.Now.Truncate(TimeSpan.FromSeconds(1)) + TimeSpan.FromSeconds(RefreshInterval))));
+                    new RefreshStatus(RefreshStatus.LastRefresh,
+                        RefreshStatus.NextRefresh)));
             }
 
             return "";
