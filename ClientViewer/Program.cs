@@ -13,8 +13,8 @@ namespace Bbr.Euclid.ClientViewer
             {
                 Clients = new Dictionary<string, string>()
                 {
-                    {"Kaneko", "Git_Clients_Kaneko"},
-                    //{"Bombardier", "Git_Clients_Bombardier"}
+                    {"Kaneko", "Kaneko"},
+                    {"Bombardier", "Bombardier"}
                 }
             };
 

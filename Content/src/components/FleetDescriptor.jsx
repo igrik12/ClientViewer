@@ -54,8 +54,8 @@ export default class FleetDescriptor extends Component {
                     onRequestClose={that.handlePcToggle}
                 >
                     <Menu>
-                        {this.state.pcs && this.state.pcs.map(pc => {
-                            return <MenuItem key={pc.Identity.Name} primaryText={pc.Identity.Name} />
+                        {this.state.pcs && this.state.pcs.map((pc,i) => {
+                            return <MenuItem key={pc.Identity.Name} primaryText={"PC: " + pc.Identity.Name} />
                         })}
                     </Menu>
                 </Popover>
@@ -65,7 +65,7 @@ export default class FleetDescriptor extends Component {
                         leftIcon={<Icon color="black" name='user circle' size='large' />}
                         nestedItems={fleet.Vehicles.map(function (vehicle, i) {
                             return <ListItem key={i}
-                                primaryText={vehicle.Identity.Name}
+                                primaryText={<div>{vehicle.Identity.Name}<Icon style={{marginBottom:5, marginLeft:10}} color="blue" name='info' size='large' /></div>}
                                 leftIcon={<Icon color="blue" name='train' size='large' />}
                                 onClick={(event) => that.handlePcToggle(event, vehicle.Pcs)}
                                 nestedItems={vehicle.Products.map(function (product, i) {

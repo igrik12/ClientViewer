@@ -151,7 +151,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
                 return ClientWrappers;
             }
 
-            var found = ClientWrappers.FirstOrDefault(x => x.Name.Equals(clientName));
+            var found = ClientWrappers.FirstOrDefault(x => x.Name.ToLower().Equals(clientName.ToLower()));
 
             if (found == null) return ClientWrappers;
 
@@ -192,7 +192,15 @@ namespace Bbr.Euclid.ClientViewerLibrary
 
             foreach (var client in _config.Clients)
             {
-                var fleets = JsonConvert.DeserializeObject(_query.GetDatabaseJsonById(client.Value));
+                var found = _query.GetDatabaseJsonByConfigName(client.Value);
+
+                if (found.ToLower().Contains("error"))
+                {
+                    continue;;
+                }
+
+                var fleets = JsonConvert.DeserializeObject(found);
+
                 if (fleets == null)
                 {
                     continue;

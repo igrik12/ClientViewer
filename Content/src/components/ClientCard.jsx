@@ -93,11 +93,11 @@ export default class ClientCard extends Component {
             .then(response => response.json())
             .then(data => {
                 setTimeout(() => {
-                    var found = data[this.props.name];
+                    var found = data.firstOrDefault(x => x.Name.toLowerCase() === this.props.name.toLowerCase());
 
                     if (found) {
                         this.setState({
-                            fleets: found,
+                            fleets: found.Fleets,
                             refreshing: false,
                             openRefresh: false
                         })
@@ -119,7 +119,7 @@ export default class ClientCard extends Component {
     render() {
         const { triggerDownload, openDelete, openRefresh, refreshing} = this.state;
 
-        if (refreshing || this.props.adding) {
+        if (refreshing) {
             return <div>
                 <Modal open={refreshing}>
                     <Dimmer active>
