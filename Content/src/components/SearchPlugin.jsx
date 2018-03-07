@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Search, Label } from 'semantic-ui-react';
+import { Search} from 'semantic-ui-react';
 import PluginModal from './PluginModal.jsx';
-var linq = require('mini-linq-js')
+
+const linq = require('mini-linq-js');
 
 export default class SearchPlugin extends Component {
     constructor(props) {
@@ -29,30 +30,32 @@ export default class SearchPlugin extends Component {
         })
     }
 
-    resetComponent = () => this.setState({ isLoading: false, results: [], value: '' })
+    resetComponent = () => this.setState({ isLoading: false, results: [], value: '' });
 
-    handleResultSelect = (e, { result }) => this.setState({ value: result.title.props.plugin.Identity.Name })
+    handleResultSelect = (e, { result }) => this.setState({ value: result.title.props.plugin.Identity.Name });
 
     handleSearchChange = (e, { value }) => {
-        this.setState({ isLoading: true, value })
+        this.setState({ isLoading: true, value });
 
         setTimeout(() => {
-            if (this.state.value.length < 1) return this.resetComponent()
+            if (this.state.value.length < 1) return this.resetComponent();
 
-            var updatedList = this.state.initialPlugins;
+            let updatedList = this.state.initialPlugins;
 
             updatedList = updatedList.filter(function (item) {
                 return item.Identity.Name.toLowerCase().search(
                     value.toLowerCase()) !== -1;
             });
 
-            var res = updatedList.select((x) => { return { "title": <PluginModal plugin={x} /> } });
+            const res = updatedList.select((x) => {
+                return {"title": <PluginModal plugin={x}/>}
+            });
             this.setState({ isLoading: false, results: res });
         }, 500)
-    }
+    };
 
     render() {
-        const { isLoading, value, results } = this.state
+        const { isLoading, value, results } = this.state;
         return (
             <Search
                 placeholder='Search plugin...'

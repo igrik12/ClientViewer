@@ -1,18 +1,15 @@
 import React, { Component } from 'react'
-import { Dimmer, Loader, Segment, Divider, Button, Icon, Popup, List, Card, Modal } from 'semantic-ui-react'
+import { Dimmer, Loader, Segment, Divider, Icon, Popup, List, Card, Modal } from 'semantic-ui-react'
 import HomeHeader from './HomeHeader.jsx'
 import RaisedButton from 'material-ui/RaisedButton'
-import ContentAdd from 'material-ui/svg-icons/content/add'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import FileOpener from './FileOpener.jsx'
 import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import AddClientModal from './AddClientModal.jsx';
-import Dialog from 'material-ui/Dialog';
-import ListItem from 'material-ui/List/ListItem';
 import ClientCard from './ClientCard.jsx'
-var linq = require('mini-linq-js')
+
+const linq = require('mini-linq-js');
 
 export default class Home extends Component {
     constructor(props) {
@@ -25,13 +22,13 @@ export default class Home extends Component {
             open: false,
             triggerAddClientModal: false,
             adding: false
-        }
+        };
         this.init = this.init.bind(this);
         this.toggleVisibility = this.toggleVisibility.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleRequestClose = this.handleRequestClose.bind(this);
         this.handleLoadFromFileClick = this.handleLoadFromFileClick.bind(this);
-        this.deleteClient = this.deleteClient.bind(this);
+        Home.deleteClient = Home.deleteClient.bind(this);
         this.triggerAddClient = this.triggerAddClient.bind(this);
         this.addClientByName = this.addClientByName.bind(this);
     }
@@ -42,7 +39,7 @@ export default class Home extends Component {
             response.json().then(data => {
                 this.setClients(data);
             })
-        })
+        });
         setInterval(() => {
             fetch("Database/Status").then(response => response.json()).then(status => {
                 this.setState({
@@ -79,7 +76,7 @@ export default class Home extends Component {
         });
     };
 
-    deleteClient(clientName) {
+    static deleteClient(clientName) {
         fetch("Database/Remove/" + clientName).then(response => {
             response.json().then(data => {
                 this.setClients(data);
@@ -88,13 +85,13 @@ export default class Home extends Component {
     }
 
     setClients(data) {
-        var clients = [];
+        const clients = [];
         data.map(x => {
-            var client = {
+            const client = {
                 name: x.Name,
                 fleets: x.Fleets,
                 status: x.RefreshStatus
-            }
+            };
             clients.push(client)
         });
         this.setState({
@@ -108,7 +105,7 @@ export default class Home extends Component {
         });
     };
 
-    postData(url, data) {
+    static postData(url, data) {
         // Default options are marked with *
         return fetch(url, {
             body: JSON.stringify(data, null, 2), // must match 'Content-Type' header
@@ -127,18 +124,18 @@ export default class Home extends Component {
 
 
     addClientFromFile(files) {
-        var reader = new FileReader();
-        var clientName = files[0].name.replace('.json', '');
+        const reader = new FileReader();
+        const clientName = files[0].name.replace('.json', '');
         if (this.state.clients.any(x => x.name.toLowerCase() === clientName.toLowerCase())) {
-            alert("Client with the same name already exists.")
+            alert("Client with the same name already exists.");
             return;
         }
         reader.onload = (file) => {
             let newClient = JSON.parse(file.target.result);
 
-            var toSend = JSON.stringify(newClient);
+            const toSend = JSON.stringify(newClient);
 
-            this.postData("Database/AddClient/" + clientName, file.target.result).then(response => response.json().then(data => this.setClients(data)))
+            Home.postData("Database/AddClient/" + clientName, file.target.result).then(response => response.json().then(data => this.setClients(data)))
 
         };
         reader.readAsText(files[0]);
@@ -156,7 +153,7 @@ export default class Home extends Component {
             return;
         }
         if (this.state.clients.any(x => x.name.toLowerCase() === name.toLowerCase())) {
-            alert("Client with the same name already exists.")
+            alert("Client with the same name already exists.");
             return;
         }
         fetch("Database/AddClientByName/" + name)
@@ -168,23 +165,23 @@ export default class Home extends Component {
                         adding: false
                     })
                 } else {
-                    var clients = [];
+                    const clients = [];
 
                     data.map(x => {
-                        var client = {
+                        const client = {
                             name: x.Name,
                             fleets: x.Fleets,
                             status: x.RefreshStatus
-                        }
+                        };
                         clients.push(client)
-                    })
+                    });
                     this.setState({
                         clients: clients,
                         triggerAddClientModal: false,
                         adding: false
                     })
                 }
-            })
+            });
         this.setState({
             adding: true
         })
@@ -194,11 +191,11 @@ export default class Home extends Component {
 
         var { clients, triggerAddClientModal, status, adding } = this.state;
 
-        var style = {
+        const style = {
             marginRight: 40,
             marginTop: 15,
             float: "right"
-        }
+        };
 
         if (!clients) {
             return <div>
@@ -239,7 +236,7 @@ export default class Home extends Component {
                                 fleets={client.fleets}
                                 status={client.status.RefreshBlob}
                                 key={client.name}
-                                deleteClient={this.deleteClient} />
+                                deleteClient={Home.deleteClient} />
                         })}
                     </Card.Group>
                 </Segment>

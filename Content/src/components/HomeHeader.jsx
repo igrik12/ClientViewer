@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Radio, Icon, Header, Search } from 'semantic-ui-react'
+import { Icon, Header} from 'semantic-ui-react'
 
 export default class HomeHeader extends Component {
     render() {
-        var styles = {
-            background:"#15BB9C"
-            };
+        let styles = {
+            background: "#15BB9C"
+        };
 
         return (
             <div style={styles}>

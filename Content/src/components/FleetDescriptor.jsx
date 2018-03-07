@@ -16,23 +16,16 @@ export default class FleetDescriptor extends Component {
             openPcs: false,
             pcs: []
         };
-        this.handlePcToggle = this.handlePcToggle.bind(this)
+        this.handlePcToggle = this.handlePcToggle.bind(this);
         this.handleRequestClose = this.handleRequestClose.bind(this)
     }
-
-    handleToggle = () => {
-        this.setState({
-            open: !this.state.open,
-        });
-    };
-
     handlePcToggle = (event, pcs) => {
         this.setState({
             openPcs: !this.state.openPcs,
             anchorEl: event.currentTarget,
             pcs: pcs
         })
-    }
+    };
 
     handleRequestClose = () => {
         this.setState({
@@ -41,8 +34,8 @@ export default class FleetDescriptor extends Component {
     };
 
     render() {
-        var { fleets } = this.props
-        var that = this
+        var { fleets } = this.props;
+        const that = this;
 
         return <MuiThemeProvider>
             <List>
@@ -54,7 +47,7 @@ export default class FleetDescriptor extends Component {
                     onRequestClose={that.handlePcToggle}
                 >
                     <Menu>
-                        {this.state.pcs && this.state.pcs.map((pc,i) => {
+                        {this.state.pcs && this.state.pcs.map(pc => {
                             return <MenuItem key={pc.Identity.Name} primaryText={"PC: " + pc.Identity.Name} />
                         })}
                     </Menu>

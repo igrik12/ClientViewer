@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Modal, Button, Input } from 'semantic-ui-react'
-import { List, ListItem } from 'material-ui/List';
 
 
 export default class AddClientModal extends Component {

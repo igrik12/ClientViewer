@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Header, Image, Modal, Grid, Search } from 'semantic-ui-react'
-import { List, ListItem } from 'material-ui/List'
+import { Header, Modal} from 'semantic-ui-react'
 import ReactJson from 'react-json-view'
 
 

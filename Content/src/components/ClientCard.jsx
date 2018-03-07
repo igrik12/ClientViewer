@@ -1,7 +1,6 @@
 import React, { Component } from "react"
-import { Label, Card, Header, Icon, Dimmer, Segment, Loader, Popup, List } from 'semantic-ui-react'
+import { Card, Header, Icon, Dimmer, Loader, Popup, List } from 'semantic-ui-react'
 import FleetDescriptor from './FleetDescriptor.jsx'
-import Train from 'react-icons/lib/fa/train'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import FileDownload from 'material-ui/svg-icons/file/file-download'
 import Delete from 'material-ui/svg-icons/action/delete'
@@ -9,8 +8,10 @@ import Update from 'material-ui/svg-icons/action/update'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { Button, Modal } from 'semantic-ui-react'
 import SearchPlugin from './SearchPlugin.jsx'
-var fileDownload = require('js-file-download')
-var linq = require('mini-linq-js')
+import Home from "./Home.jsx";
+
+const fileDownload = require('js-file-download');
+const linq = require('mini-linq-js');
 
 
 export default class ClientCard extends Component {
@@ -23,7 +24,7 @@ export default class ClientCard extends Component {
             openRefresh: false,
             refreshing: false,
             fleets: []
-        }
+        };
         this.open = this.open.bind(this);
         this.openDownloadWindow = this.openDownloadWindow.bind(this);
         this.close = this.close.bind(this);
@@ -56,7 +57,7 @@ export default class ClientCard extends Component {
     }
 
     handleDelete() {
-        this.props.deleteClient(this.props.name);
+        Home.deleteClient(this.props.name);
         this.setState({
             openDelete: false
         })
@@ -93,7 +94,7 @@ export default class ClientCard extends Component {
             .then(response => response.json())
             .then(data => {
                 setTimeout(() => {
-                    var found = data.firstOrDefault(x => x.Name.toLowerCase() === this.props.name.toLowerCase());
+                    const found = data.firstOrDefault(x => x.Name.toLowerCase() === this.props.name.toLowerCase());
 
                     if (found) {
                         this.setState({
@@ -109,7 +110,7 @@ export default class ClientCard extends Component {
                     }
                 }, 3000)
 
-            })
+            });
         this.setState({
             refreshing: true
         })
