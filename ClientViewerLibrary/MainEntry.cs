@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Bbr.Euclid.ClientViewerLibrary.Extensions;
 using Nancy.Hosting.Self;
 using Nancy.Json;
@@ -30,6 +31,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
         private readonly bool _testMode;
         private Timer _refreshTimer;
         public RefreshStatus RefreshStatus { get; set; }
+        public List<string> ClientNames { get; set; }
 
         #endregion
 
@@ -43,6 +45,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
         {
             _config = config;
             ClientWrappers = new List<ClientWrapper>();
+            ClientNames = new List<string>();
             RefreshStatus = new RefreshStatus(DateTime.Now, DateTime.Now + TimeSpan.FromMinutes(RefreshInterval))
             {
                 TimeTillNextRefresh = DateTime.Now + TimeSpan.FromMinutes(RefreshInterval) - DateTime.Now
@@ -55,11 +58,20 @@ namespace Bbr.Euclid.ClientViewerLibrary
             else
             {
                 _query = new TeamCityQuery(_config.Host, _config.UserName, _config.Password);
-                FetchAllClients();
+                new Task(Initialise).Start();
                 SetUpdateInterval(60);
             }
 
             StartRefreshTimer();
+        }
+
+        /// <summary>
+        /// Initialises this instance.
+        /// </summary>
+        private void Initialise()
+        {
+            ClientNames = _query.GetAllClientNames(_config.MainClientProjectName);
+            FetchAllClients();
         }
 
         /// <summary>

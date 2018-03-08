@@ -9,14 +9,27 @@ namespace Bbr.Euclid.ClientViewer
     {
         static void Main(string[] args)
         {
-            var config = new MainConfiguration()
-            {
-                Clients = new Dictionary<string, string>()
+            var config = args.Length == 3
+                ? new MainConfiguration()
                 {
-                    {"Kaneko", "Kaneko"},
-                    {"Bombardier", "Bombardier"}
+                    Host = args[0],
+                    UserName = args[1],
+                    Password = args[2],
+                    Clients = new Dictionary<string, string>()
+                    {
+                        {"Kaneko", "Kaneko"},
+                        {"Bombardier", "Bombardier"}
+                    }
                 }
-            };
+                : new MainConfiguration()
+                {
+                    Clients = new Dictionary<string, string>()
+                    {
+                        {"Kaneko", "Kaneko"},
+                        {"Bombardier", "Bombardier"}
+                    }
+                };
+
 
             //var config = new MainConfiguration()
             //{
@@ -28,7 +41,6 @@ namespace Bbr.Euclid.ClientViewer
             //};
 
             ConfigureService.Configure(config);
-
         }
     }
 }

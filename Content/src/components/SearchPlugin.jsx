@@ -25,7 +25,7 @@ export default class SearchPlugin extends Component {
                 .selectMany(f => f.Vehicles)
                 .selectMany(v => v.Products)
                 .selectMany(p => p.Frameworks)
-                .selectMany(fw => fw.StarterMotorConfigurations),
+                .selectMany(fw => fw.PluginConfigurations),
             results: this.props.plugins
         })
     }

@@ -69,7 +69,7 @@ export default class FleetDescriptor extends Component {
                                             return <ListItem key={i}
                                                 primaryText={framework.Identity && framework.Identity.Name}
                                                 leftIcon={<Icon color="blue"  name='setting' size='large' />}
-                                                nestedItems={framework.StarterMotorConfigurations && framework.StarterMotorConfigurations.map(function (plugin, i) {
+                                                nestedItems={framework.PluginConfigurations && framework.PluginConfigurations.map(function (plugin, i) {
                                                     return <ListItem
                                                         key={i}
                                                         primaryText={<PluginModal plugin={plugin} />}

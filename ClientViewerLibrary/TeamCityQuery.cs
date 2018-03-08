@@ -101,5 +101,15 @@ namespace Bbr.Euclid.ClientViewerLibrary
                 return e.Message;
             }
         }
+
+        /// <summary>
+        /// Gets all client names.
+        /// </summary>
+        /// <param name="mainProjectName">Name of the main project.</param>
+        /// <returns></returns>
+        public List<string> GetAllClientNames(string mainProjectName)
+        {
+            return _client.Projects.ByName(mainProjectName)?.BuildTypes.BuildType.Select(x => x.Name).ToList();
+        }
     }
 }
