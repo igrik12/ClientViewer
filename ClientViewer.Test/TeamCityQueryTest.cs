@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Bbr.Euclid.ClientViewerLibrary;
 using NUnit.Framework;
+using RestSharp;
+using RestSharp.Authenticators;
 using TeamCitySharp.DomainEntities;
 
 namespace Bbr.Euclid.ClientViewer.Test
@@ -57,6 +59,20 @@ namespace Bbr.Euclid.ClientViewer.Test
             var query = new TeamCityQuery(Host, UserName, Password);
             var ret = query.GetDatabaseJsonByConfigName("Bombardier");
             Assert.NotNull(ret);
+        }
+
+        [Test]
+        public void Test()
+        {
+            var restClient = new RestClient("http://gbrtebldpw001");
+            restClient.Authenticator = new HttpBasicAuthenticator("ibrahim.suleman", "Benfica42");
+
+            var firstrequest = new RestRequest($"/repository/download/Git_Clients_Kaneko/.lastSuccessful/KanekoDatabase.json", Method.GET);
+
+            firstrequest.AddHeader("Content-Type", "text/plain");
+            firstrequest.AddHeader("Accept", "application/xml");
+
+            var vcsresponse = restClient.Execute(firstrequest);
         }
     }
 }

@@ -71,7 +71,10 @@ namespace Bbr.Euclid.ClientViewerLibrary
         private void Initialise()
         {
             ClientNames = _query.GetAllClientNames(_config.MainClientProjectName);
-            FetchAllClients();
+            if (ClientNames.Count > 0)
+            {
+                FetchAllClients();
+            }
         }
 
         /// <summary>
@@ -199,12 +202,12 @@ namespace Bbr.Euclid.ClientViewerLibrary
         {
             if (!_initialFetch)
             {
-                ClientWrappers.RemoveAll(x => _config.Clients.ContainsKey(x.Name));
+                ClientWrappers.RemoveAll(x => ClientNames.Contains(x.Name));
             }
 
-            foreach (var client in _config.Clients)
+            foreach (var client in ClientNames)
             {
-                var found = _query.GetDatabaseJsonByConfigName(client.Value);
+                var found = _query.GetDatabaseJsonByConfigName(client);
 
                 if (found.ToLower().Contains("error"))
                 {
@@ -218,7 +221,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
                     continue;
                 }
 
-                ClientWrappers.Add(new ClientWrapper(client.Key, fleets, RefreshStatus));
+                ClientWrappers.Add(new ClientWrapper(client, fleets, RefreshStatus));
             }
 
             _initialFetch = false;

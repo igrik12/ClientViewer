@@ -8,7 +8,6 @@ namespace Bbr.Euclid.ClientViewerLibrary
         public string UserName { get; set; } = "igor.lavrentjev";
         public string Password { get; set; } = "Smint2013";
         public string MainClientProjectName { get; set; } = "Clients";
-        public Dictionary<string, string> Clients { get; set; }
         public Dictionary<string,string> LocalDatabases { get; set; }
     }
 

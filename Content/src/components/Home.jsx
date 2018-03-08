@@ -4,10 +4,14 @@ import HomeHeader from './HomeHeader.jsx'
 import RaisedButton from 'material-ui/RaisedButton'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import Popover from 'material-ui/Popover';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import AddClientModal from './AddClientModal.jsx';
 import ClientCard from './ClientCard.jsx'
+import Update from 'material-ui/svg-icons/action/update'
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 
 const linq = require('mini-linq-js');
 
@@ -21,7 +25,8 @@ export default class Home extends Component {
             openClientAddWindow: false,
             open: false,
             triggerAddClientModal: false,
-            adding: false
+            adding: false,
+            refreshDialog: false
         };
         this.init = this.init.bind(this);
         this.toggleVisibility = this.toggleVisibility.bind(this);
@@ -31,6 +36,8 @@ export default class Home extends Component {
         Home.deleteClient = Home.deleteClient.bind(this);
         this.triggerAddClient = this.triggerAddClient.bind(this);
         this.addClientByName = this.addClientByName.bind(this);
+        this.handleRefresh = this.handleRefresh.bind(this);
+        this.handleCloseRefresh = this.handleCloseRefresh.bind(this);
     }
 
 
@@ -58,6 +65,10 @@ export default class Home extends Component {
             toggleMenu: !this.state.toggleMenu
         })
     }
+
+    handleCloseRefresh = () => {
+        this.setState({ refreshDialog: false });
+    };
 
     handleLoadFromFileClick(e) {
         this.refs.fileOpener.click();
@@ -148,6 +159,26 @@ export default class Home extends Component {
         })
     }
 
+    handleRefresh() {
+        fetch("Database/Get").then(response => {
+            response.json().then(data => {
+                const clients = [];
+                data.map(x => {
+                    const client = {
+                        name: x.Name,
+                        fleets: x.Fleets,
+                        status: x.RefreshStatus
+                    };
+                    clients.push(client)
+                });
+                this.setState({
+                    clients: clients,
+                    refreshDialog:true
+                });
+            })
+        });
+    }
+
     addClientByName(name) {
         if (!name) {
             return;
@@ -158,7 +189,7 @@ export default class Home extends Component {
         }
         fetch("Database/AddClientByName/" + name)
             .then(response => response.json())
-            .then(data => {            
+            .then(data => {
                 if (typeof (data) === "string") {
                     this.setState({
                         triggerAddClientModal: false,
@@ -189,10 +220,17 @@ export default class Home extends Component {
 
     render() {
 
-        var { clients, triggerAddClientModal, status, adding } = this.state;
+        var { clients, triggerAddClientModal, status, adding, refreshing } = this.state;
+        const actions = [
+            <FlatButton
+                label="OK"
+                primary={true}
+                onClick={this.handleCloseRefresh}
+            />
+        ];
 
         const style = {
-            marginRight: 40,
+            marginRight: 10,
             marginTop: 15,
             float: "right"
         };
@@ -216,6 +254,7 @@ export default class Home extends Component {
                 </Modal>
             </div>
         }
+
         return (
             <div>
                 <HomeHeader toggle={this.toggleVisibility} />
@@ -244,7 +283,16 @@ export default class Home extends Component {
                 <MuiThemeProvider>
                     <div>
                         <input type="file" id="file" accept=".json" ref="fileOpener" onChange={(e) => this.addClientFromFile(e.target.files)} style={{ display: "none" }} />
-                        <RaisedButton onClick={this.handleClick} label="Add Client" primary={true} style={style} />
+                        <RaisedButton onClick={this.handleRefresh} label="Refresh" primary={true} style={{ float: "right", marginTop: 15, marginRight: 60 }} />
+                        <RaisedButton onClick={this.handleLoadFromFileClick} label="Add Client" primary={true} style={style} />
+                        <Dialog
+                            actions={actions}
+                            modal={false}
+                            open={this.state.refreshDialog}
+                            onRequestClose={this.handleCloseRefresh}
+                        >
+                            Clients Refreshed...
+                        </Dialog>
                         <Popover
                             open={this.state.open}
                             anchorEl={this.state.anchorEl}
@@ -256,7 +304,6 @@ export default class Home extends Component {
                         >
                             <Menu>
                                 <MenuItem onClick={this.handleLoadFromFileClick} primaryText="Load from file" />
-                                <MenuItem onClick={this.triggerAddClient} primaryText="Load by name" />
                             </Menu>
                         </Popover>
                     </div>

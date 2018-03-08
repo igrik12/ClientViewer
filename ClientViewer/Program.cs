@@ -15,20 +15,8 @@ namespace Bbr.Euclid.ClientViewer
                     Host = args[0],
                     UserName = args[1],
                     Password = args[2],
-                    Clients = new Dictionary<string, string>()
-                    {
-                        {"Kaneko", "Kaneko"},
-                        {"Bombardier", "Bombardier"}
-                    }
                 }
-                : new MainConfiguration()
-                {
-                    Clients = new Dictionary<string, string>()
-                    {
-                        {"Kaneko", "Kaneko"},
-                        {"Bombardier", "Bombardier"}
-                    }
-                };
+                : new MainConfiguration();
 
 
             //var config = new MainConfiguration()

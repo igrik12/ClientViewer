@@ -32,7 +32,6 @@ export default class ClientCard extends Component {
         this.closeDelete = this.closeDelete.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.deleteClient = this.deleteClient.bind(this);
-        this.refreshDatabase = this.refreshDatabase.bind(this);
         this.handleRefresh = this.handleRefresh.bind(this);
     }
 
@@ -69,7 +68,7 @@ export default class ClientCard extends Component {
         })
     }
 
-    refreshDatabase() {
+    refreshDatabase = () => {
         this.setState({
             openRefresh: !this.state.openRefresh
         })
@@ -151,14 +150,7 @@ export default class ClientCard extends Component {
                             </FloatingActionButton>
                         </MuiThemeProvider>
                         <div>
-                            <Header as='h2' content={<div>{this.props.name} <Popup
-                                trigger={<Icon style={{ marginBottom: 5 }} size="large" name='info circle' />}
-                                content={
-                                    <List>
-                                        <List.Item>Last Refresh:{this.props.status[0]} </List.Item>
-                                        <List.Item>Next Refresh:{this.props.status[1]}</List.Item>
-                                    </List>}
-                            /></div>} />
+                            <Header as='h2' content={this.props.name} />
                         </div>
                     </Card.Header>
                     <Card.Meta style={{ marginTop: 10 }}>

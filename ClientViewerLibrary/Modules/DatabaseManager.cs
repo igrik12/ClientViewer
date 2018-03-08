@@ -25,6 +25,8 @@ namespace Bbr.Euclid.ClientViewerLibrary.Modules
                 return JsonConvert.SerializeObject(context.ClientWrappers);
             });
 
+            Get("RefreshAll", _ => context.ClientWrappers);
+
             Get("AddClientByName/{clientName}", _ =>
             {
                 var updated = context.AddClientByName((string) _.clientName);

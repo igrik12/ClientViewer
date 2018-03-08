@@ -11,6 +11,8 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -69,6 +71,8 @@
     <None Include="BombardierDatabase.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="ClientViewer.nuspec" />
+    <None Include="package.builder.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -137,4 +141,11 @@
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
+  <Import Project="..\packages\NuGet.Package.Builder.With.NuGet-4_1.1.0.10\build\NuGet.Package.Builder.With.NuGet-4_1.targets" Condition="Exists('..\packages\NuGet.Package.Builder.With.NuGet-4_1.1.0.10\build\NuGet.Package.Builder.With.NuGet-4_1.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\NuGet.Package.Builder.With.NuGet-4_1.1.0.10\build\NuGet.Package.Builder.With.NuGet-4_1.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NuGet.Package.Builder.With.NuGet-4_1.1.0.10\build\NuGet.Package.Builder.With.NuGet-4_1.targets'))" />
+  </Target>
 </Project>
