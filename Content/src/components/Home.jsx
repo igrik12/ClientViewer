@@ -35,25 +35,41 @@ export default class Home extends Component {
         this.handleLoadFromFileClick = this.handleLoadFromFileClick.bind(this);
         Home.deleteClient = Home.deleteClient.bind(this);
         this.triggerAddClient = this.triggerAddClient.bind(this);
-        this.addClientByName = this.addClientByName.bind(this);
         this.handleRefresh = this.handleRefresh.bind(this);
         this.handleCloseRefresh = this.handleCloseRefresh.bind(this);
     }
 
 
     init() {
-        fetch("Database/Get").then(response => {
+        fetch("Database/RefreshDatabase").then(response => {
             response.json().then(data => {
-                this.setClients(data);
+                this.setState({
+                    clients: this.extractClients(data)
+                })
             })
         });
         setInterval(() => {
-            fetch("Database/Status").then(response => response.json()).then(status => {
-                this.setState({
-                    status: status
+            fetch("Database/Status")
+                .then(response => response.json())
+                .then(status => {
+                    this.setState({
+                        status: status
+                    })
                 })
-            })
         }, 1000)
+    }
+
+    extractClients(data) {
+        const clients = [];
+        data.map(x => {
+            const client = {
+                name: x.Name,
+                fleets: x.Fleets,
+                status: x.RefreshStatus
+            };
+            clients.push(client)
+        });
+        return clients;
     }
 
     componentDidMount() {
@@ -90,24 +106,11 @@ export default class Home extends Component {
     static deleteClient(clientName) {
         fetch("Database/Remove/" + clientName).then(response => {
             response.json().then(data => {
-                this.setClients(data);
+                this.setState({
+                    clients: this.extractClients(data)
+                });
             })
         })
-    }
-
-    setClients(data) {
-        const clients = [];
-        data.map(x => {
-            const client = {
-                name: x.Name,
-                fleets: x.Fleets,
-                status: x.RefreshStatus
-            };
-            clients.push(client)
-        });
-        this.setState({
-            clients: clients
-        });
     }
 
     handleRequestClose = () => {
@@ -142,12 +145,13 @@ export default class Home extends Component {
             return;
         }
         reader.onload = (file) => {
-            let newClient = JSON.parse(file.target.result);
-
-            const toSend = JSON.stringify(newClient);
-
-            Home.postData("Database/AddClient/" + clientName, file.target.result).then(response => response.json().then(data => this.setClients(data)))
-
+            Home.postData("Database/AddClient/" + clientName, file.target.result)
+                .then(response => response.json())
+                .then(data => {
+                    this.setState({
+                        clients: this.extractClients(data)
+                    })
+                })
         };
         reader.readAsText(files[0]);
     }
@@ -160,74 +164,21 @@ export default class Home extends Component {
     }
 
     handleRefresh() {
-        fetch("Database/Get").then(response => {
-            response.json().then(data => {
-                const clients = [];
-                data.map(x => {
-                    const client = {
-                        name: x.Name,
-                        fleets: x.Fleets,
-                        status: x.RefreshStatus
-                    };
-                    clients.push(client)
-                });
-                this.setState({
-                    clients: clients,
-                    refreshDialog:true
-                });
-            })
-        });
-    }
-
-    addClientByName(name) {
-        if (!name) {
-            return;
-        }
-        if (this.state.clients.any(x => x.name.toLowerCase() === name.toLowerCase())) {
-            alert("Client with the same name already exists.");
-            return;
-        }
-        fetch("Database/AddClientByName/" + name)
+        fetch("Database/RefreshDatabase")
             .then(response => response.json())
             .then(data => {
-                if (typeof (data) === "string") {
-                    this.setState({
-                        triggerAddClientModal: false,
-                        adding: false
-                    })
-                } else {
-                    const clients = [];
-
-                    data.map(x => {
-                        const client = {
-                            name: x.Name,
-                            fleets: x.Fleets,
-                            status: x.RefreshStatus
-                        };
-                        clients.push(client)
-                    });
-                    this.setState({
-                        clients: clients,
-                        triggerAddClientModal: false,
-                        adding: false
-                    })
-                }
-            });
+                this.setState({
+                    clients: this.extractClients(data),
+                    refreshing: false
+                })
+            })
         this.setState({
-            adding: true
+            refreshing: true
         })
     }
 
     render() {
-
-        var { clients, triggerAddClientModal, status, adding, refreshing } = this.state;
-        const actions = [
-            <FlatButton
-                label="OK"
-                primary={true}
-                onClick={this.handleCloseRefresh}
-            />
-        ];
+        var { clients, triggerAddClientModal, status, refreshing } = this.state;
 
         const style = {
             marginRight: 10,
@@ -245,11 +196,11 @@ export default class Home extends Component {
             </div>
         }
 
-        if (adding) {
+        if (refreshing) {
             return <div>
                 <Modal size="large" open={true}>
                     <Dimmer active>
-                        <Loader size='massive'>Adding new client...</Loader>
+                        <Loader size='massive'>Refreshing database...</Loader>
                     </Dimmer>
                 </Modal>
             </div>
@@ -285,14 +236,6 @@ export default class Home extends Component {
                         <input type="file" id="file" accept=".json" ref="fileOpener" onChange={(e) => this.addClientFromFile(e.target.files)} style={{ display: "none" }} />
                         <RaisedButton onClick={this.handleRefresh} label="Refresh" primary={true} style={{ float: "right", marginTop: 15, marginRight: 60 }} />
                         <RaisedButton onClick={this.handleLoadFromFileClick} label="Add Client" primary={true} style={style} />
-                        <Dialog
-                            actions={actions}
-                            modal={false}
-                            open={this.state.refreshDialog}
-                            onRequestClose={this.handleCloseRefresh}
-                        >
-                            Clients Refreshed...
-                        </Dialog>
                         <Popover
                             open={this.state.open}
                             anchorEl={this.state.anchorEl}
@@ -308,7 +251,6 @@ export default class Home extends Component {
                         </Popover>
                     </div>
                 </MuiThemeProvider>
-                <AddClientModal open={triggerAddClientModal} close={this.triggerAddClient} addClientByName={this.addClientByName} />
             </div>
         )
     }

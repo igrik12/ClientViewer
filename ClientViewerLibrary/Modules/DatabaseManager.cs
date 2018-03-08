@@ -17,24 +17,13 @@ namespace Bbr.Euclid.ClientViewerLibrary.Modules
     {
         public DatabaseManager(IContext context) : base("Database")
         {
-            Get("Get", _ => JsonConvert.SerializeObject(context.ClientWrappers));
+            Get("RefreshDatabase", _ => JsonConvert.SerializeObject(context.RefreshDatabase()));
             Get("Status", _ => JsonConvert.SerializeObject(context.RefreshStatus.RefreshBlob));
             Get("Remove/{name}", _ =>
             {
                 context.ClientWrappers.RemoveAll(x => x.Name.ToLower().Equals(((string) _.name).ToLower()));
                 return JsonConvert.SerializeObject(context.ClientWrappers);
             });
-
-            Get("RefreshAll", _ => context.ClientWrappers);
-
-            Get("AddClientByName/{clientName}", _ =>
-            {
-                var updated = context.AddClientByName((string) _.clientName);
-                return !updated.ToLower().Contains("error") || !string.IsNullOrWhiteSpace(updated)
-                    ? JsonConvert.SerializeObject(context.ClientWrappers)
-                    : JsonConvert.SerializeObject(updated);
-            });
-
             Get("Update/{interval}", _ => context.SetUpdateInterval(int.Parse(_.interval)));
             Get("Refresh/{name}", _ =>
             {

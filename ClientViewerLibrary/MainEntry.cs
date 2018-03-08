@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Bbr.Euclid.ClientViewerLibrary.Extensions;
 using Nancy.Hosting.Self;
-using Nancy.Json;
 using Newtonsoft.Json;
 using Timer = System.Timers.Timer;
 
@@ -30,6 +28,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
         public List<ClientWrapper> ClientWrappers { get; set; }
         private readonly bool _testMode;
         private Timer _refreshTimer;
+        private readonly RestSharpHelper _restClient;
         public RefreshStatus RefreshStatus { get; set; }
         public List<string> ClientNames { get; set; }
 
@@ -58,6 +57,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
             else
             {
                 _query = new TeamCityQuery(_config.Host, _config.UserName, _config.Password);
+                _restClient = new RestSharpHelper(_config.Host, _config.UserName, _config.Password);
                 new Task(Initialise).Start();
                 SetUpdateInterval(60);
             }
@@ -170,7 +170,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
 
             if (found == null) return ClientWrappers;
 
-            found.Fleets = JsonConvert.DeserializeObject(_query.GetDatabaseJsonByConfigName(clientName));
+            found.Fleets = JsonConvert.DeserializeObject(_restClient.GetDatabase(clientName));
 
             return ClientWrappers;
         }
@@ -207,7 +207,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
 
             foreach (var client in ClientNames)
             {
-                var found = _query.GetDatabaseJsonByConfigName(client);
+                var found = _restClient.GetDatabase(client);
 
                 if (found.ToLower().Contains("error"))
                 {

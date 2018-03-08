@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Search} from 'semantic-ui-react';
+import { Search } from 'semantic-ui-react';
 import PluginModal from './PluginModal.jsx';
 
 const linq = require('mini-linq-js');
@@ -19,15 +19,30 @@ export default class SearchPlugin extends Component {
     }
 
     componentDidMount() {
+        console.log(this.props.selected);
 
-        this.setState({
-            initialPlugins: this.props.fleets
-                .selectMany(f => f.Vehicles)
-                .selectMany(v => v.Products)
-                .selectMany(p => p.Frameworks)
-                .selectMany(fw => fw.PluginConfigurations),
-            results: this.props.plugins
-        })
+        if (this.props.selected.length == 0) {
+            this.setState({
+                initialPlugins: this.props.fleets
+                    .selectMany(f => f.Vehicles)
+                    .selectMany(v => v.Products)
+                    .selectMany(p => p.Frameworks)
+                    .selectMany(fw => fw.PluginConfigurations),
+                results: this.props.plugins
+            })
+        } else {
+            var fleets = this.props.fleets.where(x => this.props.selected.any(s => s.name === x.Identity.Name));
+            console.log(fleets);
+            this.setState({
+                initialPlugins: fleets
+                    .selectMany(f => f.Vehicles)
+                    .selectMany(v => v.Products)
+                    .selectMany(p => p.Frameworks)
+                    .selectMany(fw => fw.PluginConfigurations),
+                results: this.props.plugins
+            })
+        }
+
     }
 
     resetComponent = () => this.setState({ isLoading: false, results: [], value: '' });
@@ -40,7 +55,17 @@ export default class SearchPlugin extends Component {
         setTimeout(() => {
             if (this.state.value.length < 1) return this.resetComponent();
 
-            let updatedList = this.state.initialPlugins;
+            if (this.props.selected.length != 0) {
+                var fleets = this.props.fleets.where(f => this.props.selected.has(f.Identity.Name));
+                console.log(fleets)
+                console.log(this.props.selected)
+                updatedList = fleets.selectMany(f => f.Vehicles)
+                    .selectMany(v => v.Products)
+                    .selectMany(p => p.Frameworks)
+                    .selectMany(fw => fw.PluginConfigurations)
+            } else {
+                var updatedList = this.state.initialPlugins;
+            }
 
             updatedList = updatedList.filter(function (item) {
                 return item.Identity.Name.toLowerCase().search(
@@ -48,7 +73,7 @@ export default class SearchPlugin extends Component {
             });
 
             const res = updatedList.select((x) => {
-                return {"title": <PluginModal plugin={x}/>}
+                return { "title": <PluginModal plugin={x} /> }
             });
             this.setState({ isLoading: false, results: res });
         }, 500)

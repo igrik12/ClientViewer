@@ -13,6 +13,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
     public class TeamCityQuery
     {
         private readonly TeamCityClient _client;
+        
 
         // Initialised TeamCityQuery class which requires host, username and password
         public TeamCityQuery(string host, string username, string password)
@@ -108,8 +109,9 @@ namespace Bbr.Euclid.ClientViewerLibrary
         /// </summary>
         /// <param name="mainProjectName">Name of the main project.</param>
         /// <returns></returns>
-        public List<string> GetAllClientNames(string mainProjectName)
+        public List<string> GetAllClientNames(string mainProjectName = null)
         {
+            mainProjectName = string.IsNullOrWhiteSpace(mainProjectName) ? "Clients" : mainProjectName;
             return _client.Projects.ByName(mainProjectName)?.BuildTypes.BuildType.Select(x => x.Name).ToList();
         }
     }

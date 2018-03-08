@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="DatabaseLoaderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RestSharpHelperTest.cs" />
     <Compile Include="TeamCityQueryTest.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -9,7 +9,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { Button, Modal } from 'semantic-ui-react'
 import SearchPlugin from './SearchPlugin.jsx'
 import Home from "./Home.jsx";
-
+const Dict = require("collections/dict");
 const fileDownload = require('js-file-download');
 const linq = require('mini-linq-js');
 
@@ -23,7 +23,8 @@ export default class ClientCard extends Component {
             openDelete: false,
             openRefresh: false,
             refreshing: false,
-            fleets: []
+            fleets: [],
+            selected: new Set()
         };
         this.open = this.open.bind(this);
         this.openDownloadWindow = this.openDownloadWindow.bind(this);
@@ -87,6 +88,18 @@ export default class ClientCard extends Component {
         })
     }
 
+    updateCheck = (object) => {
+        var updated = this.state.selected;
+
+        !updated.has(object)
+            ? updated.add(object)
+            : updated.delete(object);
+
+        this.setState({
+            selected: updated
+        });
+    }
+
     handleRefresh() {
         fetch("Database/Refresh/" + this.props.name)
             .catch(error => { console.log(error) })
@@ -117,7 +130,7 @@ export default class ClientCard extends Component {
 
 
     render() {
-        const { triggerDownload, openDelete, openRefresh, refreshing} = this.state;
+        const { triggerDownload, openDelete, openRefresh, refreshing, selected } = this.state;
 
         if (refreshing) {
             return <div>
@@ -128,8 +141,6 @@ export default class ClientCard extends Component {
                 </Modal>
             </div>
         }
-
-
         return (
             <Card fluid style={{ width: "48%", marginTop: 15 }} color="blue" >
                 <Card.Content>
@@ -154,14 +165,14 @@ export default class ClientCard extends Component {
                         </div>
                     </Card.Header>
                     <Card.Meta style={{ marginTop: 10 }}>
-                        <SearchPlugin fleets={this.state.fleets} />
+                        <SearchPlugin fleets={this.state.fleets} selected={selected} />
                     </Card.Meta>
                     <br />
                     <hr />
                     <Card.Description>
                         <br />
                         <div>
-                            <FleetDescriptor fleets={this.state.fleets} />
+                            <FleetDescriptor selectFleet={this.updateCheck} fleets={this.state.fleets} />
                         </div>
                         <Modal size={"small"} open={triggerDownload} onClose={this.close} closeIcon>
                             <Modal.Header>

@@ -6,6 +6,9 @@ import PluginModal from './PluginModal.jsx'
 import Popover from 'material-ui/Popover'
 import MenuItem from 'material-ui/MenuItem'
 import Menu from 'material-ui/Menu';
+import ActionFavorite from 'material-ui/svg-icons/action/favorite';
+import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
+import Checkbox from 'material-ui/Checkbox';
 
 
 export default class FleetDescriptor extends Component {
@@ -33,9 +36,18 @@ export default class FleetDescriptor extends Component {
         });
     };
 
+
     render() {
         var { fleets } = this.props;
         const that = this;
+        const styles = {
+            block: {
+                maxWidth: 250,
+            },
+            checkbox: {
+                marginBottom: 16,
+            },
+        };
 
         return <MuiThemeProvider>
             <List>
@@ -54,26 +66,30 @@ export default class FleetDescriptor extends Component {
                 </Popover>
                 {fleets.map(function (fleet, i) {
                     return <ListItem key={i}
-                        primaryText={fleet.Identity.Name}
-                        leftIcon={<Icon color="black" name='user circle' size='large' />}
+                        primaryText={<div>
+                            <Checkbox
+                                label={fleet.Identity.Name}
+                                style={styles.checkbox}
+                                onCheck={() => that.props.selectFleet(fleet.Identity.Name)}
+                            /></div>}
                         nestedItems={fleet.Vehicles.map(function (vehicle, i) {
                             return <ListItem key={i}
-                                primaryText={<div>{vehicle.Identity.Name}<Icon style={{marginBottom:5, marginLeft:10}} color="blue" name='info' size='large' /></div>}
+                                primaryText={<div>{vehicle.Identity.Name}<Icon style={{ marginBottom: 5, marginLeft: 10 }} color="blue" name='info' size='large' /></div>}
                                 leftIcon={<Icon color="blue" name='train' size='large' />}
                                 onClick={(event) => that.handlePcToggle(event, vehicle.Pcs)}
                                 nestedItems={vehicle.Products.map(function (product, i) {
                                     return <ListItem key={i}
                                         primaryText={product.Identity.Name}
-                                        leftIcon={<Icon color="blue"  name='archive' size='large' />}
+                                        leftIcon={<Icon color="blue" name='archive' size='large' />}
                                         nestedItems={product.Frameworks.map(function (framework, i) {
                                             return <ListItem key={i}
                                                 primaryText={framework.Identity && framework.Identity.Name}
-                                                leftIcon={<Icon color="blue"  name='setting' size='large' />}
+                                                leftIcon={<Icon color="blue" name='setting' size='large' />}
                                                 nestedItems={framework.PluginConfigurations && framework.PluginConfigurations.map(function (plugin, i) {
                                                     return <ListItem
                                                         key={i}
                                                         primaryText={<PluginModal plugin={plugin} />}
-                                                        leftIcon={<Icon color="teal"  name='plug' size='large' />} />
+                                                        leftIcon={<Icon color="teal" name='plug' size='large' />} />
                                                 })}
                                             />
                                         })}
