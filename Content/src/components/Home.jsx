@@ -140,7 +140,8 @@ export default class Home extends Component {
     addClientFromFile(files) {
         const reader = new FileReader();
         const clientName = files[0].name.replace('.json', '');
-        if (this.state.clients.any(x => x.name.toLowerCase() === clientName.toLowerCase())) {
+        var match = this.state.clients.where(x => x.name == clientName);
+        if (match.length > 0) {
             alert("Client with the same name already exists.");
             return;
         }

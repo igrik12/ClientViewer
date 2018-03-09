@@ -82,7 +82,7 @@ export default class ClientCard extends Component {
     }
 
     handleDownload() {
-        fileDownload(JSON.stringify(this.props.fleets, null, 2), this.props.name + ".json");
+        fileDownload(JSON.stringify(this.props.fleets, null, 2), this.props.name + "Database.json");
         this.setState({
             triggerDownload: false
         })

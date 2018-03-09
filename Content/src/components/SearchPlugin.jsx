@@ -19,8 +19,6 @@ export default class SearchPlugin extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.selected);
-
         if (this.props.selected.length == 0) {
             this.setState({
                 initialPlugins: this.props.fleets
@@ -57,8 +55,6 @@ export default class SearchPlugin extends Component {
 
             if (this.props.selected.length != 0) {
                 var fleets = this.props.fleets.where(f => this.props.selected.has(f.Identity.Name));
-                console.log(fleets)
-                console.log(this.props.selected)
                 updatedList = fleets.selectMany(f => f.Vehicles)
                     .selectMany(v => v.Products)
                     .selectMany(p => p.Frameworks)

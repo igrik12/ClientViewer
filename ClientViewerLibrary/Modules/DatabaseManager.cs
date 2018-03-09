@@ -15,6 +15,7 @@ namespace Bbr.Euclid.ClientViewerLibrary.Modules
     /// </seealso>
     public class DatabaseManager : NancyModule
     {
+
         public DatabaseManager(IContext context) : base("Database")
         {
             Get("RefreshDatabase", _ => JsonConvert.SerializeObject(context.RefreshDatabase()));

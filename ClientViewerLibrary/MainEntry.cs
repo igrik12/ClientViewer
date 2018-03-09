@@ -222,6 +222,10 @@ namespace Bbr.Euclid.ClientViewerLibrary
                 }
 
                 ClientWrappers.Add(new ClientWrapper(client, fleets, RefreshStatus));
+                RefreshStatus = new RefreshStatus(DateTime.Now, DateTime.Now + TimeSpan.FromMinutes(RefreshInterval))
+                {
+                    TimeTillNextRefresh = DateTime.Now + TimeSpan.FromMinutes(RefreshInterval) - DateTime.Now
+                };
             }
 
             _initialFetch = false;
