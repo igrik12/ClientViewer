@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using Bbr.Euclid.ClientViewerLibrary;
 using Topshelf;
 
@@ -7,24 +9,23 @@ namespace Bbr.Euclid.ClientViewer
 {
     class Program
     {
+        [STAThread]
         static void Main(string[] args)
         {
-            var config = args.Length == 3
+            var config = args.Length > 0 
                 ? new MainConfiguration()
                 {
-                    Host = args[0],
-                    UserName = args[1],
-                    Password = args[2],
+                    UserName = args[0],
+                    Password = args[1],
+                    MainClientProjectName = args.Length == 3 ? args[2] : "Clients"
                 }
                 : new MainConfiguration();
-
-
             //var config = new MainConfiguration()
             //{
             //    LocalDatabases = new Dictionary<string, string>()
             //    {
             //        {"Bombardier","C:\\Databases\\BombardierDatabase.json"},
-            //        {"BombaClone","C:\\Databases\\BombardierDatabase.json"}
+            //        {"Kaneko","C:\\Databases\\KanekoDatabase.json"}
             //    }
             //};
 

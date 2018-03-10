@@ -32,6 +32,11 @@ namespace Bbr.Euclid.ClientViewerLibrary.Modules
                 return JsonConvert.SerializeObject(refreshed);
             });
 
+            Get("CopyToClipboard/{text}", _ =>
+            {
+                context.CopyToClipboard((string)_.text);
+                return Response.AsJson("copied");
+            });
 
             Post("AddClient/{clientName}", _ =>
             {

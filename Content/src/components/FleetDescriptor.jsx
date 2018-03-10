@@ -9,6 +9,7 @@ import Menu from 'material-ui/Menu';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import Checkbox from 'material-ui/Checkbox';
+import Snackbar from 'material-ui/Snackbar';
 
 
 
@@ -19,7 +20,8 @@ export default class FleetDescriptor extends Component {
         this.state = {
             open: false,
             openPcs: false,
-            pcs: []
+            pcs: [],
+            snackbarOpen: false
         };
         this.handlePcToggle = this.handlePcToggle.bind(this);
         this.handleRequestClose = this.handleRequestClose.bind(this)
@@ -35,6 +37,26 @@ export default class FleetDescriptor extends Component {
     handleRequestClose = () => {
         this.setState({
             openPcs: false,
+        });
+    };
+
+    // Snackbar and clipboard copy actions
+    //-------------------------------------
+
+    copyToClipboard = (value) => {
+        fetch("Database/CopyToClipboard/" + value)
+    }
+
+    handleSnackbarClick = (name) => {
+        this.copyToClipboard(name);
+        this.setState({
+            snackbarOpen: true,
+        });
+    };
+
+    handleSnackbarRequestClose = () => {
+        this.setState({
+            snackbarOpen: false,
         });
     };
 
@@ -68,31 +90,41 @@ export default class FleetDescriptor extends Component {
                     </Popover>
                     {fleets.map(function (fleet, i) {
                         return <ListItem key={i}
-                            primaryText={<div style={{ position: "relative" }}>
-                                <Checkbox
-                                    style={styles.checkbox}
-                                    onCheck={() => that.props.selectFleet(fleet.Identity.Name)}
-                                />
-                                <div style={{ paddingTop: 5 }}>{fleet.Identity.Name}</div>
-                            </div>}
+                            primaryText={
+                                <div style={{ marginBottom: 25 }}>
+                                    <div>
+                                        <Checkbox
+                                            style={styles.checkbox}
+                                            onCheck={() => that.props.selectFleet(fleet.Identity.Name)}
+                                        />
+                                    </div>
+                                    <div style={{ paddingTop: 5, maxWidth: 20, float: "left" }}>
+                                        {fleet.Identity.Name}
+                                    </div>
+                                </div>}
                             nestedItems={fleet.Vehicles.map(function (vehicle, i) {
                                 return <ListItem key={i}
-                                    primaryText={<div>{vehicle.Identity.Name}<Icon style={{ marginBottom: 5, marginLeft: 10 }} color="blue" name='info' size='large' /></div>}
+                                    primaryText={vehicle.Identity.Name}
                                     leftIcon={<Icon color="blue" name='train' size='large' />}
-                                    onClick={(event) => that.handlePcToggle(event, vehicle.Pcs)}
+                                    primaryTogglesNestedList={true}
+
                                     nestedItems={vehicle.Products.map(function (product, i) {
                                         return <ListItem key={i}
                                             primaryText={product.Identity.Name}
+                                            primaryTogglesNestedList={true}
                                             leftIcon={<Icon color="blue" name='archive' size='large' />}
                                             nestedItems={product.Frameworks.map(function (framework, i) {
                                                 return <ListItem key={i}
                                                     primaryText={framework.Identity && framework.Identity.Name}
                                                     leftIcon={<Icon color="blue" name='setting' size='large' />}
+                                                    primaryTogglesNestedList={true}
                                                     nestedItems={framework.PluginConfigurations && framework.PluginConfigurations.map(function (plugin, i) {
                                                         return <ListItem
                                                             key={i}
-                                                            primaryText={<PluginModal plugin={plugin} />}
-                                                            leftIcon={<Icon color="teal" name='plug' size='large' />} />
+                                                            primaryText={<PluginModal plugin={plugin}/>}
+                                                            leftIcon={<Icon color="teal" name='plug' size='large' />}
+                                                            rightIcon={<Icon onClick={() => that.handleSnackbarClick(plugin.Identity.Name)} color="blue" name='copy' size='large' />}
+                                                        />
                                                     })}
                                                 />
                                             })}
@@ -103,7 +135,13 @@ export default class FleetDescriptor extends Component {
                         </ListItem>
                     })}
                 </List>
-            </MuiThemeProvider>;
+                <Snackbar
+                    open={this.state.snackbarOpen}
+                    message="Copied to clipboard"
+                    autoHideDuration={2500}
+                    onRequestClose={this.handleSnackbarRequestClose}
+                />
+            </MuiThemeProvider>
         </div>
     }
 }

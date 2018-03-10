@@ -9,7 +9,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { Button, Modal } from 'semantic-ui-react'
 import SearchPlugin from './SearchPlugin.jsx'
 import Home from "./Home.jsx";
-const Dict = require("collections/dict");
 const fileDownload = require('js-file-download');
 const linq = require('mini-linq-js');
 

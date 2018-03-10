@@ -15,5 +15,6 @@ namespace Bbr.Euclid.ClientViewerLibrary
         RefreshStatus RefreshStatus { get; set; }
         List<string> ClientNames { get; set; }
         List<ClientWrapper> RefreshDatabase();
+        void CopyToClipboard(string text);
     }
 }

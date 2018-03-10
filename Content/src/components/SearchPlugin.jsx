@@ -19,7 +19,7 @@ export default class SearchPlugin extends Component {
     }
 
     componentDidMount() {
-        if (this.props.selected.length == 0) {
+        if (this.props.selected.size == 0) {
             this.setState({
                 initialPlugins: this.props.fleets
                     .selectMany(f => f.Vehicles)
@@ -49,11 +49,10 @@ export default class SearchPlugin extends Component {
 
     handleSearchChange = (e, { value }) => {
         this.setState({ isLoading: true, value });
-
         setTimeout(() => {
             if (this.state.value.length < 1) return this.resetComponent();
 
-            if (this.props.selected.length != 0) {
+            if (this.props.selected.size != 0) {
                 var fleets = this.props.fleets.where(f => this.props.selected.has(f.Identity.Name));
                 updatedList = fleets.selectMany(f => f.Vehicles)
                     .selectMany(v => v.Products)

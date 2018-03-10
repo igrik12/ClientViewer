@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Header, Modal} from 'semantic-ui-react'
+import { Header, Modal,Icon} from 'semantic-ui-react'
 import ReactJson from 'react-json-view'
 
 

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Nancy.Hosting.Self;
 using Newtonsoft.Json;
 using Timer = System.Timers.Timer;
@@ -45,6 +47,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
             _config = config;
             ClientWrappers = new List<ClientWrapper>();
             ClientNames = new List<string>();
+
             RefreshStatus = new RefreshStatus(DateTime.Now, DateTime.Now + TimeSpan.FromMinutes(RefreshInterval))
             {
                 TimeTillNextRefresh = DateTime.Now + TimeSpan.FromMinutes(RefreshInterval) - DateTime.Now
@@ -95,6 +98,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
 
         public void Stop()
         {
+            _timer.Stop();
             _timer.Dispose();
             _host.Stop();
             Console.WriteLine("Stopped Client Viewer service...");
@@ -109,6 +113,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
         {
             if (_testMode) return;
             RefreshInterval = intervalInSeconds;
+
             if (RefreshInterval < 10) RefreshInterval = 10;
             if (_timer == null)
             {
@@ -189,6 +194,14 @@ namespace Bbr.Euclid.ClientViewerLibrary
 
             FetchAllClients();
             return ClientWrappers;
+        }
+
+        public void CopyToClipboard(string text)
+        {
+            var thread = new Thread(param => { Clipboard.SetText(text); });
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+            thread.Join();
         }
 
         #endregion
