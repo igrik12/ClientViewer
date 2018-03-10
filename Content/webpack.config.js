@@ -19,7 +19,7 @@ module.exports = {
             [{ from: "./Content/", to: "../../_output/Debug/Content", force: true },
             { from: "./Views/", to: "../../_output/Debug/Views", force: true }
             ]),
-          new UglifyJsPlugin()
+        //   new UglifyJsPlugin()
     ],
 
     module: {

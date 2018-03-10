@@ -32,6 +32,7 @@ namespace Bbr.Euclid.ClientViewerLibrary.Modules
                 return JsonConvert.SerializeObject(refreshed);
             });
 
+
             Post("AddClient/{clientName}", _ =>
             {
                 var jsonString = RequestStream.FromStream(Request.Body).AsString();
