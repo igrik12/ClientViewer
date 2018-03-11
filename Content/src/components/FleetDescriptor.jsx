@@ -21,7 +21,8 @@ export default class FleetDescriptor extends Component {
             open: false,
             openPcs: false,
             pcs: [],
-            snackbarOpen: false
+            snackbarOpen: false,
+            currectClipValue:''
         };
         this.handlePcToggle = this.handlePcToggle.bind(this);
         this.handleRequestClose = this.handleRequestClose.bind(this)
@@ -51,6 +52,7 @@ export default class FleetDescriptor extends Component {
         this.copyToClipboard(name);
         this.setState({
             snackbarOpen: true,
+            currectClipValue:name
         });
     };
 
@@ -90,6 +92,8 @@ export default class FleetDescriptor extends Component {
                     </Popover>
                     {fleets.map(function (fleet, i) {
                         return <ListItem key={i}
+                            primaryTogglesNestedList={true}
+
                             primaryText={
                                 <div style={{ marginBottom: 25 }}>
                                     <div>
@@ -98,7 +102,7 @@ export default class FleetDescriptor extends Component {
                                             onCheck={() => that.props.selectFleet(fleet.Identity.Name)}
                                         />
                                     </div>
-                                    <div style={{ paddingTop: 5, maxWidth: 20, float: "left" }}>
+                                    <div style={{ paddingTop: 5, float: "left" }}>
                                         {fleet.Identity.Name}
                                     </div>
                                 </div>}
@@ -121,7 +125,7 @@ export default class FleetDescriptor extends Component {
                                                     nestedItems={framework.PluginConfigurations && framework.PluginConfigurations.map(function (plugin, i) {
                                                         return <ListItem
                                                             key={i}
-                                                            primaryText={<PluginModal plugin={plugin}/>}
+                                                            primaryText={<PluginModal plugin={plugin} />}
                                                             leftIcon={<Icon color="teal" name='plug' size='large' />}
                                                             rightIcon={<Icon onClick={() => that.handleSnackbarClick(plugin.Identity.Name)} color="blue" name='copy' size='large' />}
                                                         />
@@ -137,7 +141,7 @@ export default class FleetDescriptor extends Component {
                 </List>
                 <Snackbar
                     open={this.state.snackbarOpen}
-                    message="Copied to clipboard"
+                    message={this.state.currectClipValue + " copied to clipboard"} 
                     autoHideDuration={2500}
                     onRequestClose={this.handleSnackbarRequestClose}
                 />
