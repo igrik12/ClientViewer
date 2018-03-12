@@ -178,18 +178,9 @@ export default class Home extends Component {
         })
     }
 
-    parseSvg = (xmlValue) => {
-        var parser = new DOMParser();
-        var doc = parser.parseFromString("xmlValue", "image/svg+xml");
-        console.log(doc);
-    }
 
     render() {
         var { clients, triggerAddClientModal, status, refreshing } = this.state;
-       
-        fetch("Database/GetStatus/AtCaptureLibrary").then(response => response.json()).then(data => {
-            console.log(data);
-        });
 
         const style = {
             marginRight: 10,

@@ -162,7 +162,7 @@ export default class ClientCard extends Component {
 
             <Card fluid style={{ width: "48%", marginTop: 15 }} color="blue" >
                 <Card.Content>
-                    <Label size="small" as='a' color={status === "SUCCESS" ? "green" : "red"} ribbon>BUILD {status}</Label>
+                    <Label size="small" as='a' color={status === "SUCCESS" ? "green" : status === "UNKNOWN" ? "yellow" : "red"} ribbon>BUILD {status}</Label>
                     <Card.Header style={{ marginTop: 35 }}>
                         <MuiThemeProvider>
                             <FloatingActionButton onClick={this.openDownloadWindow} style={{ float: "right" }} mini={true}>

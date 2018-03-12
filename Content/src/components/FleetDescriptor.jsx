@@ -104,7 +104,7 @@ export default class FleetDescriptor extends Component {
                                                                 primaryTogglesNestedList={true}
                                                                 nestedItems={framework.PluginConfigurations && framework.PluginConfigurations.map(function (plugin, i) {
                                                                     return <div style={{width:"100%"}}>
-                                                                        <div style={{width:"10%", float: "right", marginTop: 17, marginBotton:7}}>
+                                                                        <div style={{width:"5%", float: "right", marginTop: 17, marginBotton:7, marginRight:4}}>
                                                                             <CopyToClipboard text={that.parsePlugin(plugin)}>
                                                                                 <Icon onClick={() => that.handleSnackbarClick(plugin.Identity.Name)} color="blue" name='copy' size='large' />
                                                                             </CopyToClipboard>
@@ -112,7 +112,7 @@ export default class FleetDescriptor extends Component {
                                                                         <div>
                                                                             <ListItem
                                                                                 key={i}
-                                                                                style={{ paddingTop: 5, width:"90%" }}
+                                                                                style={{ paddingTop: 5, width:"85%", marginLeft:60 }}
                                                                                 primaryText={<PluginModal plugin={plugin} />}
                                                                                 leftIcon={<Icon color="teal" name='plug' size='large' />}
                                                                             />

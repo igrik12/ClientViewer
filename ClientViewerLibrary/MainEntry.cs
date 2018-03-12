@@ -206,7 +206,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
 
         public string GetBuildStatus(string buildLocator)
         {
-            return _sharpClient.GetBuildStatus(buildLocator);
+            return _sharpClient?.GetBuildStatus(buildLocator) ?? "UNKNOWN";
         }
 
         #endregion
