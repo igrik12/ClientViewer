@@ -8,7 +8,7 @@ namespace Bbr.Euclid.ClientViewer
         [STAThread]
         static void Main(string[] args)
         {
-            var config = args.Length > 0 
+            var config = args.Length > 0
                 ? new MainConfiguration()
                 {
                     UserName = args[0],
