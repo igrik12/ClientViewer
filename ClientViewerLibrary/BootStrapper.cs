@@ -1,7 +1,5 @@
-﻿using System;
-using Nancy;
+﻿using Nancy;
 using Nancy.Bootstrapper;
-using Nancy.Json;
 using Nancy.TinyIoc;
 
 namespace Bbr.Euclid.ClientViewerLibrary

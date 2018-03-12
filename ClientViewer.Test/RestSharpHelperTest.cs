@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Bbr.Euclid.ClientViewerLibrary;
 using NUnit.Framework;
-using TeamCitySharp;
 
 namespace Bbr.Euclid.ClientViewer.Test
 {

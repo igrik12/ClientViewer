@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading;
 using Bbr.Euclid.ClientViewerLibrary;
-using Topshelf;
 
 namespace Bbr.Euclid.ClientViewer
 {
@@ -20,6 +16,7 @@ namespace Bbr.Euclid.ClientViewer
                     MainClientProjectName = args.Length == 3 ? args[2] : "Clients"
                 }
                 : new MainConfiguration();
+
             //var config = new MainConfiguration()
             //{
             //    LocalDatabases = new Dictionary<string, string>()
@@ -27,7 +24,8 @@ namespace Bbr.Euclid.ClientViewer
             //        {"Bombardier","C:\\Databases\\BombardierDatabase.json"},
             //        {"Kaneko","C:\\Databases\\KanekoDatabase.json"}
             //    }
-            //};
+            //}; 
+
 
             ConfigureService.Configure(config);
         }

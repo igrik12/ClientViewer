@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Bbr.Euclid.ClientViewerLibrary;
 using NUnit.Framework;
-using RestSharp;
-using RestSharp.Authenticators;
 using TeamCitySharp.DomainEntities;
 
 namespace Bbr.Euclid.ClientViewer.Test
