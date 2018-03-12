@@ -160,7 +160,7 @@ export default class ClientCard extends Component {
         }
         return (
 
-            <Card fluid style={{ width: "48%", marginTop: 15 }} color="blue" >
+            <Card fluid style={{ width: "48%", marginTop: 15, marginLeft:15 }} color="blue" >
                 <Card.Content>
                     <Label size="small" as='a' color={status === "SUCCESS" ? "green" : status === "UNKNOWN" ? "yellow" : "red"} ribbon>BUILD {status}</Label>
                     <Card.Header style={{ marginTop: 35 }}>

@@ -220,7 +220,7 @@ export default class Home extends Component {
                             <List.Item>Time Till Refresh: {status[2]}</List.Item>
                         </List>}
                 /></h2></Divider>
-                <Segment style={{ background: "#FFFFFF" }} basic>
+                <Segment style={{ background: "#FFFFFF", marginLeft:10 }} basic>
                     <Card.Group>
                         {clients.map((client) => {
                             return <ClientCard
