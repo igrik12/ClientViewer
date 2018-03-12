@@ -10,6 +10,7 @@ import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import Checkbox from 'material-ui/Checkbox';
 import Snackbar from 'material-ui/Snackbar';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 
 
@@ -22,7 +23,7 @@ export default class FleetDescriptor extends Component {
             openPcs: false,
             pcs: [],
             snackbarOpen: false,
-            currectClipValue: ''
+            currectClipValue:''
         };
         this.handleRequestClose = this.handleRequestClose.bind(this)
     }
@@ -36,12 +37,11 @@ export default class FleetDescriptor extends Component {
     // Snackbar and clipboard copy actions
     //-------------------------------------
 
-    copyToClipboard = (value) => {
-        fetch("Database/CopyToClipboard/" + value)
+    parsePlugin = (plugin) => {
+        return JSON.stringify(plugin, null, 2);
     }
 
     handleSnackbarClick = (name) => {
-        this.copyToClipboard(name);
         this.setState({
             snackbarOpen: true,
             currectClipValue: name
@@ -70,10 +70,10 @@ export default class FleetDescriptor extends Component {
                 <List>
                     {fleets.map(function (fleet, i) {
                         return <div>
-                            <div style={{ float: "left", marginTop: 17 }}><Checkbox
-
-                                onCheck={() => that.props.selectFleet(fleet.Identity.Name)}
-                            />
+                            <div style={{ float: "left", marginTop: 17 }}>
+                                <Checkbox
+                                    onCheck={() => that.props.selectFleet(fleet.Identity.Name)}
+                                />
                             </div>
                             <div style={{ paddingTop: 5 }}>
                                 <ListItem key={i}
@@ -103,12 +103,21 @@ export default class FleetDescriptor extends Component {
                                                                 leftIcon={<Icon color="blue" name='setting' size='large' />}
                                                                 primaryTogglesNestedList={true}
                                                                 nestedItems={framework.PluginConfigurations && framework.PluginConfigurations.map(function (plugin, i) {
-                                                                    return <ListItem
-                                                                        key={i}
-                                                                        primaryText={<PluginModal plugin={plugin} />}
-                                                                        leftIcon={<Icon color="teal" name='plug' size='large' />}
-                                                                        rightIcon={<Icon onClick={() => that.handleSnackbarClick(plugin.Identity.Name)} color="blue" name='copy' size='large' />}
-                                                                    />
+                                                                    return <div style={{width:"100%"}}>
+                                                                        <div style={{width:"10%", float: "right", marginTop: 17, marginBotton:7}}>
+                                                                            <CopyToClipboard text={that.parsePlugin(plugin)}>
+                                                                                <Icon onClick={() => that.handleSnackbarClick(plugin.Identity.Name)} color="blue" name='copy' size='large' />
+                                                                            </CopyToClipboard>
+                                                                        </div>
+                                                                        <div>
+                                                                            <ListItem
+                                                                                key={i}
+                                                                                style={{ paddingTop: 5, width:"90%" }}
+                                                                                primaryText={<PluginModal plugin={plugin} />}
+                                                                                leftIcon={<Icon color="teal" name='plug' size='large' />}
+                                                                            />
+                                                                        </div>
+                                                                    </div>
                                                                 })}
                                                             />
                                                         })}
