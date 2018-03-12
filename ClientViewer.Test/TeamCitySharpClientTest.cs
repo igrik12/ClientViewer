@@ -7,7 +7,7 @@ using TeamCitySharp.DomainEntities;
 namespace Bbr.Euclid.ClientViewer.Test
 {
     [TestFixture]
-    public class TeamCityQueryTest
+    public class TeamCitySharpClientTest
     {
         private const string Host = "gbrtebldpw001";
         private const string UserName = "igor.lavrentjev";
@@ -17,7 +17,7 @@ namespace Bbr.Euclid.ClientViewer.Test
         [Test]
         public void GetAllProjectsReturnsAll()
         {
-            var query = new TeamCityQuery(Host, UserName, Password);
+            var query = new TeamCitySharpClient(Host, UserName, Password);
             List<Project> projects = query.GetAllProjects();
             Assert.IsTrue(projects != null);
             Assert.IsTrue(projects.Count > 0);
@@ -26,7 +26,7 @@ namespace Bbr.Euclid.ClientViewer.Test
         [Test]
         public void GetAllClientNamesReturnsSome()
         {
-            var query = new TeamCityQuery(Host, UserName, Password);
+            var query = new TeamCitySharpClient(Host, UserName, Password);
             var found = query.GetAllClientNames("Clients");
             Assert.IsTrue(found.Count > 1);
             Assert.IsTrue(found.Any(x => x.Equals("Bombardier") || x.Equals("Kaneko")));  
@@ -35,7 +35,7 @@ namespace Bbr.Euclid.ClientViewer.Test
         [Test]
         public void GetListOfRunningBuildsReturnsSomeOrEmpty()
         {
-            var query = new TeamCityQuery(Host, UserName, Password);
+            var query = new TeamCitySharpClient(Host, UserName, Password);
             var builds = query.GetListOfRunningBuilds();
 
             query.DownloadConfiguration(JrEastConfigId);
@@ -45,7 +45,7 @@ namespace Bbr.Euclid.ClientViewer.Test
         [Test]
         public void GetJrEastFleetJson()
         {
-            var query = new TeamCityQuery(Host, UserName, Password);
+            var query = new TeamCitySharpClient(Host, UserName, Password);
             var fleet = query.GetDatabaseJsonById(JrEastConfigId);
             Assert.NotNull(fleet);
         }
@@ -53,7 +53,7 @@ namespace Bbr.Euclid.ClientViewer.Test
         [Test]
         public void GetBombardierDatabaseByConfigName()
         {
-            var query = new TeamCityQuery(Host, UserName, Password);
+            var query = new TeamCitySharpClient(Host, UserName, Password);
             var ret = query.GetDatabaseJsonByConfigName("Bombardier");
             Assert.NotNull(ret);
         }

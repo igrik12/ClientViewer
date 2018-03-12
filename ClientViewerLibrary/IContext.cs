@@ -16,5 +16,6 @@ namespace Bbr.Euclid.ClientViewerLibrary
         List<string> ClientNames { get; set; }
         List<ClientWrapper> RefreshDatabase();
         void CopyToClipboard(string text);
+        string GetBuildStatus(string buildLocator);
     }
 }

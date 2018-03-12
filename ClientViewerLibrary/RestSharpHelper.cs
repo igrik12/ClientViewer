@@ -42,5 +42,6 @@ namespace Bbr.Euclid.ClientViewerLibrary
 
             return db;
         }
+
     }
 }

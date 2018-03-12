@@ -14,12 +14,20 @@ namespace Bbr.Euclid.ClientViewer.Test
         [Test]
         public void GetsDatabasesForAllClientNames()
         {
-            var tc = new TeamCityQuery(Host, UserName, Password);
+            var tc = new TeamCitySharpClient(Host, UserName, Password);
             var rs = new RestSharpHelper(Host,UserName,Password);
             var names = tc.GetAllClientNames();
             var bds = new List<string>();
             names.ForEach(x => bds.Add(rs.GetDatabase(x)));
             Assert.IsTrue(bds.Count > 1);
+        }
+
+
+        [Test]
+        public void GetsBuildStatus()
+        {
+            var tc = new TeamCitySharpClient(Host, UserName, Password);
+            Assert.IsTrue(!string.IsNullOrWhiteSpace(tc.GetBuildStatus("AtCaptureLibrary")));
         }
     }
 }

@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Card, Header, Icon, Dimmer, Loader, Popup, List } from 'semantic-ui-react'
+import { Card, Header, Icon, Dimmer, Loader, Popup, List, Label } from 'semantic-ui-react'
 import FleetDescriptor from './FleetDescriptor.jsx'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import FileDownload from 'material-ui/svg-icons/file/file-download'
@@ -23,6 +23,7 @@ export default class ClientCard extends Component {
             openRefresh: false,
             refreshing: false,
             fleets: [],
+            status: 'SUCCESS',
             selected: new Set()
         };
         this.open = this.open.bind(this);
@@ -36,9 +37,24 @@ export default class ClientCard extends Component {
     }
 
     componentWillMount() {
+        this.init();
         this.setState({
             fleets: this.props.fleets
         })
+    }
+
+    componentWillUnmount(){
+        clearInterval();
+    }
+
+    init() {
+        setInterval(() => fetch("Database/GetStatus/" + this.props.name)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({
+                    status: data
+                })
+            }), 15000)
     }
 
     open() {
@@ -99,6 +115,8 @@ export default class ClientCard extends Component {
         });
     }
 
+
+
     handleRefresh() {
         fetch("Database/Refresh/" + this.props.name)
             .catch(error => { console.log(error) })
@@ -129,7 +147,7 @@ export default class ClientCard extends Component {
 
 
     render() {
-        const { triggerDownload, openDelete, openRefresh, refreshing, selected } = this.state;
+        const { triggerDownload, openDelete, openRefresh, refreshing, selected, status } = this.state;
 
         if (refreshing) {
             return <div>
@@ -141,8 +159,10 @@ export default class ClientCard extends Component {
             </div>
         }
         return (
+
             <Card fluid style={{ width: "48%", marginTop: 15 }} color="blue" >
                 <Card.Content>
+                    <Label size="small" as='a' color={status === "SUCCESS" ? "green" : "red"} ribbon>BUILD {status}</Label>
                     <Card.Header style={{ marginTop: 35 }}>
                         <MuiThemeProvider>
                             <FloatingActionButton onClick={this.openDownloadWindow} style={{ float: "right" }} mini={true}>

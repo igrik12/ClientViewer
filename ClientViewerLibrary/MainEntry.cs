@@ -16,7 +16,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
         #region variables
 
         private readonly MainConfiguration _config;
-        private readonly TeamCityQuery _query;
+        private readonly TeamCitySharpClient _sharpClient;
         private readonly object _lock = new object();
         private Timer _timer;
         private bool _initialFetch = true;
@@ -59,7 +59,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
             }
             else
             {
-                _query = new TeamCityQuery(_config.Host, _config.UserName, _config.Password);
+                _sharpClient = new TeamCitySharpClient(_config.Host, _config.UserName, _config.Password);
                 _restClient = new RestSharpHelper(_config.Host, _config.UserName, _config.Password);
                 new Task(Initialise).Start();
                 SetUpdateInterval(60);
@@ -73,7 +73,7 @@ namespace Bbr.Euclid.ClientViewerLibrary
         /// </summary>
         private void Initialise()
         {
-            ClientNames = _query.GetAllClientNames(_config.MainClientProjectName);
+            ClientNames = _sharpClient.GetAllClientNames(_config.MainClientProjectName);
             if (ClientNames.Count > 0)
             {
                 FetchAllClients();
@@ -204,6 +204,11 @@ namespace Bbr.Euclid.ClientViewerLibrary
             thread.Join();
         }
 
+        public string GetBuildStatus(string buildLocator)
+        {
+            return _sharpClient.GetBuildStatus(buildLocator);
+        }
+
         #endregion
 
         #region methods
@@ -271,12 +276,12 @@ namespace Bbr.Euclid.ClientViewerLibrary
         public string AddClientByName(string name)
         {
             //TODO This is temporary for testing with local DB
-            if (_query == null)
+            if (_sharpClient == null)
             {
-                return "Error : TeamCityQuery has not been initialised. Probably running local DB";
+                return "Error : TeamCitySharpClient has not been initialised. Probably running local DB";
             }
 
-            var retrieved = _query.GetDatabaseJsonByConfigName(name);
+            var retrieved = _sharpClient.GetDatabaseJsonByConfigName(name);
             if (retrieved.ToLower().Contains("error"))
             {
                 return $"Error : Failed to find {name} client .";

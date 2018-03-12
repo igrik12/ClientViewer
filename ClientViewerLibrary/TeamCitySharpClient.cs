@@ -9,13 +9,13 @@ using TeamCitySharp.Locators;
 
 namespace Bbr.Euclid.ClientViewerLibrary
 {
-    public class TeamCityQuery
+    public class TeamCitySharpClient
     {
         private readonly TeamCityClient _client;
         
 
-        // Initialised TeamCityQuery class which requires host, username and password
-        public TeamCityQuery(string host, string username, string password)
+        // Initialized TeamCitySharpClient class which requires host, user name and password
+        public TeamCitySharpClient(string host, string username, string password)
         {
             _client = new TeamCityClient(host);
             _client.Connect(username, password);
@@ -112,6 +112,19 @@ namespace Bbr.Euclid.ClientViewerLibrary
         {
             mainProjectName = string.IsNullOrWhiteSpace(mainProjectName) ? "Clients" : mainProjectName;
             return _client.Projects.ByName(mainProjectName)?.BuildTypes.BuildType.Select(x => x.Name).ToList();
+        }
+
+
+        /// <summary>
+        /// Gets the build status.
+        /// </summary>
+        /// <param name="configName">The configuration name.</param>
+        /// <returns></returns>
+        public string GetBuildStatus(string configName)
+        {
+            var id = _client.BuildConfigs.ByConfigurationName(configName).Id;
+            var status = _client.Builds.LastBuildByBuildConfigId(id).Status;
+            return status;
         }
     }
 }
