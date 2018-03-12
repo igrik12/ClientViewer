@@ -69,59 +69,54 @@ export default class FleetDescriptor extends Component {
             <MuiThemeProvider>
                 <List>
                     {fleets.map(function (fleet, i) {
-                        return <ListItem key={i}
-                            primaryTogglesNestedList={true}
+                        return <div>
+                            <div style={{ float: "left", marginTop: 17 }}><Checkbox
 
-                            primaryText={
-                                <div style={{ marginBottom: 25 }}>
-                                    <div>
-                                        <Checkbox
-                                            style={styles.checkbox}
-                                            onCheck={() => that.props.selectFleet(fleet.Identity.Name)}
-                                        />
-                                    </div>
-                                    <div style={{ paddingTop: 5, float: "left" }}>
-                                        {fleet.Identity.Name}
-                                    </div>
-                                </div>}
-                            nestedItems={fleet.Vehicles.map(function (vehicle, i) {
-                                return <Popup
-                                    key={i}
-                                    content={vehicle.Pcs.map((pc, i) => {
-                                        return <MenuItem
+                                onCheck={() => that.props.selectFleet(fleet.Identity.Name)}
+                            />
+                            </div>
+                            <div style={{ paddingTop: 5 }}>
+                                <ListItem key={i}
+                                    primaryTogglesNestedList={true}
+                                    primaryText={fleet.Identity.Name}
+                                    nestedItems={fleet.Vehicles.map(function (vehicle, i) {
+                                        return <Popup
                                             key={i}
-                                            primaryText={"PC: " + pc.Identity.Name} />
-                                    })}
-                                    trigger={<ListItem
-                                        key={i}
-                                        primaryText={vehicle.Identity.Name}
-                                        leftIcon={<Icon color="blue" name='train' size='large' />}
-                                        primaryTogglesNestedList={true}
-                                        nestedItems={vehicle.Products.map(function (product, i) {
-                                            return <ListItem key={i}
-                                                primaryText={product.Identity.Name}
+                                            content={vehicle.Pcs.map((pc, i) => {
+                                                return <MenuItem
+                                                    key={i}
+                                                    primaryText={"PC: " + pc.Identity.Name} />
+                                            })}
+                                            trigger={<ListItem
+                                                key={i}
+                                                primaryText={vehicle.Identity.Name}
+                                                leftIcon={<Icon color="blue" name='train' size='large' />}
                                                 primaryTogglesNestedList={true}
-                                                leftIcon={<Icon color="blue" name='archive' size='large' />}
-                                                nestedItems={product.Frameworks.map(function (framework, i) {
+                                                nestedItems={vehicle.Products.map(function (product, i) {
                                                     return <ListItem key={i}
-                                                        primaryText={framework.Identity && framework.Identity.Name}
-                                                        leftIcon={<Icon color="blue" name='setting' size='large' />}
+                                                        primaryText={product.Identity.Name}
                                                         primaryTogglesNestedList={true}
-                                                        nestedItems={framework.PluginConfigurations && framework.PluginConfigurations.map(function (plugin, i) {
-                                                            return <ListItem
-                                                                key={i}
-                                                                primaryText={<PluginModal plugin={plugin} />}
-                                                                leftIcon={<Icon color="teal" name='plug' size='large' />}
-                                                                rightIcon={<Icon onClick={() => that.handleSnackbarClick(plugin.Identity.Name)} color="blue" name='copy' size='large' />}
+                                                        leftIcon={<Icon color="blue" name='archive' size='large' />}
+                                                        nestedItems={product.Frameworks.map(function (framework, i) {
+                                                            return <ListItem key={i}
+                                                                primaryText={framework.Identity && framework.Identity.Name}
+                                                                leftIcon={<Icon color="blue" name='setting' size='large' />}
+                                                                primaryTogglesNestedList={true}
+                                                                nestedItems={framework.PluginConfigurations && framework.PluginConfigurations.map(function (plugin, i) {
+                                                                    return <ListItem
+                                                                        key={i}
+                                                                        primaryText={<PluginModal plugin={plugin} />}
+                                                                        leftIcon={<Icon color="teal" name='plug' size='large' />}
+                                                                        rightIcon={<Icon onClick={() => that.handleSnackbarClick(plugin.Identity.Name)} color="blue" name='copy' size='large' />}
+                                                                    />
+                                                                })}
                                                             />
                                                         })}
                                                     />
                                                 })}
-                                            />
-                                        })}
-                                    />} />
-                            })} >
-                        </ListItem>
+                                            />} />
+                                    })} >
+                                </ListItem></div></div>
                     })}
                 </List>
                 <Snackbar
