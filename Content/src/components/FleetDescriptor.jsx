@@ -23,7 +23,7 @@ export default class FleetDescriptor extends Component {
             openPcs: false,
             pcs: [],
             snackbarOpen: false,
-            currectClipValue:''
+            currectClipValue: ''
         };
         this.handleRequestClose = this.handleRequestClose.bind(this)
     }
@@ -98,28 +98,31 @@ export default class FleetDescriptor extends Component {
                                                         primaryTogglesNestedList={true}
                                                         leftIcon={<Icon color="blue" name='archive' size='large' />}
                                                         nestedItems={product.Frameworks.map(function (framework, i) {
-                                                            return <ListItem key={i}
-                                                                primaryText={framework.Identity && framework.Identity.Name}
-                                                                leftIcon={<Icon color="blue" name='setting' size='large' />}
-                                                                primaryTogglesNestedList={true}
-                                                                nestedItems={framework.PluginConfigurations && framework.PluginConfigurations.map(function (plugin, i) {
-                                                                    return <div style={{width:"100%"}}>
-                                                                        <div style={{width:"5%", float: "right", marginTop: 17, marginBotton:7, marginRight:4}}>
-                                                                            <CopyToClipboard text={that.parsePlugin(plugin)}>
-                                                                                <Icon onClick={() => that.handleSnackbarClick(plugin.Identity.Name)} color="blue" name='copy' size='large' />
-                                                                            </CopyToClipboard>
+                                                            return <Popup
+                                                                key={i}
+                                                                content={framework.PcIdentity && framework.PcIdentity.Name}
+                                                                trigger={<ListItem key={i}
+                                                                    primaryText={framework.Identity && framework.Identity.Name}
+                                                                    leftIcon={<Icon color="blue" name='setting' size='large' />}
+                                                                    primaryTogglesNestedList={true}
+                                                                    nestedItems={framework.PluginConfigurations && framework.PluginConfigurations.map(function (plugin, i) {
+                                                                        return <div style={{ width: "100%" }}>
+                                                                            <div style={{ width: "5%", float: "right", marginTop: 17, marginBotton: 7, marginRight: 4 }}>
+                                                                                <CopyToClipboard text={that.parsePlugin(plugin)}>
+                                                                                    <Icon onClick={() => that.handleSnackbarClick(plugin.Identity.Name)} color="blue" name='copy' size='large' />
+                                                                                </CopyToClipboard>
+                                                                            </div>
+                                                                            <div>
+                                                                                <ListItem
+                                                                                    key={i}
+                                                                                    style={{ paddingTop: 5, width: "85%", marginLeft: 60 }}
+                                                                                    primaryText={<PluginModal plugin={plugin} />}
+                                                                                    leftIcon={<Icon color="teal" name='plug' size='large' />}
+                                                                                />
+                                                                            </div>
                                                                         </div>
-                                                                        <div>
-                                                                            <ListItem
-                                                                                key={i}
-                                                                                style={{ paddingTop: 5, width:"85%", marginLeft:60 }}
-                                                                                primaryText={<PluginModal plugin={plugin} />}
-                                                                                leftIcon={<Icon color="teal" name='plug' size='large' />}
-                                                                            />
-                                                                        </div>
-                                                                    </div>
-                                                                })}
-                                                            />
+                                                                    })}
+                                                                />} />
                                                         })}
                                                     />
                                                 })}
