@@ -23,7 +23,7 @@ export default class ClientCard extends Component {
             openRefresh: false,
             refreshing: false,
             fleets: [],
-            status: 'SUCCESS',
+            status: 'UNKNOWN',
             selected: new Set()
         };
         this.open = this.open.bind(this);
@@ -37,24 +37,29 @@ export default class ClientCard extends Component {
     }
 
     componentWillMount() {
+        this.getStatus();
         this.init();
         this.setState({
             fleets: this.props.fleets
         })
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         clearInterval();
     }
 
-    init() {
-        setInterval(() => fetch("Database/GetStatus/" + this.props.name)
+    getStatus() {
+        fetch("Database/GetStatus/" + this.props.name)
             .then(response => response.json())
             .then(data => {
                 this.setState({
                     status: data
                 })
-            }), 15000)
+            })
+    }
+
+    init() {
+        setInterval(() => this.getStatus(), 15000)
     }
 
     open() {
@@ -160,7 +165,7 @@ export default class ClientCard extends Component {
         }
         return (
 
-            <Card fluid style={{ width: "48%", marginTop: 15, marginLeft:15 }} color="blue" >
+            <Card fluid style={{ width: "48%", marginTop: 15, marginLeft: 15 }} color="blue" >
                 <Card.Content>
                     <Label size="small" as='a' color={status === "SUCCESS" ? "green" : status === "UNKNOWN" ? "yellow" : "red"} ribbon>BUILD {status}</Label>
                     <Card.Header style={{ marginTop: 35 }}>
