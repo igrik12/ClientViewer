@@ -9,9 +9,9 @@ export default class HomeHeader extends Component {
 
         return (
             <div style={styles}>
-                <Header as='h3' icon textAlign='center'>
+                <Header style={{paddingTop:15}} as='h3' icon textAlign='center'>
                     <Icon inverted name='database' circular />
-                    <span style={{color:"#FFFFFF"}}>Clients database</span>
+                    <span style={{color:"#FFFFFF", fontSize:"150%", fontFamily:"Palatino"}}>Clients database</span>
                     </Header>
                     <br/>
             </div>)

@@ -76,7 +76,8 @@ export default class FleetDescriptor extends Component {
                                 />
                             </div>
                             <div style={{ paddingTop: 5 }}>
-                                <ListItem key={i}
+                                <ListItem
+                                    key={i}
                                     primaryTogglesNestedList={true}
                                     primaryText={fleet.Identity.Name}
                                     nestedItems={fleet.Vehicles.map(function (vehicle, i) {
@@ -93,7 +94,8 @@ export default class FleetDescriptor extends Component {
                                                 leftIcon={<Icon color="blue" name='train' size='large' />}
                                                 primaryTogglesNestedList={true}
                                                 nestedItems={vehicle.Products.map(function (product, i) {
-                                                    return <ListItem key={i}
+                                                    return <ListItem
+                                                        key={i}
                                                         primaryText={product.Identity.Name}
                                                         primaryTogglesNestedList={true}
                                                         leftIcon={<Icon color="blue" name='archive' size='large' />}
@@ -101,7 +103,9 @@ export default class FleetDescriptor extends Component {
                                                             return <Popup
                                                                 key={i}
                                                                 content={framework.PcIdentity && framework.PcIdentity.Name}
-                                                                trigger={<ListItem key={i}
+                                                                trigger={<ListItem
+                                                                    key={i}
+                                                                    style={{ marginLeft: 40 }}
                                                                     primaryText={framework.Identity && framework.Identity.Name}
                                                                     leftIcon={<Icon color="blue" name='setting' size='large' />}
                                                                     primaryTogglesNestedList={true}
@@ -131,6 +135,8 @@ export default class FleetDescriptor extends Component {
                                 </ListItem></div></div>
                     })}
                 </List>
+            </MuiThemeProvider>
+            <MuiThemeProvider>
                 <Snackbar
                     open={this.state.snackbarOpen}
                     message={this.state.currectClipValue + " copied to clipboard"}
