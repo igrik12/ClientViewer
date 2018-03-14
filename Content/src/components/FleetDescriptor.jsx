@@ -78,6 +78,7 @@ export default class FleetDescriptor extends Component {
                             <div style={{ paddingTop: 5 }}>
                                 <ListItem
                                     key={i}
+                                    style={{fontSize:13}}
                                     primaryTogglesNestedList={true}
                                     primaryText={fleet.Identity.Name}
                                     nestedItems={fleet.Vehicles.map(function (vehicle, i) {
@@ -90,12 +91,14 @@ export default class FleetDescriptor extends Component {
                                             })}
                                             trigger={<ListItem
                                                 key={i}
+                                                style={{fontSize:13}}
                                                 primaryText={vehicle.Identity.Name}
                                                 leftIcon={<Icon color="blue" name='train' size='large' />}
                                                 primaryTogglesNestedList={true}
                                                 nestedItems={vehicle.Products.map(function (product, i) {
                                                     return <ListItem
                                                         key={i}
+                                                        style={{fontSize:13}}
                                                         primaryText={product.Identity.Name}
                                                         primaryTogglesNestedList={true}
                                                         leftIcon={<Icon color="blue" name='archive' size='large' />}
@@ -105,7 +108,7 @@ export default class FleetDescriptor extends Component {
                                                                 content={framework.PcIdentity && framework.PcIdentity.Name}
                                                                 trigger={<ListItem
                                                                     key={i}
-                                                                    style={{ marginLeft: 40 }}
+                                                                    style={{ marginLeft: 40,fontSize:13 }}
                                                                     primaryText={framework.Identity && framework.Identity.Name}
                                                                     leftIcon={<Icon color="blue" name='setting' size='large' />}
                                                                     primaryTogglesNestedList={true}
@@ -119,7 +122,7 @@ export default class FleetDescriptor extends Component {
                                                                             <div>
                                                                                 <ListItem
                                                                                     key={i}
-                                                                                    style={{ paddingTop: 5, width: "85%", marginLeft: 60 }}
+                                                                                    style={{ paddingTop: 5,fontSize:13, width: "85%", marginLeft: 60 }}
                                                                                     primaryText={<PluginModal plugin={plugin} />}
                                                                                     leftIcon={<Icon color="teal" name='plug' size='large' />}
                                                                                 />

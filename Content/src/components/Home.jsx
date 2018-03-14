@@ -211,7 +211,7 @@ export default class Home extends Component {
         return (
             <div>
                 <HomeHeader toggle={this.toggleVisibility} />
-                <Divider style={{ marginTop: "20px" }} horizontal><h2>Clients Overview <Popup
+                <Divider style={{ marginTop: "20px" }} horizontal><h3>Clients Overview <Popup
                     trigger={<Icon style={{ marginBottom: 5 }} size="large" name='info circle' />}
                     content={
                         <List>
@@ -219,7 +219,7 @@ export default class Home extends Component {
                             <List.Item>Next Refresh: {status[1]}</List.Item>
                             <List.Item>Time Till Refresh: {status[2]}</List.Item>
                         </List>}
-                /></h2></Divider>
+                /></h3></Divider>
                 <Segment style={{ background: "#FFFFFF", marginLeft:10 }} basic>
                     <Card.Group>
                         {clients.map((client) => {
