@@ -200,7 +200,7 @@ export default class Home extends Component {
 
         if (refreshing) {
             return <div>
-                <Modal  size="fullscreen" size="large" open={true}>
+                <Modal size="fullscreen" open={true}>
                     <Dimmer active>
                         <Loader size='massive'>Refreshing database...</Loader>
                     </Dimmer>

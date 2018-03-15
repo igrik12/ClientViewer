@@ -127,33 +127,27 @@ export default class ClientCard extends Component {
             .catch(error => { console.log(error) })
             .then(response => response.json())
             .then(data => {
-                setTimeout(() => {
-                    const found = data.firstOrDefault(x => x.Name.toLowerCase() === this.props.name.toLowerCase());
-
-                    if (found) {
-                        this.setState({
-                            fleets: found.Fleets,
-                            refreshing: false,
-                            openRefresh: false
-                        })
-                    } else {
-                        this.setState({
-                            refreshing: false,
-                            openRefresh: false
-                        })
-                    }
-                }, 3000)
-
+                const found = data.firstOrDefault(x => x.Name.toLowerCase() === this.props.name.toLowerCase());
+                if (found) {
+                    this.setState({
+                        fleets: found.Fleets,
+                        refreshing: false,
+                        openRefresh: false
+                    })
+                } else {
+                    this.setState({
+                        refreshing: false,
+                        openRefresh: false
+                    })
+                }
             });
         this.setState({
             refreshing: true
         })
     }
 
-
     render() {
         const { triggerDownload, openDelete, openRefresh, refreshing, selected, status } = this.state;
-
         if (refreshing) {
             return <div>
                 <Modal open={refreshing}>
@@ -175,12 +169,12 @@ export default class ClientCard extends Component {
                             </FloatingActionButton>
                         </MuiThemeProvider>
                         <MuiThemeProvider>
-                            <FloatingActionButton mini={true}  onClick={this.refreshDatabase} style={{ float: "right", marginRight: 6 }} mini={true}>
+                            <FloatingActionButton mini={true} onClick={this.refreshDatabase} style={{ float: "right", marginRight: 6 }} mini={true}>
                                 <Update />
                             </FloatingActionButton>
                         </MuiThemeProvider>
                         <MuiThemeProvider>
-                            <FloatingActionButton mini={true}  secondary={true} onClick={this.deleteClient} style={{ float: "right", marginRight: 6 }} mini={true}>
+                            <FloatingActionButton mini={true} secondary={true} onClick={this.deleteClient} style={{ float: "right", marginRight: 6 }} mini={true}>
                                 <Delete />
                             </FloatingActionButton>
                         </MuiThemeProvider>
@@ -198,7 +192,7 @@ export default class ClientCard extends Component {
                         <div>
                             <FleetDescriptor selectFleet={this.updateCheck} fleets={this.state.fleets} />
                         </div>
-                        <Modal style={{maxHeight:150}} size={"small"} open={triggerDownload} onClose={this.close} closeIcon>
+                        <Modal style={{ maxHeight: 150 }} size={"small"} open={triggerDownload} onClose={this.close} closeIcon>
                             <Modal.Header>
                                 Download database
                           </Modal.Header>
@@ -214,7 +208,7 @@ export default class ClientCard extends Component {
                         </Modal>
 
 
-                        <Modal size={"small"} style={{height:150}} open={openDelete} onClose={this.closeDelete} closeIcon>
+                        <Modal size={"small"} style={{ height: 150 }} open={openDelete} onClose={this.closeDelete} closeIcon>
                             <Modal.Header>
                                 Delete {this.props.name}
                             </Modal.Header>
@@ -229,7 +223,7 @@ export default class ClientCard extends Component {
                             </Modal.Actions>
                         </Modal>
 
-                        <Modal size={"small"} style={{height:150}} open={openRefresh} onClose={this.refreshDatabase} closeIcon>
+                        <Modal size={"small"} style={{ height: 150 }} open={openRefresh} onClose={this.refreshDatabase} closeIcon>
                             <Modal.Header>
                                 Refresh Database
                             </Modal.Header>
