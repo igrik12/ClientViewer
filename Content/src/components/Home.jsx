@@ -237,7 +237,7 @@ export default class Home extends Component {
                     <div>
                         <input type="file" id="file" accept=".json" ref="fileOpener" onChange={(e) => this.addClientFromFile(e.target.files)} style={{ display: "none" }} />
                         <RaisedButton icon={<Icon inverted loading  name="refresh"/>} onClick={this.handleRefresh} label="Refresh" primary={true} style={{ float: "right", marginTop: 15, marginRight: 60 }} />
-                        <RaisedButton icon={<Icon inverted style={{marginBottom:25}} name="add"/>} onClick={this.handleLoadFromFileClick} label="Add Client" primary={true} style={style} />
+                        <RaisedButton icon={<Icon inverted style={{marginBottom:25}} name="add"/>} onClick={this.handleLoadFromFileClick} label="Add" primary={true} style={style} />
                         <Popover
                             open={this.state.open}
                             anchorEl={this.state.anchorEl}
