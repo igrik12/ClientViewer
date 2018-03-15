@@ -198,7 +198,7 @@ export default class ClientCard extends Component {
                         <div>
                             <FleetDescriptor selectFleet={this.updateCheck} fleets={this.state.fleets} />
                         </div>
-                        <Modal size={"small"} open={triggerDownload} onClose={this.close} closeIcon>
+                        <Modal style={{maxHeight:150}} size={"small"} open={triggerDownload} onClose={this.close} closeIcon>
                             <Modal.Header>
                                 Download database
                           </Modal.Header>
@@ -214,7 +214,7 @@ export default class ClientCard extends Component {
                         </Modal>
 
 
-                        <Modal size={"small"} open={openDelete} onClose={this.closeDelete} closeIcon>
+                        <Modal size={"small"} style={{height:150}} open={openDelete} onClose={this.closeDelete} closeIcon>
                             <Modal.Header>
                                 Delete {this.props.name}
                             </Modal.Header>
@@ -229,7 +229,7 @@ export default class ClientCard extends Component {
                             </Modal.Actions>
                         </Modal>
 
-                        <Modal size={"small"} open={openRefresh} onClose={this.refreshDatabase} closeIcon>
+                        <Modal size={"small"} style={{height:150}} open={openRefresh} onClose={this.refreshDatabase} closeIcon>
                             <Modal.Header>
                                 Refresh Database
                             </Modal.Header>

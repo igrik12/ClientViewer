@@ -190,7 +190,7 @@ export default class Home extends Component {
 
         if (!clients) {
             return <div>
-                <Modal open={true}>
+                <Modal size="fullscreen" open={true}>
                     <Dimmer active>
                         <Loader size='massive'>Loading clients...</Loader>
                     </Dimmer>
@@ -200,7 +200,7 @@ export default class Home extends Component {
 
         if (refreshing) {
             return <div>
-                <Modal size="large" open={true}>
+                <Modal  size="fullscreen" size="large" open={true}>
                     <Dimmer active>
                         <Loader size='massive'>Refreshing database...</Loader>
                     </Dimmer>
