@@ -170,17 +170,17 @@ export default class ClientCard extends Component {
                     <Label size="large" as='a' color={status === "SUCCESS" ? "green" : status === "UNKNOWN" ? "yellow" : "red"} ribbon>BUILD {status}</Label>
                     <Card.Header style={{ marginTop: 35 }}>
                         <MuiThemeProvider>
-                            <FloatingActionButton onClick={this.openDownloadWindow} style={{ float: "right" }} mini={true}>
+                            <FloatingActionButton mini={true} onClick={this.openDownloadWindow} style={{ float: "right" }} mini={true}>
                                 <FileDownload />
                             </FloatingActionButton>
                         </MuiThemeProvider>
                         <MuiThemeProvider>
-                            <FloatingActionButton onClick={this.refreshDatabase} style={{ float: "right", marginRight: 6 }} mini={true}>
+                            <FloatingActionButton mini={true}  onClick={this.refreshDatabase} style={{ float: "right", marginRight: 6 }} mini={true}>
                                 <Update />
                             </FloatingActionButton>
                         </MuiThemeProvider>
                         <MuiThemeProvider>
-                            <FloatingActionButton secondary={true} onClick={this.deleteClient} style={{ float: "right", marginRight: 6 }} mini={true}>
+                            <FloatingActionButton mini={true}  secondary={true} onClick={this.deleteClient} style={{ float: "right", marginRight: 6 }} mini={true}>
                                 <Delete />
                             </FloatingActionButton>
                         </MuiThemeProvider>

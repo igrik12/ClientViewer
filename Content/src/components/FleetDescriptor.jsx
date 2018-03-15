@@ -87,6 +87,7 @@ export default class FleetDescriptor extends Component {
                                             content={vehicle.Pcs.map((pc, i) => {
                                                 return <MenuItem
                                                     key={i}
+                                                    style={{fontSize:13}}
                                                     primaryText={"PC: " + pc.Identity.Name} />
                                             })}
                                             trigger={<ListItem
