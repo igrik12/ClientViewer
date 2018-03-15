@@ -150,7 +150,7 @@ export default class ClientCard extends Component {
         const { triggerDownload, openDelete, openRefresh, refreshing, selected, status } = this.state;
         if (refreshing) {
             return <div>
-                <Modal open={refreshing}>
+                <Modal size="fullscreen" open={refreshing}>
                     <Dimmer active>
                         <Loader size='massive'>Refreshing {this.props.name}'s database</Loader>
                     </Dimmer>
@@ -206,8 +206,6 @@ export default class ClientCard extends Component {
                                 <Button positive onClick={this.handleDownload} icon='checkmark' labelPosition='right' content='Yes' />
                             </Modal.Actions>
                         </Modal>
-
-
                         <Modal size={"small"} style={{ height: 150 }} open={openDelete} onClose={this.closeDelete} closeIcon>
                             <Modal.Header>
                                 Delete {this.props.name}
