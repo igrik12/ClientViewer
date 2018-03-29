@@ -139,8 +139,7 @@ export default class FleetDescriptor extends Component {
                                 </ListItem></div></div>
                     })}
                 </List>
-            </MuiThemeProvider>
-            <MuiThemeProvider>
+
                 <Snackbar
                     open={this.state.snackbarOpen}
                     message={this.state.currectClipValue + " copied to clipboard"}

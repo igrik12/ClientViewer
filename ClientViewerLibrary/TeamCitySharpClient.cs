@@ -122,9 +122,16 @@ namespace Bbr.Euclid.ClientViewerLibrary
         /// <returns></returns>
         public string GetBuildStatus(string configName)
         {
-            var id = _client.BuildConfigs.ByConfigurationName(configName).Id;
-            var status = _client.Builds.LastBuildByBuildConfigId(id).Status;
-            return status;
+            try
+            {
+                var id = _client.BuildConfigs.ByConfigurationName(configName).Id;
+                var status = _client.Builds.LastBuildByBuildConfigId(id).Status;
+                return status;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
     }
 }

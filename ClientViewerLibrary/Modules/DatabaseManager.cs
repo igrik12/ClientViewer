@@ -38,7 +38,11 @@ namespace Bbr.Euclid.ClientViewerLibrary.Modules
                 return Response.AsJson("copied");
             });
 
-            Get("GetStatus/{clientName}", _ => Response.AsJson(context.GetBuildStatus((string)_.clientName)));
+            Get("GetStatus/{clientName}", _ =>
+            {
+                var status = context.GetBuildStatus((string) _.clientName);
+                return Response.AsJson(status ?? "Unknown");
+            });
 
             Post("AddClient/{clientName}", _ =>
             {
