@@ -29,11 +29,9 @@ export default class SearchPlugin extends Component {
                 results: this.props.plugins
             })
         } else {
-            var fleets = this.props.fleets.where(x => this.props.selected.any(s => s.name === x.Identity.Name));
-            console.log(fleets);
+            var vehicles = this.props.fleets.selectMany(f => f.Vehicles).where(x => this.props.selected.any(s => s.name === x.Identity.Name));
             this.setState({
-                initialPlugins: fleets
-                    .selectMany(f => f.Vehicles)
+                initialPlugins: vehicles
                     .selectMany(v => v.Products)
                     .selectMany(p => p.Frameworks)
                     .selectMany(fw => fw.PluginConfigurations),
@@ -53,8 +51,9 @@ export default class SearchPlugin extends Component {
             if (this.state.value.length < 1) return this.resetComponent();
 
             if (this.props.selected.size != 0) {
-                var fleets = this.props.fleets.where(f => this.props.selected.has(f.Identity.Name));
-                updatedList = fleets.selectMany(f => f.Vehicles)
+                var vehicles = this.props.fleets.selectMany(f => f.Vehicles).where(v => this.props.selected.has(v.Identity.Name));
+                console.log(vehicles);
+                updatedList = vehicles
                     .selectMany(v => v.Products)
                     .selectMany(p => p.Frameworks)
                     .selectMany(fw => fw.PluginConfigurations)

@@ -120,37 +120,40 @@ export default class ClientCard extends Component {
         });
     }
 
-
-
     handleRefresh() {
         fetch("Database/Refresh/" + this.props.name)
             .catch(error => { console.log(error) })
             .then(response => response.json())
             .then(data => {
-                const found = data.firstOrDefault(x => x.Name.toLowerCase() === this.props.name.toLowerCase());
-                if (found) {
-                    this.setState({
-                        fleets: found.Fleets,
-                        refreshing: false,
-                        openRefresh: false
-                    })
-                } else {
-                    this.setState({
-                        refreshing: false,
-                        openRefresh: false
-                    })
-                }
+                setTimeout(() => {
+                    const found = data.firstOrDefault(x => x.Name.toLowerCase() === this.props.name.toLowerCase());
+
+                    if (found) {
+                        this.setState({
+                            fleets: found.Fleets,
+                            refreshing: false,
+                            openRefresh: false
+                        })
+                    } else {
+                        this.setState({
+                            refreshing: false,
+                            openRefresh: false
+                        })
+                    }
+                }, 3000)
+
             });
         this.setState({
             refreshing: true
         })
     }
 
+
     render() {
         const { triggerDownload, openDelete, openRefresh, refreshing, selected, status } = this.state;
         if (refreshing) {
             return <div>
-                <Modal size="fullscreen" open={refreshing}>
+                <Modal open={refreshing}>
                     <Dimmer active>
                         <Loader size='massive'>Refreshing {this.props.name}'s database</Loader>
                     </Dimmer>
@@ -161,20 +164,20 @@ export default class ClientCard extends Component {
 
             <Card fluid style={{ width: "48%", marginTop: 15, marginLeft: 15 }} color="blue" >
                 <Card.Content>
-                    <Label size="large" as='a' color={status === "SUCCESS" ? "green" : status === "UNKNOWN" ? "yellow" : "red"} ribbon>BUILD {status}</Label>
+                    <Label size="small" as='a' color={status === "SUCCESS" ? "green" : status === "UNKNOWN" ? "yellow" : "red"} ribbon>BUILD {status}</Label>
                     <Card.Header style={{ marginTop: 35 }}>
                         <MuiThemeProvider>
-                            <FloatingActionButton mini={true} onClick={this.openDownloadWindow} style={{ float: "right" }} mini={true}>
+                            <FloatingActionButton onClick={this.openDownloadWindow} style={{ float: "right" }} mini={true}>
                                 <FileDownload />
                             </FloatingActionButton>
                         </MuiThemeProvider>
                         <MuiThemeProvider>
-                            <FloatingActionButton mini={true} onClick={this.refreshDatabase} style={{ float: "right", marginRight: 6 }} mini={true}>
+                            <FloatingActionButton onClick={this.refreshDatabase} style={{ float: "right", marginRight: 6 }} mini={true}>
                                 <Update />
                             </FloatingActionButton>
                         </MuiThemeProvider>
                         <MuiThemeProvider>
-                            <FloatingActionButton mini={true} secondary={true} onClick={this.deleteClient} style={{ float: "right", marginRight: 6 }} mini={true}>
+                            <FloatingActionButton secondary={true} onClick={this.deleteClient} style={{ float: "right", marginRight: 6 }} mini={true}>
                                 <Delete />
                             </FloatingActionButton>
                         </MuiThemeProvider>
@@ -190,9 +193,9 @@ export default class ClientCard extends Component {
                     <Card.Description>
                         <br />
                         <div>
-                            <FleetDescriptor selectFleet={this.updateCheck} fleets={this.state.fleets} />
+                            <FleetDescriptor selectVehicle={this.updateCheck} fleets={this.state.fleets} />
                         </div>
-                        <Modal style={{ maxHeight: 150 }} size={"small"} open={triggerDownload} onClose={this.close} closeIcon>
+                        <Modal size={"small"} open={triggerDownload} onClose={this.close} closeIcon>
                             <Modal.Header>
                                 Download database
                           </Modal.Header>
@@ -206,7 +209,9 @@ export default class ClientCard extends Component {
                                 <Button positive onClick={this.handleDownload} icon='checkmark' labelPosition='right' content='Yes' />
                             </Modal.Actions>
                         </Modal>
-                        <Modal size={"small"} style={{ height: 150 }} open={openDelete} onClose={this.closeDelete} closeIcon>
+
+
+                        <Modal size={"small"} open={openDelete} onClose={this.closeDelete} closeIcon>
                             <Modal.Header>
                                 Delete {this.props.name}
                             </Modal.Header>
@@ -221,7 +226,7 @@ export default class ClientCard extends Component {
                             </Modal.Actions>
                         </Modal>
 
-                        <Modal size={"small"} style={{ height: 150 }} open={openRefresh} onClose={this.refreshDatabase} closeIcon>
+                        <Modal size={"small"} open={openRefresh} onClose={this.refreshDatabase} closeIcon>
                             <Modal.Header>
                                 Refresh Database
                             </Modal.Header>
